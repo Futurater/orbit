@@ -1,0 +1,93 @@
+sequenceDiagram
+    actor User
+    participant React as React Frontend
+    participant FastAPI as FastAPI Backend
+    participant Router as router.py<br/>(MENTOR_CODE_THRESHOLD=3<br/>MENTOR_VIVA_THRESHOLD=2)
+    participant Bedrock as AWS Bedrock<br/>(Claude 3 Haiku)
+
+    %% ─────────────────────────────────────────────
+    %% FLOW 1: Curriculum Fetch
+    %% ─────────────────────────────────────────────
+    Note over React,FastAPI: FLOW 1 — App Startup
+
+    React->>FastAPI: GET /api/curriculum/{day_id}
+    FastAPI-->>React: CurriculumResponse {video_id, video_title,<br/>checkpoints[{checkpoint_id, timestamp_seconds,<br/>topic, context_summary, starter_code}]}
+    React->>React: Video plays. Polls time every 1s.<br/>Pauses when current_time == timestamp_seconds.
+
+    %% ─────────────────────────────────────────────
+    %% FLOW 2A: Code Wrong, Early Attempts
+    %% ─────────────────────────────────────────────
+    Note over User,Bedrock: FLOW 2A — Code Wrong, Attempt 1 or 2 → The Interrogator
+
+    User->>React: Submits wrong code (attempt 1 or 2)
+    React->>FastAPI: POST /api/submit<br/>{submission_type:"code", attempt_count:1, user_code:"..."}
+    FastAPI->>Router: attempt_count < MENTOR_CODE_THRESHOLD (3)
+    Router-->>FastAPI: persona = "interrogator" — strict, no diagram
+    FastAPI->>Bedrock: user_code + expected_concept + interrogator prompt
+    Bedrock-->>FastAPI: is_correct:false, feedback_text:"Your loop logic is wrong..."
+    FastAPI-->>React: EvaluationResponse<br/>{is_correct:false, persona:"interrogator",<br/>feedback_text:"...", mermaid_diagram:null,<br/>viva_question:null, video_can_resume:false}
+    React->>User: Shows strict text feedback. User retries.
+
+    %% ─────────────────────────────────────────────
+    %% FLOW 2B: Code Still Wrong, Mentor Activates
+    %% ─────────────────────────────────────────────
+    Note over User,Bedrock: FLOW 2B — Code Still Wrong, Attempt 3+ → The Mentor
+
+    User->>React: Submits wrong code again (attempt 3+)
+    React->>FastAPI: POST /api/submit<br/>{submission_type:"code", attempt_count:3, user_code:"..."}
+    FastAPI->>Router: attempt_count >= MENTOR_CODE_THRESHOLD (3)
+    Router-->>FastAPI: persona = "mentor" — empathetic + request Mermaid
+    FastAPI->>Bedrock: user_code + expected_concept + mentor prompt
+    Bedrock-->>FastAPI: is_correct:false, feedback_text:"Let me show you...", mermaid:"graph TD..."
+    FastAPI-->>React: EvaluationResponse<br/>{is_correct:false, persona:"mentor",<br/>feedback_text:"Let me show you...",<br/>mermaid_diagram:"graph TD A-->B",<br/>viva_question:null, video_can_resume:false}
+    React->>User: Shows empathetic feedback + Mermaid diagram. User retries.
+
+    %% ─────────────────────────────────────────────
+    %% FLOW 3: Code Correct → Interrogator Asks Viva
+    %% ─────────────────────────────────────────────
+    Note over User,Bedrock: FLOW 3 — Code Correct (any attempt) → Interrogator Generates Viva
+
+    User->>React: Submits correct code
+    React->>FastAPI: POST /api/submit<br/>{submission_type:"code", attempt_count:N, user_code:"..."}
+    FastAPI->>Bedrock: Evaluates code — is_correct:true
+    Bedrock-->>FastAPI: is_correct:true, viva_question:"Why is this O(n) not O(n²)?"
+    FastAPI-->>React: EvaluationResponse<br/>{is_correct:true, persona:"interrogator",<br/>feedback_text:"Correct! Now explain this...",<br/>viva_question:"Why is this O(n)?",<br/>mermaid_diagram:null, video_can_resume:false}
+    React->>User: Hides code editor. Shows Viva question + Voice UI.
+
+    %% ─────────────────────────────────────────────
+    %% FLOW 4A: Viva Fail, Early Attempt
+    %% ─────────────────────────────────────────────
+    Note over User,Bedrock: FLOW 4A — Viva Fail, Attempt 1 → Interrogator Hints
+
+    User->>React: Speaks answer (wrong/incomplete)
+    React->>FastAPI: POST /api/submit<br/>{submission_type:"viva", viva_attempt_count:1,<br/>transcribed_text:"...", viva_question:"..."}
+    FastAPI->>Router: viva_attempt_count < MENTOR_VIVA_THRESHOLD (2)
+    Router-->>FastAPI: persona = "interrogator" — give hint only
+    FastAPI->>Bedrock: transcribed_text + viva_question + interrogator prompt
+    Bedrock-->>FastAPI: viva_passed:false, feedback_text:"Think about the pointer movement..."
+    FastAPI-->>React: EvaluationResponse<br/>{viva_passed:false, persona:"interrogator",<br/>feedback_text:"Hint:...", video_can_resume:false}
+    React->>User: Shows hint. Mic stays active. User tries again.
+
+    %% ─────────────────────────────────────────────
+    %% FLOW 4B: Viva Fail, Mentor Activates
+    %% ─────────────────────────────────────────────
+    Note over User,Bedrock: FLOW 4B — Viva Still Failing, Attempt 2+ → Mentor Helps
+
+    User->>React: Speaks again (still wrong)
+    React->>FastAPI: POST /api/submit<br/>{submission_type:"viva", viva_attempt_count:2,<br/>transcribed_text:"...", viva_question:"..."}
+    FastAPI->>Router: viva_attempt_count >= MENTOR_VIVA_THRESHOLD (2)
+    Router-->>FastAPI: persona = "mentor" — explain fully
+    FastAPI->>Bedrock: transcribed_text + viva_question + mentor prompt
+    Bedrock-->>FastAPI: viva_passed:false, feedback_text:"Let me explain step by step..."
+    FastAPI-->>React: EvaluationResponse<br/>{viva_passed:false, persona:"mentor",<br/>feedback_text:"Here's the full explanation...", video_can_resume:false}
+
+    %% ─────────────────────────────────────────────
+    %% FLOW 5: Viva Passed!
+    %% ─────────────────────────────────────────────
+    Note over User,Bedrock: FLOW 5 — Viva Passed → Video Resumes 🎉
+
+    User->>React: Speaks correct answer
+    React->>FastAPI: POST /api/submit {submission_type:"viva", transcribed_text:"..."}
+    FastAPI->>Bedrock: Evaluates — viva_passed:true
+    FastAPI-->>React: EvaluationResponse<br/>{viva_passed:true, persona:"interrogator",<br/>feedback_text:"Excellent!", video_can_resume:true ✅}
+    React->>React: video_can_resume == true → ▶ YouTube RESUMES 🎉

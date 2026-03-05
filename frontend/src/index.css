@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Shooting star graceful blink */
+@keyframes shootingStarBlink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.shooting-star-blink {
+  animation: shootingStarBlink 0.2s ease-in-out infinite;
+}

@@ -1,0 +1,15 @@
+# Web Framework
+fastapi
+uvicorn                  # ASGI server that runs FastAPI
+
+# Data Validation (bundled with FastAPI, but pinned explicitly)
+pydantic
+
+# AWS SDK
+boto3                    # Official Python AWS SDK (Bedrock calls)
+
+# YouTube
+youtube-transcript-api   # Fetches video transcripts with timestamps
+
+# Utilities
+python-dotenv            # Loads AWS secrets from .env file

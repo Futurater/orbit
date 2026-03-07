@@ -1,0 +1,94 @@
+{
+    "curriculum": {
+        "day_1": {
+            "video_id": "NTHVTY6w2Co",
+            "video_title": "Arrays Introduction | Java Complete Placement Course | Lecture 10",
+            "checkpoints": [
+                {
+                    "checkpoint_id": "cp_01_array_iteration",
+                    "timestamp_seconds": 594,
+                    "topic": "Array Declaration & Loops",
+                    "context_summary": "The instructor has completely finished demonstrating how to declare an array and use a 'for' loop to print its elements. Now it's your turn: Declare an integer array named 'prices' with 3 elements, and write a 'for' loop to print them.",
+                    "starter_code": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        // TODO: Declare an integer array named 'prices' with values {250, 400, 150}\n        // TODO: Write a 'for' loop to print each element.\n        \n    }\n}",
+                    "expected_concept": "The user must declare the array correctly and write a standard for-loop 'for(int i=0; i<3; i++)' to print 'prices[i]'."
+                },
+                {
+                    "checkpoint_id": "cp_02_array_input",
+                    "timestamp_seconds": 1206,
+                    "topic": "Array Input using Scanner",
+                    "context_summary": "The instructor just showed how to take user input to fill an array dynamically. Apply this concept: Use the provided Scanner object and a 'for' loop to take 3 integer inputs and store them in the 'studentScores' array.",
+                    "starter_code": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int[] studentScores = new int[3];\n        \n        // TODO: Write a 'for' loop that runs 3 times.\n        // Inside the loop, take an integer input using 'sc.nextInt()' and store it in 'studentScores[i]'.\n        \n    }\n}",
+                    "expected_concept": "The user must write a for-loop and use 'studentScores[i] = sc.nextInt();' inside the loop to assign the inputs to the array."
+                },
+                {
+                    "checkpoint_id": "cp_03_linear_search",
+                    "timestamp_seconds": 1502,
+                    "topic": "Linear Search Logic",
+                    "context_summary": "The Linear Search algorithm explanation is complete! Let's test your logic before the video ends. Loop through the 'employeeIDs' array. If the current element matches the 'targetID', print 'ID Found at index: ' followed by the index.",
+                    "starter_code": "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int[] employeeIDs = {104, 218, 505, 909};\n        int targetID = 505;\n        \n        for (int i = 0; i < employeeIDs.length; i++) {\n            // TODO: Write the if-condition to check if the current element equals 'targetID'\n            \n        }\n    }\n}",
+                    "expected_concept": "The user must implement the comparison logic 'if (employeeIDs[i] == targetID)' inside the provided loop, and print the index 'i'."
+                }
+            ]
+        },
+        "day_2": {
+            "video_id": "oAja8-Ulz6o",
+            "video_title": "Introduction to Linked List | Data Structures & Algorithms | Java Placement Course",
+            "checkpoints": [
+                {
+                    "checkpoint_id": "cp_01_node_class",
+                    "timestamp_seconds": 1021,
+                    "topic": "Defining the Node Class",
+                    "context_summary": "The instructor just explained that a Linked List is built using 'Nodes', which store data and a reference to the next node. Apply this concept: Instead of a String, create a Node class that stores an integer named 'ticketNumber', along with the 'next' pointer.",
+                    "starter_code": "class Node {\n    // TODO: Declare an integer variable named 'ticketNumber'\n    // TODO: Declare a Node reference named 'next'\n\n    Node(int ticketNumber) {\n        this.ticketNumber = ticketNumber;\n        this.next = null;\n    }\n}",
+                    "expected_concept": "The user must define the internal state of a Node by declaring 'int ticketNumber;' and 'Node next;' inside the class."
+                },
+                {
+                    "checkpoint_id": "cp_02_add_first",
+                    "timestamp_seconds": 1224,
+                    "topic": "Insert at Head (addFirst)",
+                    "context_summary": "To add a node to the front of the list, we must point the new node to the current head, and then update the head. Complete the 'addFirst' method below to insert the new 'ticketNumber' node correctly.",
+                    "starter_code": "public class LinkedList {\n    Node head;\n    \n    public void addFirst(int ticketNumber) {\n        Node newNode = new Node(ticketNumber);\n        if (head == null) {\n            head = newNode;\n            return;\n        }\n        // TODO: Point newNode's 'next' to the current 'head'\n        // TODO: Update the 'head' pointer to be the 'newNode'\n        \n    }\n}",
+                    "expected_concept": "The user must manipulate the pointers in the correct order to avoid orphaned nodes: first 'newNode.next = head;', then 'head = newNode;'."
+                },
+                {
+                    "checkpoint_id": "cp_03_traverse_add_last",
+                    "timestamp_seconds": 1464,
+                    "topic": "Traversing to the Tail (addLast)",
+                    "context_summary": "Adding to the end of a Linked List requires traversing it until you find the last node (the node whose 'next' is null). Write the correct while-loop condition to traverse the list, and then attach 'newNode' to the end.",
+                    "starter_code": "public class LinkedList {\n    Node head;\n\n    public void addLast(int ticketNumber) {\n        Node newNode = new Node(ticketNumber);\n        if (head == null) {\n            head = newNode;\n            return;\n        }\n        \n        Node currNode = head;\n        // TODO: Write a while loop condition that runs as long as currNode.next is NOT null\n        // Inside the loop, move currNode to the next node (currNode = currNode.next)\n        \n        \n        // TODO: Attach newNode to the end of the list\n        \n    }\n}",
+                    "expected_concept": "The user must write a traversal loop: 'while(currNode.next != null) { currNode = currNode.next; }' and then attach the node outside the loop: 'currNode.next = newNode;'."
+                }
+            ]
+        },
+        "day_3": {
+            "video_id": "7m1DMYAbdiY",
+            "video_title": "Stack Data Structure in One Video | Java Placement Course",
+            "checkpoints": [
+                {
+                    "checkpoint_id": "cp_01_stack_push",
+                    "timestamp_seconds": 800,
+                    "topic": "The Push Operation (LIFO)",
+                    "context_summary": "The instructor explained that a Stack follows the Last-In, First-Out (LIFO) rule. To 'push' a new book onto a LinkedList-based stack, we add it to the top (the head). Complete the push logic to point the new node to the current head, and then update the head.",
+                    "starter_code": "public class BookStack {\n    static Node head;\n    static class Node {\n        String bookTitle;\n        Node next;\n        Node(String bookTitle) { this.bookTitle = bookTitle; this.next = null; }\n    }\n\n    public static void push(String bookTitle) {\n        Node newNode = new Node(bookTitle);\n        if (head == null) {\n            head = newNode;\n            return;\n        }\n        // TODO: Point newNode's 'next' to the current 'head'\n        // TODO: Update 'head' to be 'newNode'\n        \n    }\n}",
+                    "expected_concept": "The user must implement O(1) insertion at the head: 'newNode.next = head;' followed by 'head = newNode;'."
+                },
+                {
+                    "checkpoint_id": "cp_02_stack_pop",
+                    "timestamp_seconds": 895,
+                    "topic": "The Pop Operation",
+                    "context_summary": "To 'pop' a book off the stack, we must remove the top element. In a LinkedList, this means moving the 'head' pointer to the next node. Implement the logic to sever the top node and return its title.",
+                    "starter_code": "public class BookStack {\n    static Node head;\n    // Node class and push() are already defined\n\n    public static String pop() {\n        if (head == null) { return \"Stack is Empty\"; }\n        \n        String topBook = head.bookTitle;\n        // TODO: Update the 'head' pointer to point to the next node in the stack\n        \n        return topBook;\n    }\n}",
+                    "expected_concept": "The user must remove the top element by updating the head pointer: 'head = head.next;'."
+                },
+                {
+                    "checkpoint_id": "cp_03_push_at_bottom",
+                    "timestamp_seconds": 1820,
+                    "topic": "Push at Bottom (Recursive Call Stack)",
+                    "context_summary": "This is the final algorithmic test! We want to push a book to the very *bottom* of the stack using recursion. Write the base condition to stop the recursion when the stack has been completely emptied, and place the 'bookTitle' at this new absolute bottom.",
+                    "starter_code": "import java.util.Stack;\n\npublic class Main {\n    public static void pushAtBottom(String bookTitle, Stack<String> bookStack) {\n        // TODO: Write the base case checking if 'bookStack' is empty.\n        // If true, push 'bookTitle' to the stack and return.\n        \n        \n        String currentTop = bookStack.pop();\n        pushAtBottom(bookTitle, bookStack);\n        bookStack.push(currentTop);\n    }\n}",
+                    "expected_concept": "The user must write the correct recursive base case: 'if(bookStack.isEmpty()) { bookStack.push(bookTitle); return; }'."
+                }
+            ]
+        }
+    }
+}

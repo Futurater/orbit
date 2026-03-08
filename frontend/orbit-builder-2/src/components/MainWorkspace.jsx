@@ -525,7 +525,7 @@ export default function MainWorkspace() {
 
                 <div className="max-w-xs md:max-w-md p-4 md:p-6 glass-box rounded-xl mb-8 md:mb-12 shadow-2xl">
                   <p className="text-slate-300 mb-2 md:mb-6 leading-relaxed text-xs md:text-sm">
-                    Mission parameters require validation. Decode the incoming transmission within the secure terminal to synchronize flight computer and resume trajectory.
+                    An AI-timed checkpoint has been reached. Video playback is paused until you prove your understanding in the secure terminal.
                   </p>
                 </div>
 

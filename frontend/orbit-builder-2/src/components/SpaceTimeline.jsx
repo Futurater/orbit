@@ -240,10 +240,10 @@ const Spaceship = ({ currentTopicIndex, isFlying, onNearPlanet }) => {
 
   return (
     <group ref={shipRef} position={[15, 20, 30]}>
-      <pointLight ref={engineLightRef} position={[0, 0, -4.5]} color="#38bdf8" intensity={2} distance={15} />
+      <pointLight ref={engineLightRef} position={[0, 0.4, -2.5]} color="#38bdf8" intensity={2} distance={15} />
 
       {/* EXHAUST PLUME */}
-      <group position={[0, 0.05, -3.8]} rotation={[Math.PI / 2, 0, 0]}>
+      <group position={[0, 0.4, -1.8]} rotation={[Math.PI / 2, 0, 0]}>
         {/* Inner bright core of the flame */}
         <mesh ref={exhaustCoreRef}>
           <cylinderGeometry args={[0.08, 0.01, 1.5, 8]} />

@@ -314,14 +314,7 @@ export default function CodeEditor({ onComplete, requiresViva = true, buttonText
                 )}
               </div>
 
-              <div
-                className="flex-grow relative code-area"
-                onPasteCapture={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  alert("Pasting code is disabled during assessments.");
-                }}
-              >
+              <div className="flex-grow relative code-area">
                 <Editor
                   height="100%"
                   defaultLanguage="java"
@@ -458,10 +451,6 @@ export default function CodeEditor({ onComplete, requiresViva = true, buttonText
                   type="text"
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
-                  onPaste={(e) => {
-                    e.preventDefault();
-                    alert("Pasting is disabled in the terminal chat.");
-                  }}
                   placeholder={isVivaState ? "Speak your Viva answer..." : "Ask anything"}
                   className="flex-grow bg-transparent py-2.5 pl-2 pr-2 text-sm text-white focus:outline-none placeholder-[#A0AAB2]"
                 />

@@ -281,7 +281,7 @@ export default function MainWorkspace() {
     }
 
     // event.data === 0 means the video has ended
-    if (event.data === 0 && currentTopic && currentTopic.checkpoints) {
+    if (event.data === 0 && currentTopic) {
       const allCompleted = currentTopic.checkpoints.every(cp => completedCheckpoints.has(cp.id));
       if (allCompleted) {
         setVideoInterrupted(false);
@@ -319,8 +319,8 @@ export default function MainWorkspace() {
       localStorage.setItem('orbit_completed_cps', JSON.stringify([...updated]));
 
       // Check if ALL checkpoints for this topic are now completed
-      const allDone = currentTopic && currentTopic.checkpoints ? currentTopic.checkpoints.every(cp => updated.has(cp.id)) : false;
-      const isFinalCheckpoint = currentTopic && currentTopic.checkpoints ? currentCheckpointIndex === currentTopic.checkpoints.length - 1 : false;
+      const allDone = currentTopic.checkpoints.every(cp => updated.has(cp.id));
+      const isFinalCheckpoint = currentCheckpointIndex === currentTopic.checkpoints.length - 1;
 
       if (allDone && isFinalCheckpoint) {
         // We are on the final checkpoint and all are complete → fly to next planet immediately
@@ -350,12 +350,24 @@ export default function MainWorkspace() {
   const isAllTopicsComplete = topics.length > 0 && currentTopicIndex >= topics.length;
 
   // Check if the current checkpoint has already been completed (for skip button)
-  const currentCheckpointCompleted = currentTopic && currentTopic.checkpoints && currentTopic.checkpoints[currentCheckpointIndex]
+  const currentCheckpointCompleted = currentTopic && currentTopic.checkpoints[currentCheckpointIndex]
     ? completedCheckpoints.has(currentTopic.checkpoints[currentCheckpointIndex].id)
     : false;
 
   return (
     <div className="relative w-screen h-screen overflow-hidden text-white" style={{ background: 'transparent' }}>
+
+      {/* 📱 PORTRAIT BLOCKER 📱 */}
+      <div className="force-landscape-overlay">
+        <svg className="w-16 h-16 text-cyan-400 mb-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+        <h2 className="text-2xl font-black uppercase tracking-widest text-white mb-4">Rotate Device</h2>
+        <p className="text-slate-400 text-sm leading-relaxed max-w-xs font-mono">
+          Project Orbit requires a landscape orientation for optimal mission control and terminal access.
+        </p>
+        <div className="mt-8 flex items-center justify-center gap-3 text-cyan-500/50">
+          <span className="text-xs tracking-widest uppercase">Rotate to Continue</span>
+        </div>
+      </div>
 
       <div className="absolute inset-0 z-[2]">
         <SpaceTimeline
@@ -367,12 +379,18 @@ export default function MainWorkspace() {
       </div>
 
       {phase === 'flying' && isNearPlanet !== null && (
-        <div className="absolute bottom-10 right-10 z-50 flex flex-col items-end gap-3">
-          <div className="flex items-center gap-4 bg-black/80 border border-cyan-500/50 px-8 py-4 rounded-full shadow-[0_0_30px_rgba(6,182,212,0.5)] backdrop-blur-md animate-bounce">
-            <div className="w-10 h-10 rounded bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-400 font-bold font-mono text-xl">
+        <div className="absolute bottom-6 right-6 lg:bottom-10 lg:right-10 z-50 flex flex-col items-end gap-3 lg:gap-3">
+          <button
+            onClick={() => {
+              if (isNearPlanet !== null && phase === 'flying') {
+                window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+              }
+            }}
+            className="flex items-center gap-3 lg:gap-4 bg-[#0a192f]/90 border border-cyan-500/50 px-5 py-2 lg:px-8 lg:py-4 rounded-full shadow-[0_0_20px_rgba(6,182,212,0.4)] backdrop-blur-md animate-bounce active:scale-95 transition-transform">
+            <div className="w-8 h-8 lg:w-10 lg:h-10 rounded bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-400 font-bold font-mono text-base lg:text-xl shrink-0">
               ↵
             </div>
-            <span className="text-white font-bold tracking-[0.2em] uppercase text-lg">
+            <span className="text-white font-bold tracking-widest lg:tracking-[0.2em] uppercase text-xs lg:text-lg">
               {(() => {
                 const targetIndex = isNearPlanet !== null ? isNearPlanet : currentTopicIndex;
                 const targetPlanet = topics[targetIndex];
@@ -384,24 +402,49 @@ export default function MainWorkspace() {
                   targetPlanet.checkpoints.every(cp => completedCheckpoints.has(cp.id));
 
                 if (isHoveredPlanetCompleted) {
-                  return "Press Enter to Revise";
+                  return "Initiate Replay (Enter)";
                 }
 
-                return "Press Enter to Initiate";
+                return "Initiate Mission (Enter)";
               })()}
             </span>
-          </div>
-          <div className="flex items-center gap-2 bg-black/60 border border-white/10 px-5 py-2 rounded-full backdrop-blur-md">
-            <span className="text-slate-400 font-mono text-xs tracking-widest">[ ESC ] DASHBOARD</span>
-          </div>
+          </button>
+          <button onClick={() => navigate('/dashboard')} className="flex items-center justify-center w-[160px] lg:w-[200px] gap-2 bg-black/60 border border-white/10 px-3 py-1.5 lg:px-5 lg:py-2 rounded-full backdrop-blur-md active:bg-white/10 text-slate-400 hover:text-white transition-colors">
+            <span className="font-mono text-[9px] lg:text-xs tracking-widest">[ ESC ] DASHBOARD</span>
+          </button>
         </div>
       )}
 
       {phase === 'flying' && isNearPlanet === null && (
-        <div className="absolute top-10 left-10 z-40">
-          <p className="text-slate-400 font-mono text-sm tracking-widest opacity-60">
+        <div className="absolute top-6 left-6 lg:top-10 lg:left-10 z-40 max-w-[80vw]">
+          <p className="text-slate-400 font-mono text-[9px] lg:text-sm tracking-widest opacity-60 leading-relaxed lg:leading-normal hidden lg:block">
             HOLD [ W ] TO FLY FORWARD  •  [ S ] TO REVERSE  •  [ ESC ] DASHBOARD
           </p>
+          <p className="text-slate-400 font-mono text-[9px] tracking-widest opacity-60 leading-relaxed lg:hidden">
+            USE ON-SCREEN CONTROLS TO FLY
+          </p>
+        </div>
+      )}
+
+      {/* 📱 MOBILE ON-SCREEN FLYING CONTROLS 📱 */}
+      {phase === 'flying' && (
+        <div className="lg:hidden absolute bottom-6 left-6 z-50 flex items-center gap-3">
+          <button
+            className="w-12 h-12 bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-white/70 font-mono font-bold text-lg active:bg-cyan-500/40 active:border-cyan-400 active:text-cyan-100 backdrop-blur-md shadow-lg transition-colors select-none"
+            onPointerDown={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keydown', { key: 's' })); }}
+            onPointerUp={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keyup', { key: 's' })); }}
+            onPointerCancel={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keyup', { key: 's' })); }}
+          >
+            S
+          </button>
+          <button
+            className="w-14 h-14 bg-white/10 border border-white/20 rounded-full flex items-center justify-center text-white font-mono font-bold text-xl active:bg-cyan-500/40 active:border-cyan-400 active:text-cyan-100 backdrop-blur-md shadow-lg transition-colors select-none"
+            onPointerDown={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keydown', { key: 'w' })); }}
+            onPointerUp={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keyup', { key: 'w' })); }}
+            onPointerCancel={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keyup', { key: 'w' })); }}
+          >
+            W
+          </button>
         </div>
       )}
 
@@ -438,30 +481,30 @@ export default function MainWorkspace() {
               <div className="absolute inset-0 z-10 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, black 2px, black 4px)' }}></div>
 
               <div className="relative z-30 flex flex-col items-center">
-                <div className="w-20 h-20 mb-6 flex items-center justify-center text-cyan-400 relative">
+                <div className="w-16 h-16 md:w-20 md:h-20 mb-4 md:mb-6 flex items-center justify-center text-cyan-400 relative">
                   <div className="absolute inset-0 rounded-full bg-cyan-500/10 animate-pulse border border-cyan-500/30"></div>
-                  <Zap className="w-10 h-10 animate-pulse" strokeWidth={1.5} />
+                  <Zap className="w-8 h-8 md:w-10 md:h-10 animate-pulse" strokeWidth={1.5} />
                 </div>
 
-                <h2 className="text-3xl md:text-5xl font-black uppercase tracking-[0.2em] mb-2 text-white">
+                <h2 className="text-xl md:text-5xl font-black uppercase tracking-widest md:tracking-[0.2em] mb-2 text-white">
                   Access <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-indigo-400 animate-pulse">Restricted</span>
                 </h2>
                 <h3 className="text-lg font-bold text-amber-400 mb-10 tracking-widest uppercase px-4 py-1.5 bg-amber-400/10 rounded-full border border-amber-400/20">
                   {currentTopic?.checkpoints[currentCheckpointIndex]?.title}
                 </h3>
 
-                <div className="max-w-md p-6 glass-box rounded-xl mb-12 shadow-2xl">
-                  <p className="text-slate-300 mb-6 leading-relaxed text-sm">
+                <div className="max-w-xs md:max-w-md p-4 md:p-6 glass-box rounded-xl mb-8 md:mb-12 shadow-2xl">
+                  <p className="text-slate-300 mb-2 md:mb-6 leading-relaxed text-xs md:text-sm">
                     A security checkpoint has been triggered. Video playback is paused until you successfully complete the required coding assessment in the secure terminal.
                   </p>
                 </div>
 
                 <button
                   onClick={enterFullscreenIDE}
-                  className="group flex items-center gap-3 bg-gradient-to-r from-cyan-600 to-indigo-600 text-white px-10 py-4 rounded font-bold text-lg hover:from-cyan-500 hover:to-indigo-500 transition-all shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:shadow-[0_0_50px_rgba(34,211,238,0.5)] transform hover:scale-105"
+                  className="group flex items-center gap-2 md:gap-3 bg-gradient-to-r from-cyan-600 to-indigo-600 text-white px-6 py-3 md:px-10 md:py-4 rounded font-bold text-sm md:text-lg hover:from-cyan-500 hover:to-indigo-500 transition-all shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:shadow-[0_0_50px_rgba(34,211,238,0.5)] transform hover:scale-105"
                 >
-                  <Maximize className="w-6 h-6 group-hover:rotate-90 transition-transform" />
-                  INITIATE SECURE TERMINAL LINK
+                  <Maximize className="w-5 h-5 md:w-6 md:h-6 group-hover:rotate-90 transition-transform" />
+                  INITIATE SECURE TERMINAL
                 </button>
               </div>
 
@@ -469,10 +512,10 @@ export default function MainWorkspace() {
               {currentCheckpointCompleted && (
                 <button
                   onClick={handleIdeSuccess}
-                  className="absolute bottom-8 right-8 z-50 flex items-center gap-3 bg-emerald-500/10 border border-emerald-400/30 text-emerald-400 px-6 py-3 rounded-full font-bold text-sm tracking-wider uppercase transition-all hover:bg-emerald-500/20 hover:border-emerald-400/50 hover:text-emerald-300 backdrop-blur-md shadow-[0_0_20px_rgba(16,185,129,0.2)]"
+                  className="absolute bottom-4 right-4 md:bottom-8 md:right-8 z-50 flex items-center gap-2 md:gap-3 bg-emerald-500/10 border border-emerald-400/30 text-emerald-400 px-4 py-2 md:px-6 md:py-3 rounded-full font-bold text-[10px] md:text-sm tracking-widest md:tracking-wider uppercase transition-all hover:bg-emerald-500/20 hover:border-emerald-400/50 hover:text-emerald-300 backdrop-blur-md shadow-[0_0_20px_rgba(16,185,129,0.2)]"
                 >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" /></svg>
-                  Already Completed — Skip
+                  <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" /></svg>
+                  Skip
                 </button>
               )}
             </div>

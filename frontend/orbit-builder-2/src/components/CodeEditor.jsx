@@ -252,11 +252,11 @@ export default function CodeEditor({ onComplete, requiresViva = true, buttonText
 
         {/* ================= LEFT PANEL ================= */}
         <Panel defaultSize={25} minSize={15} className="flex flex-col glass-panel rounded-2xl overflow-hidden">
-          <div className="flex items-center gap-2 px-4 py-3 panel-header shrink-0 text-sm font-semibold text-white rounded-t-2xl">
-            <ListTodo className="w-4 h-4 text-[#04AA6D]" /> Mission Briefing
+          <div className="flex items-center gap-2 px-2 py-2 md:px-4 md:py-3 panel-header shrink-0 text-xs md:text-sm font-semibold text-white rounded-t-2xl">
+            <ListTodo className="w-3 h-3 md:w-4 md:h-4 text-[#04AA6D]" /> Mission Briefing
           </div>
 
-          <div className="p-4 border-b border-white/5 shrink-0 bg-[#0d1117]/60">
+          <div className="p-2 md:p-4 border-b border-white/5 shrink-0 bg-[#0d1117]/60">
             <div className="relative w-full aspect-video bg-[#000000] rounded-xl overflow-hidden border border-white/5 shadow-lg group">
               <img src={videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&q=80&w=800"} alt="Video Thumbnail" className="w-full h-full object-cover opacity-40 blur-[1px] mix-blend-screen" />
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#15202B]/80">
@@ -266,12 +266,12 @@ export default function CodeEditor({ onComplete, requiresViva = true, buttonText
             </div>
           </div>
 
-          <div className="p-5 flex-grow overflow-y-auto">
-            <h2 className="text-xl font-bold text-white mb-4">{questionData?.title}</h2>
-            <p className="text-[#A0AAB2] leading-relaxed text-sm mb-6">{questionData?.description}</p>
+          <div className="p-3 md:p-5 flex-grow overflow-y-auto">
+            <h2 className="text-sm md:text-xl font-bold text-white mb-2 md:mb-4">{questionData?.title}</h2>
+            <p className="text-[#A0AAB2] leading-relaxed text-xs md:text-sm mb-4 md:mb-6">{questionData?.description}</p>
 
-            <p className="text-white font-semibold text-sm mb-2">Constraints:</p>
-            <ul className="text-sm font-mono text-[#A0AAB2] space-y-2 list-disc pl-4 bg-[#0d1117]/60 p-4 rounded-xl border border-white/5">
+            <p className="text-white font-semibold text-xs md:text-sm mb-2">Constraints:</p>
+            <ul className="text-[10px] md:text-sm font-mono text-[#A0AAB2] space-y-1 md:space-y-2 list-disc pl-4 bg-[#0d1117]/60 p-2 md:p-4 rounded-xl border border-white/5">
               <li>Time Complexity: O(1)</li>
               <li>Space Complexity: O(1)</li>
             </ul>
@@ -285,15 +285,15 @@ export default function CodeEditor({ onComplete, requiresViva = true, buttonText
           <PanelGroup direction="vertical">
 
             <Panel defaultSize={70} minSize={30} className="flex flex-col relative glass-panel rounded-2xl overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-2.5 panel-header shrink-0 rounded-t-2xl">
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2 text-white text-sm font-semibold">
-                    <Rocket className="w-4 h-4 text-[#04AA6D]" /> Command Module
+              <div className="flex items-center justify-between px-2 py-1.5 md:px-4 md:py-2.5 panel-header shrink-0 rounded-t-2xl">
+                <div className="flex items-center gap-2 md:gap-4">
+                  <div className="flex items-center gap-1.5 md:gap-2 text-white text-[10px] md:text-sm font-semibold hidden sm:flex">
+                    <Rocket className="w-3 h-3 md:w-4 md:h-4 text-[#04AA6D]" /> Command
                   </div>
                   <select
                     value={languagePref}
                     onChange={(e) => setLanguagePref(e.target.value)}
-                    className="bg-[#0d1117]/80 text-xs text-[#A0AAB2] border border-white/8 rounded-lg px-2.5 py-1.5 outline-none focus:border-[#04AA6D] cursor-pointer transition-colors"
+                    className="bg-[#0d1117]/80 text-[10px] md:text-xs text-[#A0AAB2] border border-white/8 rounded-lg px-1.5 py-1 md:px-2.5 md:py-1.5 outline-none focus:border-[#04AA6D] cursor-pointer transition-colors"
                   >
                     <option value="english">English AI</option>
                     <option value="hinglish">Hinglish AI</option>
@@ -303,13 +303,13 @@ export default function CodeEditor({ onComplete, requiresViva = true, buttonText
                   <button
                     onClick={handleCodeSubmit}
                     disabled={isEvaluating}
-                    className="flex items-center gap-2 px-5 py-2 btn-glow text-white text-sm font-semibold rounded-xl"
+                    className="flex items-center gap-1 md:gap-2 px-3 py-1.5 md:px-5 md:py-2 btn-glow text-white text-[10px] md:text-sm font-semibold rounded-xl"
                   >
                     {isEvaluating ? 'Evaluating...' : 'Run >'}
                   </button>
                 ) : (
-                  <span className="flex items-center gap-2 text-[#04AA6D] font-bold text-sm">
-                    <CheckCircle className="w-4 h-4" /> Accepted
+                  <span className="flex items-center gap-1.5 md:gap-2 text-[#04AA6D] font-bold text-[10px] md:text-sm">
+                    <CheckCircle className="w-3 h-3 md:w-4 md:h-4" /> Accepted
                   </span>
                 )}
               </div>
@@ -337,10 +337,10 @@ export default function CodeEditor({ onComplete, requiresViva = true, buttonText
             <PanelResizeHandle className="h-2 resize-handle cursor-row-resize rounded-full my-0.5" />
 
             <Panel defaultSize={30} minSize={15} className="flex flex-col glass-panel rounded-2xl overflow-hidden">
-              <div className="px-4 py-2.5 panel-header flex items-center gap-2 text-sm font-semibold text-white rounded-t-2xl">
-                <Terminal className="w-4 h-4 text-[#04AA6D]" /> Telemetry Data
+              <div className="px-2 py-1.5 md:px-4 md:py-2.5 panel-header flex items-center gap-2 text-[10px] md:text-sm font-semibold text-white rounded-t-2xl">
+                <Terminal className="w-3 h-3 md:w-4 md:h-4 text-[#04AA6D]" /> Telemetry Data
               </div>
-              <div className="flex-grow p-4 overflow-y-auto font-mono text-sm whitespace-pre-wrap terminal-area rounded-b-2xl">
+              <div className="flex-grow p-2 md:p-4 overflow-y-auto font-mono text-[10px] md:text-sm whitespace-pre-wrap terminal-area rounded-b-2xl">
                 {compilerOutput.type === "loading" && <span className="text-[#A0AAB2] animate-pulse">{compilerOutput.message}</span>}
                 {compilerOutput.type === "idle" && <span className="text-[#A0AAB2]">{compilerOutput.message}</span>}
                 {compilerOutput.type === "success" && <span className="text-[#04AA6D] font-bold">{compilerOutput.message}</span>}
@@ -355,29 +355,34 @@ export default function CodeEditor({ onComplete, requiresViva = true, buttonText
 
         {/* ================= RIGHT PANEL ================= */}
         <Panel defaultSize={25} minSize={20} className="flex flex-col glass-panel rounded-2xl overflow-hidden">
-          <div className={`px-4 py-3 flex items-center gap-2 shrink-0 rounded-t-2xl ${codePassed && requiresViva && !vivaPassed ? 'viva-header' : isMentorState ? 'mentor-header' : 'panel-header'}`}>
-            {isTrapState && <ShieldAlert className="w-4 h-4 text-[#A0AAB2]" />}
-            {isStrictState && <AlertTriangle className="w-4 h-4 text-[#FFEB3B]" />}
-            {isMentorState && <Cpu className="w-4 h-4 text-[#06B6D4]" />}
-            {isVivaState && <Lock className="w-4 h-4 text-[#8B5CF6] status-pulse" />}
-            {vivaPassed && <CheckCircle className="w-4 h-4 text-[#04AA6D]" />}
+          <div className={`px-2 py-2 md:px-4 md:py-3 flex items-center gap-1.5 md:gap-2 shrink-0 rounded-t-2xl ${codePassed && requiresViva && !vivaPassed ? 'viva-header' : isMentorState ? 'mentor-header' : 'panel-header'}`}>
+            {isTrapState && <ShieldAlert className="w-3 h-3 md:w-4 md:h-4 text-[#A0AAB2]" />}
+            {isStrictState && <AlertTriangle className="w-3 h-3 md:w-4 md:h-4 text-[#FFEB3B]" />}
+            {isMentorState && <Cpu className="w-3 h-3 md:w-4 md:h-4 text-[#06B6D4]" />}
+            {isVivaState && <Lock className="w-3 h-3 md:w-4 md:h-4 text-[#8B5CF6] status-pulse" />}
+            {vivaPassed && <CheckCircle className="w-3 h-3 md:w-4 md:h-4 text-[#04AA6D]" />}
 
-            <h3 className={`font-semibold text-sm ${codePassed && requiresViva && !vivaPassed ? 'text-[#A78BFA]' : vivaPassed ? 'text-[#04AA6D]' : isMentorState ? 'text-[#67E8F9]' : 'text-white'}`}>
-              {isTrapState && "System Status"}
-              {isStrictState && "Syntax Analysis"}
-              {isMentorState && "Mentor AI Active"}
-              {isVivaState && "Viva Lock Activated"}
-              {vivaPassed && "Sector Cleared"}
+            <h3 className={`font-semibold text-[10px] md:text-sm ${codePassed && requiresViva && !vivaPassed ? 'text-[#A78BFA]' : vivaPassed ? 'text-[#04AA6D]' : isMentorState ? 'text-[#67E8F9]' : 'text-white'}`}>
+              <span className="hidden sm:inline">
+                {isTrapState && "System Status"}
+                {isStrictState && "Syntax Analysis"}
+                {isMentorState && "Mentor AI Active"}
+                {isVivaState && "Viva Lock Activated"}
+                {vivaPassed && "Sector Cleared"}
+              </span>
+              <span className="sm:hidden">
+                {isVivaState ? "Locked" : vivaPassed ? "Cleared" : "Status"}
+              </span>
             </h3>
 
-            <div className="ml-auto text-xs font-mono attempt-badge px-2.5 py-1 rounded-lg text-white/80">
+            <div className="ml-auto text-[9px] md:text-xs font-mono attempt-badge px-1.5 py-0.5 md:px-2.5 md:py-1 rounded-lg text-white/80">
               Attempt {attempts}
             </div>
           </div>
 
-          <div className="flex-grow overflow-y-auto p-4 space-y-3 terminal-area">
+          <div className="flex-grow overflow-y-auto p-2 md:p-4 space-y-2 md:space-y-3 terminal-area">
             {terminalLogs.length === 0 && (
-              <p className="text-[#A0AAB2] font-mono text-sm text-center mt-10">Awaiting code submission...</p>
+              <p className="text-[#A0AAB2] font-mono text-[10px] md:text-sm text-center mt-6 md:mt-10">Awaiting code submission...</p>
             )}
 
             {terminalLogs.map((log) => (
@@ -431,13 +436,13 @@ export default function CodeEditor({ onComplete, requiresViva = true, buttonText
             <div ref={chatEndRef} />
           </div>
 
-          <div className="p-3 panel-header border-t border-white/5 shrink-0 rounded-b-2xl">
+          <div className="p-2 md:p-3 panel-header border-t border-white/5 shrink-0 rounded-b-2xl">
             {vivaPassed ? (
               <button
                 onClick={onComplete}
-                className="w-full flex justify-center items-center gap-2 py-3 btn-glow text-white font-bold rounded-xl"
+                className="w-full flex justify-center items-center gap-2 py-2 md:py-3 btn-glow text-white font-bold rounded-xl text-sm"
               >
-                <Rocket className="w-5 h-5" /> {buttonText}
+                <Rocket className="w-4 h-4 md:w-5 md:h-5" /> {buttonText}
               </button>
             ) : (isMentorState || isVivaState) ? (
               <form onSubmit={handleChatSubmit} className="relative flex items-center chat-input-wrap rounded-2xl px-3">

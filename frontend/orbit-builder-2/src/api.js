@@ -6,11 +6,8 @@
  * Base URL is pointing to the Live AWS API Gateway.
  */
 
-// In development, Vite proxies /api_proxy to the real AWS endpoint.
-// In production (Amplify), there is no proxy, so we hit the real URL directly.
-const BASE_URL = import.meta.env.DEV
-    ? "/api_proxy"
-    : "https://hpozwj0jtj.execute-api.us-east-1.amazonaws.com/default";
+// const BASE_URL = "https://hpozwj0jtj.execute-api.us-east-1.amazonaws.com/default";
+const BASE_URL = "/api_proxy";
 
 // Helper to handle standard JSON API fetching
 async function apiCall(endpoint, method = "GET", body = null) {

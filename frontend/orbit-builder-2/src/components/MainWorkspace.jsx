@@ -234,8 +234,18 @@ export default function MainWorkspace() {
         return;
       }
 
-      if (e.key === 'Enter') {
-        handleEnterPlanet();
+      // DESKTOP ENTER KEY LOGIC
+      if (e.key === 'Enter' && isNearPlanet !== null && phase === 'flying') {
+        const targetPlanet = topics[isNearPlanet];
+        // If it's a "Coming Soon" or locked placeholder, don't allow enter
+        if (!targetPlanet || targetPlanet.title?.includes("(Soon)") || !targetPlanet.isUnlocked) return;
+
+        // Switch to whichever planet we're near (allows revisiting)
+        setCurrentTopicIndex(isNearPlanet);
+        setCurrentCheckpointIndex(0);
+        setSessionDismissedCheckpoints(new Set()); // Reset interruptions for this visit
+        handleArrival();
+        setIsNearPlanet(null);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -386,32 +396,56 @@ export default function MainWorkspace() {
 
       {phase === 'flying' && isNearPlanet !== null && (
         <div className="absolute bottom-6 right-6 lg:bottom-10 lg:right-10 z-50 flex flex-col items-end gap-3 lg:gap-3">
-          <button
-            onClick={() => {
-              if (isNearPlanet !== null && phase === 'flying') {
-                handleEnterPlanet();
-              }
-            }}
-            className="flex items-center gap-3 lg:gap-4 bg-[#0a192f]/90 border border-cyan-500/50 px-5 py-2 lg:px-8 lg:py-4 rounded-full shadow-[0_0_20px_rgba(6,182,212,0.4)] backdrop-blur-md animate-bounce active:scale-95 transition-transform">
-            <div className="w-8 h-8 lg:w-10 lg:h-10 rounded bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-400 font-bold font-mono text-base lg:text-xl shrink-0">
+          {/* DESKTOP UI OVERLAY (Non-clickable, just visual prompt) */}
+          <div className="hidden lg:flex items-center gap-4 bg-[#0a192f]/90 border border-cyan-500/50 px-8 py-4 rounded-full shadow-[0_0_20px_rgba(6,182,212,0.4)] backdrop-blur-md animate-bounce">
+            <div className="w-10 h-10 rounded bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-400 font-bold font-mono text-xl shrink-0">
               ↵
             </div>
-            <span className="text-white font-bold tracking-widest lg:tracking-[0.2em] uppercase text-xs lg:text-lg">
+            <span className="text-white font-bold tracking-[0.2em] uppercase text-lg">
               {(() => {
                 const targetIndex = isNearPlanet !== null ? isNearPlanet : currentTopicIndex;
                 const targetPlanet = topics[targetIndex];
                 if (targetIndex >= (topics.length > 0 ? topics.length : 3)) return "Transmission Locked";
                 if (targetIndex !== 0 && (!targetPlanet || !targetPlanet.isUnlocked)) return "Planet Locked - Complete Previous";
 
-                // Rely on the planet you are hovering over rather than assuming progression state
                 const isHoveredPlanetCompleted = targetPlanet?.checkpoints?.length > 0 &&
                   targetPlanet.checkpoints.every(cp => cp && cp.id && completedCheckpoints.has(cp.id));
 
-                if (isHoveredPlanetCompleted) {
-                  return "Initiate Replay (Enter)";
-                }
-
+                if (isHoveredPlanetCompleted) return "Initiate Replay (Enter)";
                 return "Initiate Mission (Enter)";
+              })()}
+            </span>
+          </div>
+
+          {/* MOBILE UI TAPPABLE BUTTON (Hidden on Desktop) */}
+          <button
+            onClick={() => {
+              if (isNearPlanet === null || phase !== 'flying') return;
+              const targetPlanet = topics[isNearPlanet];
+              if (!targetPlanet || targetPlanet.title?.includes("(Soon)") || !targetPlanet.isUnlocked) return;
+
+              setCurrentTopicIndex(isNearPlanet);
+              setCurrentCheckpointIndex(0);
+              setSessionDismissedCheckpoints(new Set());
+              handleArrival();
+              setIsNearPlanet(null);
+            }}
+            className="lg:hidden flex items-center gap-3 bg-[#0a192f]/90 border border-cyan-500/50 px-5 py-3 rounded-full shadow-[0_0_20px_rgba(6,182,212,0.4)] backdrop-blur-md animate-bounce active:scale-95 transition-transform">
+            <div className="w-8 h-8 rounded bg-cyan-500/20 border border-cyan-400 flex items-center justify-center text-cyan-400 font-bold font-mono text-base shrink-0">
+              ↵
+            </div>
+            <span className="text-white font-bold tracking-widest uppercase text-xs">
+              {(() => {
+                const targetIndex = isNearPlanet !== null ? isNearPlanet : currentTopicIndex;
+                const targetPlanet = topics[targetIndex];
+                if (targetIndex >= (topics.length > 0 ? topics.length : 3)) return "Transmission Locked";
+                if (targetIndex !== 0 && (!targetPlanet || !targetPlanet.isUnlocked)) return "Planet Locked";
+
+                const isHoveredPlanetCompleted = targetPlanet?.checkpoints?.length > 0 &&
+                  targetPlanet.checkpoints.every(cp => cp && cp.id && completedCheckpoints.has(cp.id));
+
+                if (isHoveredPlanetCompleted) return "Tap To Replay";
+                return "Tap To Initiate";
               })()}
             </span>
           </button>

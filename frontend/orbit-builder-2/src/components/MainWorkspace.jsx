@@ -208,6 +208,21 @@ export default function MainWorkspace() {
     }
   }, [isCourseComplete, phase]);
 
+  const handleEnterPlanet = () => {
+    if (isNearPlanet === null || phase !== 'flying') return;
+
+    const targetPlanet = topics[isNearPlanet];
+    // If it's a "Coming Soon" or locked placeholder, don't allow enter
+    if (!targetPlanet || targetPlanet.title?.includes("(Soon)") || !targetPlanet.isUnlocked) return;
+
+    // Switch to whichever planet we're near (allows revisiting)
+    setCurrentTopicIndex(isNearPlanet);
+    setCurrentCheckpointIndex(0);
+    setSessionDismissedCheckpoints(new Set()); // Reset interruptions for this visit
+    handleArrival();
+    setIsNearPlanet(null);
+  };
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       // ESC → go back to dashboard from any phase
@@ -219,17 +234,8 @@ export default function MainWorkspace() {
         return;
       }
 
-      if (e.key === 'Enter' && isNearPlanet !== null && phase === 'flying') {
-        const targetPlanet = topics[isNearPlanet];
-        // If it's a "Coming Soon" or locked placeholder, don't allow enter
-        if (!targetPlanet || targetPlanet.title?.includes("(Soon)") || !targetPlanet.isUnlocked) return;
-
-        // Switch to whichever planet we're near (allows revisiting)
-        setCurrentTopicIndex(isNearPlanet);
-        setCurrentCheckpointIndex(0);
-        setSessionDismissedCheckpoints(new Set()); // Reset interruptions for this visit
-        handleArrival();
-        setIsNearPlanet(null);
+      if (e.key === 'Enter') {
+        handleEnterPlanet();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -383,7 +389,7 @@ export default function MainWorkspace() {
           <button
             onClick={() => {
               if (isNearPlanet !== null && phase === 'flying') {
-                window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+                handleEnterPlanet();
               }
             }}
             className="flex items-center gap-3 lg:gap-4 bg-[#0a192f]/90 border border-cyan-500/50 px-5 py-2 lg:px-8 lg:py-4 rounded-full shadow-[0_0_20px_rgba(6,182,212,0.4)] backdrop-blur-md animate-bounce active:scale-95 transition-transform">

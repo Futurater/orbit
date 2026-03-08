@@ -221,22 +221,15 @@ export default function MainWorkspace() {
 
       // DESKTOP ENTER KEY LOGIC
       if (e.key === 'Enter') {
-        console.log('[AWS DEBUG] ENTER KEY pressed | isNearPlanet:', isNearPlanet, '| phase:', phase, '| topics:', topics.length);
         if (isNearPlanet !== null && phase === 'flying') {
           const targetPlanet = topics[isNearPlanet];
-          console.log('[AWS DEBUG] targetPlanet:', targetPlanet?.title, '| isUnlocked:', targetPlanet?.isUnlocked);
-          if (!targetPlanet || targetPlanet.title?.includes("(Soon)") || !targetPlanet.isUnlocked) {
-            console.log('[AWS DEBUG] BLOCKED by planet check');
-            return;
-          }
-          console.log('[AWS DEBUG] SUCCESS - entering planet', isNearPlanet);
+          if (!targetPlanet || targetPlanet.title?.includes("(Soon)") || !targetPlanet.isUnlocked) return;
+
           setCurrentTopicIndex(isNearPlanet);
           setCurrentCheckpointIndex(0);
           setSessionDismissedCheckpoints(new Set());
           handleArrival();
           setIsNearPlanet(null);
-        } else {
-          console.log('[AWS DEBUG] BLOCKED | isNearPlanet:', isNearPlanet, '| phase:', phase);
         }
       }
     };
@@ -412,18 +405,10 @@ export default function MainWorkspace() {
           {/* MOBILE UI TAPPABLE BUTTON (Hidden on Desktop) */}
           <button
             onClick={() => {
-              console.log('[AWS DEBUG] MOBILE TAP | isNearPlanet:', isNearPlanet, '| phase:', phase);
-              if (isNearPlanet === null || phase !== 'flying') {
-                console.log('[AWS DEBUG] MOBILE BLOCKED by guard');
-                return;
-              }
+              if (isNearPlanet === null || phase !== 'flying') return;
               const targetPlanet = topics[isNearPlanet];
-              console.log('[AWS DEBUG] MOBILE targetPlanet:', targetPlanet?.title, '| isUnlocked:', targetPlanet?.isUnlocked);
-              if (!targetPlanet || targetPlanet.title?.includes("(Soon)") || !targetPlanet.isUnlocked) {
-                console.log('[AWS DEBUG] MOBILE BLOCKED by planet check');
-                return;
-              }
-              console.log('[AWS DEBUG] MOBILE SUCCESS - entering planet', isNearPlanet);
+              if (!targetPlanet || targetPlanet.title?.includes("(Soon)") || !targetPlanet.isUnlocked) return;
+
               setCurrentTopicIndex(isNearPlanet);
               setCurrentCheckpointIndex(0);
               setSessionDismissedCheckpoints(new Set());

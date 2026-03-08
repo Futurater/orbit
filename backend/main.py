@@ -23,6 +23,18 @@ app.add_middleware(
 def health_check():
     return {"status": "ok"}
 
+@app.get("/api/progress/{student_id}")
+def get_progress(student_id: str):
+    # Mock progress data since real DB tracking isn't fully wired for the global map yet
+    return {
+        "student_id": student_id,
+        "days": [
+            {"day_id": "day_1", "is_unlocked": True},
+            {"day_id": "day_2", "is_unlocked": False},
+            {"day_id": "day_3", "is_unlocked": False}
+        ]
+    }
+
 @app.get("/api/curriculum/{day_id}")
 def get_curriculum(day_id:str):
     try:

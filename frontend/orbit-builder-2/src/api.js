@@ -6,8 +6,11 @@
  * Base URL is pointing to the Live AWS API Gateway.
  */
 
-// const BASE_URL = "https://hpozwj0jtj.execute-api.us-east-1.amazonaws.com/default";
-const BASE_URL = "/api_proxy";
+// Use Vite proxy on localhost (dev), real AWS API Gateway on deployed (prod)
+const IS_DEV = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const BASE_URL = IS_DEV
+    ? "/api_proxy"
+    : "https://hpozwj0jtj.execute-api.us-east-1.amazonaws.com/default";
 
 // Helper to handle standard JSON API fetching
 async function apiCall(endpoint, method = "GET", body = null) {

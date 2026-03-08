@@ -281,7 +281,7 @@ export default function MainWorkspace() {
     }
 
     // event.data === 0 means the video has ended
-    if (event.data === 0 && currentTopic) {
+    if (event.data === 0 && currentTopic && currentTopic.checkpoints) {
       const allCompleted = currentTopic.checkpoints.every(cp => completedCheckpoints.has(cp.id));
       if (allCompleted) {
         setVideoInterrupted(false);
@@ -319,8 +319,8 @@ export default function MainWorkspace() {
       localStorage.setItem('orbit_completed_cps', JSON.stringify([...updated]));
 
       // Check if ALL checkpoints for this topic are now completed
-      const allDone = currentTopic.checkpoints.every(cp => updated.has(cp.id));
-      const isFinalCheckpoint = currentCheckpointIndex === currentTopic.checkpoints.length - 1;
+      const allDone = currentTopic && currentTopic.checkpoints ? currentTopic.checkpoints.every(cp => updated.has(cp.id)) : false;
+      const isFinalCheckpoint = currentTopic && currentTopic.checkpoints ? currentCheckpointIndex === currentTopic.checkpoints.length - 1 : false;
 
       if (allDone && isFinalCheckpoint) {
         // We are on the final checkpoint and all are complete → fly to next planet immediately
@@ -350,7 +350,7 @@ export default function MainWorkspace() {
   const isAllTopicsComplete = topics.length > 0 && currentTopicIndex >= topics.length;
 
   // Check if the current checkpoint has already been completed (for skip button)
-  const currentCheckpointCompleted = currentTopic && currentTopic.checkpoints[currentCheckpointIndex]
+  const currentCheckpointCompleted = currentTopic && currentTopic.checkpoints && currentTopic.checkpoints[currentCheckpointIndex]
     ? completedCheckpoints.has(currentTopic.checkpoints[currentCheckpointIndex].id)
     : false;
 

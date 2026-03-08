@@ -208,21 +208,6 @@ export default function MainWorkspace() {
     }
   }, [isCourseComplete, phase]);
 
-  const handleEnterPlanet = () => {
-    if (isNearPlanet === null || phase !== 'flying') return;
-
-    const targetPlanet = topics[isNearPlanet];
-    // If it's a "Coming Soon" or locked placeholder, don't allow enter
-    if (!targetPlanet || targetPlanet.title?.includes("(Soon)") || !targetPlanet.isUnlocked) return;
-
-    // Switch to whichever planet we're near (allows revisiting)
-    setCurrentTopicIndex(isNearPlanet);
-    setCurrentCheckpointIndex(0);
-    setSessionDismissedCheckpoints(new Set()); // Reset interruptions for this visit
-    handleArrival();
-    setIsNearPlanet(null);
-  };
-
   useEffect(() => {
     const handleKeyDown = (e) => {
       // ESC → go back to dashboard from any phase
@@ -235,17 +220,17 @@ export default function MainWorkspace() {
       }
 
       // DESKTOP ENTER KEY LOGIC
-      if (e.key === 'Enter' && isNearPlanet !== null && phase === 'flying') {
-        const targetPlanet = topics[isNearPlanet];
-        // If it's a "Coming Soon" or locked placeholder, don't allow enter
-        if (!targetPlanet || targetPlanet.title?.includes("(Soon)") || !targetPlanet.isUnlocked) return;
+      if (e.key === 'Enter') {
+        if (isNearPlanet !== null && phase === 'flying') {
+          const targetPlanet = topics[isNearPlanet];
+          if (!targetPlanet || targetPlanet.title?.includes("(Soon)") || !targetPlanet.isUnlocked) return;
 
-        // Switch to whichever planet we're near (allows revisiting)
-        setCurrentTopicIndex(isNearPlanet);
-        setCurrentCheckpointIndex(0);
-        setSessionDismissedCheckpoints(new Set()); // Reset interruptions for this visit
-        handleArrival();
-        setIsNearPlanet(null);
+          setCurrentTopicIndex(isNearPlanet);
+          setCurrentCheckpointIndex(0);
+          setSessionDismissedCheckpoints(new Set());
+          handleArrival();
+          setIsNearPlanet(null);
+        }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -453,40 +438,45 @@ export default function MainWorkspace() {
             <span className="font-mono text-[9px] lg:text-xs tracking-widest">[ ESC ] DASHBOARD</span>
           </button>
         </div>
-      )}
+      )
+      }
 
-      {phase === 'flying' && isNearPlanet === null && (
-        <div className="absolute top-6 left-6 lg:top-10 lg:left-10 z-40 max-w-[80vw]">
-          <p className="text-slate-400 font-mono text-[9px] lg:text-sm tracking-widest opacity-60 leading-relaxed lg:leading-normal hidden lg:block">
-            HOLD [ W ] TO FLY FORWARD  •  [ S ] TO REVERSE  •  [ ESC ] DASHBOARD
-          </p>
-          <p className="text-slate-400 font-mono text-[9px] tracking-widest opacity-60 leading-relaxed lg:hidden">
-            USE ON-SCREEN CONTROLS TO FLY
-          </p>
-        </div>
-      )}
+      {
+        phase === 'flying' && isNearPlanet === null && (
+          <div className="absolute top-6 left-6 lg:top-10 lg:left-10 z-40 max-w-[80vw]">
+            <p className="text-slate-400 font-mono text-[9px] lg:text-sm tracking-widest opacity-60 leading-relaxed lg:leading-normal hidden lg:block">
+              HOLD [ W ] TO FLY FORWARD  •  [ S ] TO REVERSE  •  [ ESC ] DASHBOARD
+            </p>
+            <p className="text-slate-400 font-mono text-[9px] tracking-widest opacity-60 leading-relaxed lg:hidden">
+              USE ON-SCREEN CONTROLS TO FLY
+            </p>
+          </div>
+        )
+      }
 
       {/* 📱 MOBILE ON-SCREEN FLYING CONTROLS 📱 */}
-      {phase === 'flying' && (
-        <div className="lg:hidden absolute bottom-6 left-6 z-50 flex items-center gap-3">
-          <button
-            className="w-12 h-12 bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-white/70 font-mono font-bold text-lg active:bg-cyan-500/40 active:border-cyan-400 active:text-cyan-100 backdrop-blur-md shadow-lg transition-colors select-none"
-            onPointerDown={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keydown', { key: 's' })); }}
-            onPointerUp={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keyup', { key: 's' })); }}
-            onPointerCancel={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keyup', { key: 's' })); }}
-          >
-            S
-          </button>
-          <button
-            className="w-14 h-14 bg-white/10 border border-white/20 rounded-full flex items-center justify-center text-white font-mono font-bold text-xl active:bg-cyan-500/40 active:border-cyan-400 active:text-cyan-100 backdrop-blur-md shadow-lg transition-colors select-none"
-            onPointerDown={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keydown', { key: 'w' })); }}
-            onPointerUp={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keyup', { key: 'w' })); }}
-            onPointerCancel={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keyup', { key: 'w' })); }}
-          >
-            W
-          </button>
-        </div>
-      )}
+      {
+        phase === 'flying' && (
+          <div className="lg:hidden absolute bottom-6 left-6 z-50 flex items-center gap-3">
+            <button
+              className="w-12 h-12 bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-white/70 font-mono font-bold text-lg active:bg-cyan-500/40 active:border-cyan-400 active:text-cyan-100 backdrop-blur-md shadow-lg transition-colors select-none"
+              onPointerDown={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keydown', { key: 's' })); }}
+              onPointerUp={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keyup', { key: 's' })); }}
+              onPointerCancel={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keyup', { key: 's' })); }}
+            >
+              S
+            </button>
+            <button
+              className="w-14 h-14 bg-white/10 border border-white/20 rounded-full flex items-center justify-center text-white font-mono font-bold text-xl active:bg-cyan-500/40 active:border-cyan-400 active:text-cyan-100 backdrop-blur-md shadow-lg transition-colors select-none"
+              onPointerDown={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keydown', { key: 'w' })); }}
+              onPointerUp={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keyup', { key: 'w' })); }}
+              onPointerCancel={(e) => { e.preventDefault(); window.dispatchEvent(new KeyboardEvent('keyup', { key: 'w' })); }}
+            >
+              W
+            </button>
+          </div>
+        )
+      }
 
       <div className={`absolute inset-0 z-10 flex flex-col items-center justify-center transition-opacity duration-500 ${(phase === 'video' || phase === 'flying' || phase === 'flying_to_end') ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
 
@@ -563,58 +553,62 @@ export default function MainWorkspace() {
         </div>
       </div>
 
-      {phase === 'ide' && (
-        <div className="fixed inset-0 z-[9999] bg-transparent w-screen h-screen flex flex-col pointer-events-auto">
-          {/* Explicitly render space background behind the IDE so stars are guaranteed visible */}
-          <div className="absolute inset-0 z-[-1] pointer-events-none">
-            <DeepSpace />
-          </div>
+      {
+        phase === 'ide' && (
+          <div className="fixed inset-0 z-[9999] bg-transparent w-screen h-screen flex flex-col pointer-events-auto">
+            {/* Explicitly render space background behind the IDE so stars are guaranteed visible */}
+            <div className="absolute inset-0 z-[-1] pointer-events-none">
+              <DeepSpace />
+            </div>
 
-          <div className="w-full h-12 panel-header flex items-center px-5 justify-between shrink-0"
-            style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', boxShadow: '0 2px 12px rgba(0,0,0,0.3)' }}
-          >
-            <span className="text-sm font-semibold text-white tracking-wide flex items-center gap-2">
-              Orbit Secure Terminal <span className="text-white/20 mx-2">│</span> <span className="text-[#04AA6D]/80 font-normal">{currentTopic?.title}</span>
-            </span>
-          </div>
-          <div className="flex-grow relative overflow-hidden flex items-center justify-center">
-            {currentTopic && (
-              <CodeEditor
-                onComplete={handleIdeSuccess}
-                buttonText="Resume Transmission"
-                checkpointId={currentTopic.checkpoints[currentCheckpointIndex]?.id}
-                questionData={currentTopic.checkpoints[currentCheckpointIndex]}
-                videoId={currentTopic.videoId}
-              />
-            )}
-          </div>
-        </div>
-      )}
-      {/* END CARD UI */}
-      {phase === 'end_card' && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center opacity-100 transition-opacity duration-1000 bg-[#020617]/90 backdrop-blur-sm pointer-events-auto">
-          <div className="absolute inset-0 z-0 pointer-events-none">
-            <DeepSpace />
-            <ShootingStar />
-          </div>
-          <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-2xl transform scale-100 transition-transform duration-1000">
-            <Rocket className="w-24 h-24 text-cyan-400 mb-8 animate-bounce" strokeWidth={1.5} />
-            <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight uppercase">
-              Mission <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-500">Accomplished</span>
-            </h1>
-            <p className="text-xl text-slate-300 mb-10 leading-relaxed font-light">
-              You Have Successfully Intercepted All Active Orbital Transmissions.
-              Planet Graphs and Further Frontiers are currently under construction.
-            </p>
-            <button
-              onClick={() => navigate('/dashboard')}
-              className="group flex items-center gap-4 bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white px-10 py-5 rounded-full font-bold text-xl transition-all shadow-[0_0_30px_rgba(79,70,229,0.3)] hover:shadow-[0_0_50px_rgba(6,182,212,0.5)] transform hover:-translate-y-1 hover:scale-105"
+            <div className="w-full h-12 panel-header flex items-center px-5 justify-between shrink-0"
+              style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', boxShadow: '0 2px 12px rgba(0,0,0,0.3)' }}
             >
-              RETURN TO COMMAND CENTER (DASHBOARD)
-            </button>
+              <span className="text-sm font-semibold text-white tracking-wide flex items-center gap-2">
+                Orbit Secure Terminal <span className="text-white/20 mx-2">│</span> <span className="text-[#04AA6D]/80 font-normal">{currentTopic?.title}</span>
+              </span>
+            </div>
+            <div className="flex-grow relative overflow-hidden flex items-center justify-center">
+              {currentTopic && (
+                <CodeEditor
+                  onComplete={handleIdeSuccess}
+                  buttonText="Resume Transmission"
+                  checkpointId={currentTopic.checkpoints[currentCheckpointIndex]?.id}
+                  questionData={currentTopic.checkpoints[currentCheckpointIndex]}
+                  videoId={currentTopic.videoId}
+                />
+              )}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )
+      }
+      {/* END CARD UI */}
+      {
+        phase === 'end_card' && (
+          <div className="absolute inset-0 z-50 flex items-center justify-center opacity-100 transition-opacity duration-1000 bg-[#020617]/90 backdrop-blur-sm pointer-events-auto">
+            <div className="absolute inset-0 z-0 pointer-events-none">
+              <DeepSpace />
+              <ShootingStar />
+            </div>
+            <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-2xl transform scale-100 transition-transform duration-1000">
+              <Rocket className="w-24 h-24 text-cyan-400 mb-8 animate-bounce" strokeWidth={1.5} />
+              <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight uppercase">
+                Mission <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-500">Accomplished</span>
+              </h1>
+              <p className="text-xl text-slate-300 mb-10 leading-relaxed font-light">
+                You Have Successfully Intercepted All Active Orbital Transmissions.
+                Planet Graphs and Further Frontiers are currently under construction.
+              </p>
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="group flex items-center gap-4 bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white px-10 py-5 rounded-full font-bold text-xl transition-all shadow-[0_0_30px_rgba(79,70,229,0.3)] hover:shadow-[0_0_50px_rgba(6,182,212,0.5)] transform hover:-translate-y-1 hover:scale-105"
+              >
+                RETURN TO COMMAND CENTER (DASHBOARD)
+              </button>
+            </div>
+          </div>
+        )
+      }
+    </div >
   );
 }

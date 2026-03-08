@@ -8,7 +8,7 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 **Built for**: AWS AI Bharath Hackathon 2026  
-**Team**: [Your Team Name]  
+**Team**: technorev 
 **Demo**: [Live Demo Link]
 
 ---
@@ -426,10 +426,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 [Add your team member names and roles here]
 
-- **[Name]** - Full Stack Developer
-- **[Name]** - AI/ML Engineer
-- **[Name]** - UI/UX Designer
-- **[Name]** - AWS Solutions Architect
+- **Hanumaditya** - Full Stack Developer
+- **Sri Hari** - AI/ML Engineer
+- **Nehalika** - UI/UX Designer
+- **Sagar Varma** - AWS Solutions Architect
 
 ---
 
@@ -443,9 +443,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
-- **Email**: [your-email@example.com]
-- **LinkedIn**: [Your LinkedIn]
-- **GitHub**: [Your GitHub]
+- **Email**: sriharizbett@gmail.com
+- **LinkedIn**: https://www.linkedin.com/in/sri-hari-48321b297/
+- **GitHub**: https://github.com/Futurater
 
 ---
 

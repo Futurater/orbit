@@ -398,8 +398,8 @@ export default function MainWorkspace() {
                 if (targetIndex !== 0 && (!targetPlanet || !targetPlanet.isUnlocked)) return "Planet Locked - Complete Previous";
 
                 // Rely on the planet you are hovering over rather than assuming progression state
-                const isHoveredPlanetCompleted = targetPlanet.checkpoints && targetPlanet.checkpoints.length > 0 &&
-                  targetPlanet.checkpoints.every(cp => completedCheckpoints.has(cp.id));
+                const isHoveredPlanetCompleted = targetPlanet?.checkpoints?.length > 0 &&
+                  targetPlanet.checkpoints.every(cp => cp && cp.id && completedCheckpoints.has(cp.id));
 
                 if (isHoveredPlanetCompleted) {
                   return "Initiate Replay (Enter)";

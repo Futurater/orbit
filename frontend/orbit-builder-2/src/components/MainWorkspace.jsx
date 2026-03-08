@@ -517,7 +517,7 @@ export default function MainWorkspace() {
                 </div>
 
                 <h2 className="text-xl md:text-5xl font-black uppercase tracking-widest md:tracking-[0.2em] mb-2 text-white">
-                  Access <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-indigo-400 animate-pulse">Restricted</span>
+                  Concept <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-indigo-400 animate-pulse">Checkpoint</span>
                 </h2>
                 <h3 className="text-lg font-bold text-amber-400 mb-10 tracking-widest uppercase px-4 py-1.5 bg-amber-400/10 rounded-full border border-amber-400/20">
                   {currentTopic?.checkpoints[currentCheckpointIndex]?.title}
@@ -525,7 +525,7 @@ export default function MainWorkspace() {
 
                 <div className="max-w-xs md:max-w-md p-4 md:p-6 glass-box rounded-xl mb-8 md:mb-12 shadow-2xl">
                   <p className="text-slate-300 mb-2 md:mb-6 leading-relaxed text-xs md:text-sm">
-                    A security checkpoint has been triggered. Video playback is paused until you successfully complete the required coding assessment in the secure terminal.
+                    Mission parameters require validation. Decode the incoming transmission within the secure terminal to synchronize flight computer and resume trajectory.
                   </p>
                 </div>
 

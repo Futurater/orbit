@@ -295,7 +295,9 @@ export default function SpaceTimeline({ currentTopicIndex, topics = [], isFlying
 
           {PLANETS.map((planet, index) => {
             const isSoon = planet.label.includes("(Soon)");
-            const isLocked = !isSoon && topics[index] && !topics[index].isUnlocked;
+            // FIX: Ensure Planet 0 (Arrays) is ALWAYS unlocked visually, 
+            // regardless of API timing
+            const isLocked = !isSoon && index !== 0 && topics[index] && !topics[index].isUnlocked;
 
             return (
               <group key={planet.id} position={planet.position}>

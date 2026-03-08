@@ -377,7 +377,7 @@ export default function MainWorkspace() {
                 const targetIndex = isNearPlanet !== null ? isNearPlanet : currentTopicIndex;
                 const targetPlanet = topics[targetIndex];
                 if (targetIndex >= (topics.length > 0 ? topics.length : 3)) return "Transmission Locked";
-                if (!targetPlanet || !targetPlanet.isUnlocked) return "Planet Locked - Complete Previous";
+                if (targetIndex !== 0 && (!targetPlanet || !targetPlanet.isUnlocked)) return "Planet Locked - Complete Previous";
 
                 // Rely on the planet you are hovering over rather than assuming progression state
                 const isHoveredPlanetCompleted = targetPlanet.checkpoints && targetPlanet.checkpoints.length > 0 &&

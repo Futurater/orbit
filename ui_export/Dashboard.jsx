@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
 import { BookOpen, Lock, Server, Cloud, Rocket, Shield, Zap, Star, TrendingUp, Clock, Award } from 'lucide-react';
@@ -8,45 +8,6 @@ const Dashboard = () => {
     const navigate = useNavigate();
 
     const displayUser = user?.name || (JSON.parse(localStorage.getItem('orbit_user')) || {})?.name || 'Developer';
-
-    // ── Track real stats from localStorage ──
-    const TOTAL_CHECKPOINTS = 9; // 3 days × 3 checkpoints each
-    const XP_PER_CHECKPOINT = 100;
-
-    const [stats, setStats] = useState({ streak: 0, totalMinutes: 0, solved: 0, xp: 0, progress: 0 });
-
-    useEffect(() => {
-        try {
-            // Read orbit_stats (streak + time)
-            const raw = JSON.parse(localStorage.getItem('orbit_stats') || '{}');
-            const streak = raw.streak || 0;
-            const totalMinutes = raw.totalMinutes || 0;
-
-            // Read completed checkpoints
-            const completedRaw = localStorage.getItem('orbit_completed_cps');
-            let solved = 0;
-            if (completedRaw) {
-                try {
-                    const parsed = JSON.parse(completedRaw);
-                    solved = Array.isArray(parsed) ? parsed.length : 0;
-                } catch { solved = 0; }
-            }
-
-            const xp = solved * XP_PER_CHECKPOINT;
-            const progress = Math.round((solved / TOTAL_CHECKPOINTS) * 100);
-
-            setStats({ streak, totalMinutes, solved, xp, progress });
-        } catch (e) {
-            // If localStorage read fails, keep defaults
-        }
-    }, []);
-
-    const formatTime = (minutes) => {
-        if (minutes < 60) return `${minutes}m`;
-        const h = Math.floor(minutes / 60);
-        const m = minutes % 60;
-        return m > 0 ? `${h}h ${m}m` : `${h}h`;
-    };
 
     const courses = [
         {
@@ -136,10 +97,10 @@ const Dashboard = () => {
                 {/* Stats row */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
                     {[
-                        { icon: <TrendingUp className="w-4 h-4 text-cyan-400" />, label: 'Current Streak', value: `${stats.streak} Day${stats.streak !== 1 ? 's' : ''}` },
-                        { icon: <Clock className="w-4 h-4 text-violet-400" />, label: 'Time Invested', value: formatTime(stats.totalMinutes) },
-                        { icon: <Zap className="w-4 h-4 text-amber-400" />, label: 'Challenges Solved', value: `${stats.solved}` },
-                        { icon: <Star className="w-4 h-4 text-emerald-400" />, label: 'XP Earned', value: `${stats.xp}` },
+                        { icon: <TrendingUp className="w-4 h-4 text-cyan-400" />, label: 'Current Streak', value: '1 Day' },
+                        { icon: <Clock className="w-4 h-4 text-violet-400" />, label: 'Time Invested', value: '0h' },
+                        { icon: <Zap className="w-4 h-4 text-amber-400" />, label: 'Challenges Solved', value: '0' },
+                        { icon: <Star className="w-4 h-4 text-emerald-400" />, label: 'XP Earned', value: '0' },
                     ].map((stat, i) => (
                         <div key={i} className="stat-pill rounded-2xl px-5 py-4 flex items-center gap-3">
                             <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center">{stat.icon}</div>
@@ -153,24 +114,7 @@ const Dashboard = () => {
 
                 {/* Section title */}
                 <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-4">
-                        <h2 className="text-xl font-bold text-white">Mission Tracks</h2>
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                localStorage.removeItem('orbit_completed_cps');
-                                const stats = JSON.parse(localStorage.getItem('orbit_stats') || '{}');
-                                stats.solved = 0;
-                                stats.xp = 0;
-                                localStorage.setItem('orbit_stats', JSON.stringify(stats));
-                                alert('Progress reset! You can now start from the beginning.');
-                                window.location.reload();
-                            }}
-                            className="bg-red-500/20 text-red-400 border border-red-500/50 px-3 py-1 text-xs rounded-full hover:bg-red-500/40"
-                        >
-                            Reset Progress
-                        </button>
-                    </div>
+                    <h2 className="text-xl font-bold text-white">Mission Tracks</h2>
                     <span className="text-xs text-white/30 tracking-wide uppercase">{courses.filter(c => !c.isLocked).length} of {courses.length} available</span>
                 </div>
 
@@ -215,10 +159,10 @@ const Dashboard = () => {
                                 <div>
                                     <div className="flex items-center justify-between text-xs mb-2">
                                         <span className="text-white/40">Progress</span>
-                                        <span className={`${course.accentText} font-semibold`}>{stats.progress}%</span>
+                                        <span className={`${course.accentText} font-semibold`}>0%</span>
                                     </div>
                                     <div className="w-full bg-white/5 rounded-full h-1.5">
-                                        <div className={`bg-gradient-to-r ${course.accent} h-1.5 rounded-full transition-all`} style={{ width: `${stats.progress}%` }} />
+                                        <div className={`bg-gradient-to-r ${course.accent} h-1.5 rounded-full transition-all`} style={{ width: '0%' }} />
                                     </div>
                                 </div>
                             )}

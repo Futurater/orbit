@@ -32,6 +32,7 @@ const Spaceship = ({ currentTopicIndex, isFlying, onNearPlanet }) => {
   const engineLightRef = useRef();
   const exhaustCoreRef = useRef();
   const exhaustGlowRef = useRef();
+  const shipScaleRef = useRef(); // new ref for dynamic size
 
   const [keys, setKeys] = useState({ w: false, s: false });
   const [animating, setAnimating] = useState(true);
@@ -199,13 +200,22 @@ const Spaceship = ({ currentTopicIndex, isFlying, onNearPlanet }) => {
           exhaustGlowRef.current.material.opacity = THREE.MathUtils.lerp(exhaustGlowRef.current.material.opacity, targetGlowOpacity, 0.2);
         }
 
-        // Check distance to the unlocked planet
-        const targetPos = PLANETS[currentTopicIndex].orbitPosition;
-        const dist = Math.abs(shipRef.current.position.x - targetPos[0]);
-        if (dist < 12) {
-          if (onNearPlanet) onNearPlanet(true);
-        } else {
-          if (onNearPlanet) onNearPlanet(false);
+        // Check distance to ALL planets (not just current) so player can revisit
+        let nearPlanetIndex = null;
+        for (let i = 0; i < PLANETS.length; i++) {
+          const px = PLANETS[i].orbitPosition[0];
+          const dist = Math.abs(shipRef.current.position.x - px);
+          if (dist < 12) {
+            nearPlanetIndex = i;
+            break;
+          }
+        }
+        if (onNearPlanet) onNearPlanet(nearPlanetIndex);
+
+        // Dynamically scale spaceship: 1.0 when near a planet, 1.8 when flying between them
+        if (shipScaleRef.current) {
+          const targetScale = nearPlanetIndex !== null ? 1.0 : 1.8;
+          shipScaleRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.05);
         }
       }
 
@@ -259,13 +269,15 @@ const Spaceship = ({ currentTopicIndex, isFlying, onNearPlanet }) => {
       </group>
 
       <Float speed={2} rotationIntensity={0.1} floatIntensity={0.3}>
-        <SpaceshipModel />
+        <group ref={shipScaleRef}>
+          <SpaceshipModel />
+        </group>
       </Float>
     </group>
   );
 };
 
-export default function SpaceTimeline({ currentTopicIndex, isFlying, onNearPlanet }) {
+export default function SpaceTimeline({ currentTopicIndex, topics = [], isFlying, onNearPlanet }) {
   return (
     // 🔥 FIX 1: Changed 'bg-slate-950' to 'bg-transparent'
     <div className="w-full h-full bg-transparent absolute inset-0 z-0 overflow-hidden">
@@ -281,27 +293,41 @@ export default function SpaceTimeline({ currentTopicIndex, isFlying, onNearPlane
 
           <Spaceship currentTopicIndex={currentTopicIndex} isFlying={isFlying} onNearPlanet={onNearPlanet} />
 
-          {PLANETS.map((planet, index) => (
-            <group key={planet.id} position={planet.position}>
-              <PlanetModel modelPath={planet.model} scale={planet.scale} />
+          {PLANETS.map((planet, index) => {
+            const isSoon = planet.label.includes("(Soon)");
+            const isLocked = !isSoon && topics[index] && !topics[index].isUnlocked;
 
-              <Html position={[0, -3.2, 0]} center zIndexRange={[100, 0]}>
-                <div className="flex flex-col items-center gap-2">
-                  <div className={`px-6 py-3 rounded shadow-[0_0_30px_rgba(79,70,229,0.3)] border-2 transition-all duration-1000 backdrop-blur-md
-                    ${currentTopicIndex === index ? 'bg-indigo-900/80 border-indigo-500 scale-110' : 'bg-slate-900/50 border-slate-700 opacity-30'}`}>
-                    <p className="text-sm font-black uppercase tracking-[0.2em] text-white whitespace-nowrap">
-                      {planet.label.replace(" (Soon)", "")}
-                    </p>
+            return (
+              <group key={planet.id} position={planet.position}>
+                {/* Render locked planets with severe opacity to indicate they cannot be visited */}
+                <group style={{ opacity: isLocked ? 0.3 : 1 }}>
+                  <PlanetModel modelPath={planet.model} scale={planet.scale} />
+                </group>
+
+                <Html position={[0, -3.2, 0]} center zIndexRange={[100, 0]}>
+                  <div className="flex flex-col items-center gap-1.5 opacity-90">
+                    <div className={`px-3 py-1.5 rounded-md border border-white/10 transition-all duration-1000 backdrop-blur-sm
+                      ${currentTopicIndex === index
+                        ? 'bg-indigo-900/80 border-indigo-500 shadow-[0_0_15px_rgba(79,70,229,0.3)]'
+                        : isLocked
+                          ? 'bg-red-900/40 border-red-900/20 opacity-40 scale-90'
+                          : 'bg-slate-900/50 border-slate-600/50 opacity-60 scale-90'}`}>
+                      <p className={`text-[10px] font-bold uppercase tracking-[0.2em] whitespace-nowrap
+                        ${isLocked ? 'text-red-300/40' : 'text-slate-200'}`}>
+                        {planet.label.replace(" (Soon)", "")}
+                        {isLocked && " (Locked)"}
+                      </p>
+                    </div>
+                    {isSoon && (
+                      <span className="text-[9px] font-bold text-amber-500/80 tracking-[0.3em] uppercase bg-black/40 px-2 py-0.5 rounded">
+                        Coming Soon
+                      </span>
+                    )}
                   </div>
-                  {planet.label.includes("(Soon)") && (
-                    <span className="text-xs font-bold text-amber-500 tracking-widest uppercase bg-black/50 px-3 py-1 rounded">
-                      Coming Soon
-                    </span>
-                  )}
-                </div>
-              </Html>
-            </group>
-          ))}
+                </Html>
+              </group>
+            );
+          })}
         </Suspense>
       </Canvas>
     </div>

@@ -13,7 +13,7 @@ app=FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"] ,
+    allow_origins=["http://localhost:5173"] ,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -22,18 +22,6 @@ app.add_middleware(
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
-
-@app.get("/api/progress/{student_id}")
-def get_progress(student_id: str):
-    # Mock progress data since real DB tracking isn't fully wired for the global map yet
-    return {
-        "student_id": student_id,
-        "days": [
-            {"day_id": "day_1", "is_unlocked": True},
-            {"day_id": "day_2", "is_unlocked": False},
-            {"day_id": "day_3", "is_unlocked": False}
-        ]
-    }
 
 @app.get("/api/curriculum/{day_id}")
 def get_curriculum(day_id:str):

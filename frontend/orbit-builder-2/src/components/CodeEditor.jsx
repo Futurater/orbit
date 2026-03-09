@@ -296,9 +296,10 @@ export default function CodeEditor({ onComplete, requiresViva = true, buttonText
       <AnimatePresence>
         {isBlurred && (
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0 }}
             className="absolute inset-0 z-[9999] bg-black/80 backdrop-blur-xl flex flex-col items-center justify-center pointer-events-none"
           >
             <ShieldAlert className="w-20 h-20 text-red-500 mb-6 animate-pulse" />
@@ -312,7 +313,7 @@ export default function CodeEditor({ onComplete, requiresViva = true, buttonText
         )}
       </AnimatePresence>
 
-      <div className={`w-full h-full flex flex-col transition-all duration-300 ${isBlurred ? 'blur-xl grayscale pointer-events-none opacity-20' : ''}`}>
+      <div className={`w-full h-full flex flex-col transition-all ${isBlurred ? 'duration-0 blur-xl grayscale pointer-events-none opacity-20' : 'duration-300'}`}>
 
         <PanelGroup direction="horizontal" className="flex-grow relative z-[1]">
 

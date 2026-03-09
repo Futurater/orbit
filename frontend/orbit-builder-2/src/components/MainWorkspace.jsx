@@ -501,7 +501,7 @@ export default function MainWorkspace() {
           </div>
 
           {videoInterrupted && phase === 'video' && (
-            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center p-8 animate-in fade-in duration-500 overflow-hidden">
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center p-4 md:p-8 animate-in fade-in duration-500 overflow-y-auto overflow-x-hidden">
 
               <div className="absolute inset-0 z-0 bg-[#020617]">
                 <DeepSpace />
@@ -510,28 +510,28 @@ export default function MainWorkspace() {
 
               <div className="absolute inset-0 z-10 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, black 2px, black 4px)' }}></div>
 
-              <div className="relative z-30 flex flex-col items-center">
-                <div className="w-16 h-16 md:w-20 md:h-20 mb-4 md:mb-6 flex items-center justify-center text-cyan-400 relative">
+              <div className="relative z-30 flex flex-col items-center pb-8">
+                <div className="w-12 h-12 md:w-20 md:h-20 mb-2 md:mb-6 flex items-center justify-center text-cyan-400 relative shrink-0">
                   <div className="absolute inset-0 rounded-full bg-cyan-500/10 animate-pulse border border-cyan-500/30"></div>
-                  <Zap className="w-8 h-8 md:w-10 md:h-10 animate-pulse" strokeWidth={1.5} />
+                  <Zap className="w-6 h-6 md:w-10 md:h-10 animate-pulse" strokeWidth={1.5} />
                 </div>
 
-                <h2 className="text-xl md:text-5xl font-black uppercase tracking-widest md:tracking-[0.2em] mb-2 text-white">
+                <h2 className="text-lg md:text-5xl font-black uppercase tracking-widest md:tracking-[0.2em] mb-1 md:mb-2 text-white shrink-0">
                   Concept <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-indigo-400 animate-pulse">Checkpoint</span>
                 </h2>
-                <h3 className="text-lg font-bold text-amber-400 mb-10 tracking-widest uppercase px-4 py-1.5 bg-amber-400/10 rounded-full border border-amber-400/20">
+                <h3 className="text-sm md:text-lg font-bold text-amber-400 mb-4 md:mb-10 tracking-widest uppercase px-4 py-1.5 bg-amber-400/10 rounded-full border border-amber-400/20 shrink-0">
                   {currentTopic?.checkpoints[currentCheckpointIndex]?.title}
                 </h3>
 
-                <div className="max-w-xs md:max-w-md p-4 md:p-6 glass-box rounded-xl mb-8 md:mb-12 shadow-2xl">
-                  <p className="text-slate-300 mb-2 md:mb-6 leading-relaxed text-xs md:text-sm">
+                <div className="max-w-xs md:max-w-md p-3 md:p-6 glass-box rounded-xl mb-4 md:mb-12 shadow-2xl shrink-0">
+                  <p className="text-slate-300 mb-1 md:mb-6 leading-relaxed text-xs md:text-sm">
                     An AI-timed checkpoint has been reached. Video playback is paused until you prove your understanding in the secure terminal.
                   </p>
                 </div>
 
                 <button
                   onClick={enterFullscreenIDE}
-                  className="group flex items-center gap-2 md:gap-3 bg-gradient-to-r from-cyan-600 to-indigo-600 text-white px-6 py-3 md:px-10 md:py-4 rounded font-bold text-sm md:text-lg hover:from-cyan-500 hover:to-indigo-500 transition-all shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:shadow-[0_0_50px_rgba(34,211,238,0.5)] transform hover:scale-105"
+                  className="group flex items-center gap-2 md:gap-3 bg-gradient-to-r from-cyan-600 to-indigo-600 text-white px-5 py-2.5 md:px-10 md:py-4 rounded font-bold text-xs md:text-lg hover:from-cyan-500 hover:to-indigo-500 transition-all shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:shadow-[0_0_50px_rgba(34,211,238,0.5)] transform hover:scale-105 shrink-0"
                 >
                   <Maximize className="w-5 h-5 md:w-6 md:h-6 group-hover:rotate-90 transition-transform" />
                   INITIATE SECURE TERMINAL

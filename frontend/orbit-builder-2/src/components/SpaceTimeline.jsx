@@ -181,8 +181,8 @@ const Spaceship = ({ currentTopicIndex, isFlying, onNearPlanet }) => {
         const isThrusting = moving;
         const targetIntensity = isThrusting ? 8 : 2;
 
-        const targetCoreOpacity = isThrusting ? 0.9 : 0.2;
-        const targetGlowOpacity = isThrusting ? 0.5 : 0.05;
+        const targetCoreOpacity = isThrusting ? 0.9 : 0.0;
+        const targetGlowOpacity = isThrusting ? 0.5 : 0.0;
         const targetScaleZ = isThrusting ? 1.5 + Math.random() * 0.5 : 0.5; // Flicker effect
 
         engineLightRef.current.intensity = THREE.MathUtils.lerp(engineLightRef.current.intensity, targetIntensity, 0.1);
@@ -240,36 +240,36 @@ const Spaceship = ({ currentTopicIndex, isFlying, onNearPlanet }) => {
 
   return (
     <group ref={shipRef} position={[15, 20, 30]}>
-      <pointLight ref={engineLightRef} position={[0, 0.4, -2.5]} color="#38bdf8" intensity={2} distance={15} />
-
-      {/* EXHAUST PLUME */}
-      <group position={[0, 0.4, -1.8]} rotation={[Math.PI / 2, 0, 0]}>
-        {/* Inner bright core of the flame */}
-        <mesh ref={exhaustCoreRef}>
-          <cylinderGeometry args={[0.08, 0.01, 1.5, 8]} />
-          <meshBasicMaterial
-            color="#ffffff"
-            transparent={true}
-            opacity={0.2}
-            blending={THREE.AdditiveBlending}
-            depthWrite={false}
-          />
-        </mesh>
-        {/* Outer blue/cyan glow of the flame */}
-        <mesh ref={exhaustGlowRef}>
-          <cylinderGeometry args={[0.2, 0.05, 1.5, 8]} />
-          <meshBasicMaterial
-            color="#38bdf8"
-            transparent={true}
-            opacity={0.05}
-            blending={THREE.AdditiveBlending}
-            depthWrite={false}
-          />
-        </mesh>
-      </group>
-
       <Float speed={2} rotationIntensity={0.1} floatIntensity={0.3}>
         <group ref={shipScaleRef}>
+          <pointLight ref={engineLightRef} position={[0, 0.4, -2.5]} color="#38bdf8" intensity={2} distance={15} />
+
+          {/* EXHAUST PLUME */}
+          <group position={[0, 0.4, -1.8]} rotation={[Math.PI / 2, 0, 0]}>
+            {/* Inner bright core of the flame */}
+            <mesh ref={exhaustCoreRef}>
+              <cylinderGeometry args={[0.08, 0.01, 1.5, 8]} />
+              <meshBasicMaterial
+                color="#ffffff"
+                transparent={true}
+                opacity={0.0}
+                blending={THREE.AdditiveBlending}
+                depthWrite={false}
+              />
+            </mesh>
+            {/* Outer blue/cyan glow of the flame */}
+            <mesh ref={exhaustGlowRef}>
+              <cylinderGeometry args={[0.2, 0.05, 1.5, 8]} />
+              <meshBasicMaterial
+                color="#38bdf8"
+                transparent={true}
+                opacity={0.0}
+                blending={THREE.AdditiveBlending}
+                depthWrite={false}
+              />
+            </mesh>
+          </group>
+
           <SpaceshipModel />
         </group>
       </Float>

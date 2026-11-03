@@ -9,11 +9,11 @@ export default defineConfig({
     tailwindcss(),
   ],
   server: {
+    port: 5173,
     proxy: {
-      '/api_proxy': {
-        target: 'https://hpozwj0jtj.execute-api.us-east-1.amazonaws.com',
+      '/api': {
+        target: 'http://localhost:5000',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api_proxy/, '/default')
       }
     }
   }

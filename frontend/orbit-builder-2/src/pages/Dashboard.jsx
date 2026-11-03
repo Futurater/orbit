@@ -1,260 +1,495 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../context/AppContext';
-import { BookOpen, Lock, Server, Cloud, Rocket, Shield, Zap, Star, TrendingUp, Clock, Award } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import {
+  Play, Plus, CheckCircle2, Clock, Calendar, Sparkles, Youtube,
+  Trash2, AlertCircle, RefreshCw, ArrowRight, BookOpen, Layers, Check,
+  BookMarked, MoreVertical, Flame
+} from 'lucide-react';
+import {
+  getCourses, deleteCourse, getTasks, updateTask,
+  getTimetableSummary, getTaskAvailableSlots, rescheduleTask, rescheduleAllOverdue
+} from '../api';
+import { Modal, EmptyState, Spinner, useUI, fmtTime, toDateStr } from '../components/ui';
+import { OPEN_ADD_COURSE, COURSES_CHANGED } from '../components/AppShell';
 
-const Dashboard = () => {
-    const { user } = useContext(AppContext);
-    const navigate = useNavigate();
+export default function Dashboard() {
+  const navigate = useNavigate();
+  const { toast, confirm } = useUI();
 
-    const displayUser = user?.name || (JSON.parse(localStorage.getItem('orbit_user')) || {})?.name || 'Developer';
+  const [courses, setCourses] = useState([]);
+  const [todayTasks, setTodayTasks] = useState([]);
+  const [summary, setSummary] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    // ── Track real stats from localStorage ──
-    const TOTAL_CHECKPOINTS = 9; // 3 days × 3 checkpoints each
-    const XP_PER_CHECKPOINT = 100;
+  // Reschedule Modal State
+  const [activeRescheduleTask, setActiveRescheduleTask] = useState(null);
+  const [availableSlots, setAvailableSlots] = useState([]);
+  const [recommendedSlot, setRecommendedSlot] = useState(null);
+  const [loadingSlots, setLoadingSlots] = useState(false);
+  const [rescheduling, setRescheduling] = useState(false);
+  const [autoReschedulingAll, setAutoReschedulingAll] = useState(false);
 
-    const [stats, setStats] = useState({ streak: 0, totalMinutes: 0, solved: 0, xp: 0, progress: 0 });
+  const loadDashboardData = async () => {
+    try {
+      setLoading(true);
+      const today = toDateStr();
 
-    useEffect(() => {
-        try {
-            // Read orbit_stats (streak + time)
-            const raw = JSON.parse(localStorage.getItem('orbit_stats') || '{}');
-            const streak = raw.streak || 0;
-            const totalMinutes = raw.totalMinutes || 0;
+      const [coursesRes, tasksRes, summaryRes] = await Promise.all([
+        getCourses().catch(() => ({ courses: [] })),
+        getTasks({ date: today }).catch(() => ({ tasks: [] })),
+        getTimetableSummary().catch(() => null),
+      ]);
 
-            // Read completed checkpoints
-            const completedRaw = localStorage.getItem('orbit_completed_cps');
-            let solved = 0;
-            if (completedRaw) {
-                try {
-                    const parsed = JSON.parse(completedRaw);
-                    solved = Array.isArray(parsed) ? parsed.length : 0;
-                } catch { solved = 0; }
-            }
+      setCourses(coursesRes.courses || []);
+      setTodayTasks(tasksRes.tasks || []);
+      setSummary(summaryRes);
+    } catch (err) {
+      console.error('[Dashboard Error]:', err);
+      toast('Failed to load dashboard data', 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-            const xp = solved * XP_PER_CHECKPOINT;
-            const progress = Math.round((solved / TOTAL_CHECKPOINTS) * 100);
+  useEffect(() => {
+    loadDashboardData();
 
-            setStats({ streak, totalMinutes, solved, xp, progress });
-        } catch (e) {
-            // If localStorage read fails, keep defaults
-        }
-    }, []);
+    const handleCoursesChanged = () => loadDashboardData();
+    window.addEventListener(COURSES_CHANGED, handleCoursesChanged);
+    return () => window.removeEventListener(COURSES_CHANGED, handleCoursesChanged);
+  }, []);
 
-    const formatTime = (minutes) => {
-        if (minutes < 60) return `${minutes}m`;
-        const h = Math.floor(minutes / 60);
-        const m = minutes % 60;
-        return m > 0 ? `${h}h ${m}m` : `${h}h`;
-    };
+  // Bulk Reschedule All Overdue
+  const handleFitAllMissed = async () => {
+    setAutoReschedulingAll(true);
+    try {
+      const res = await rescheduleAllOverdue();
+      await loadDashboardData();
+      if (res.movedCount > 0) {
+        toast(`Relocated ${res.movedCount} task${res.movedCount > 1 ? 's' : ''} into upcoming open slots!`, 'success');
+      } else {
+        toast('No open slots could be found in the current week.', 'info');
+      }
+    } catch (err) {
+      toast(err.message || 'Could not reschedule tasks.', 'error');
+    } finally {
+      setAutoReschedulingAll(false);
+    }
+  };
 
-    const courses = [
-        {
-            id: 'dsa',
-            title: 'Master Java DSA',
-            description: 'Conquer Data Structures and Algorithms with AI-powered Active Interception technology.',
-            icon: <BookOpen className="w-7 h-7" />,
-            isLocked: false,
-            path: '/arena',
-            accent: 'from-cyan-400 to-blue-500',
-            accentBg: 'bg-cyan-500/10',
-            accentBorder: 'border-cyan-500/20',
-            accentText: 'text-cyan-400',
-            tag: 'Active',
-        },
-        {
-            id: 'backend',
-            title: 'Backend Engineering',
-            description: 'Build production-grade APIs with Node.js, databases, and cloud architecture.',
-            icon: <Server className="w-7 h-7" />,
-            isLocked: true,
-            path: '#',
-            accent: 'from-violet-400 to-purple-500',
-            accentBg: 'bg-violet-500/10',
-            accentBorder: 'border-violet-500/20',
-            accentText: 'text-violet-400',
-            tag: 'Coming Soon',
-        },
-        {
-            id: 'cloud',
-            title: 'AWS Cloud Native',
-            description: 'Master serverless, containers, and infrastructure-as-code deployments.',
-            icon: <Cloud className="w-7 h-7" />,
-            isLocked: true,
-            path: '#',
-            accent: 'from-amber-400 to-orange-500',
-            accentBg: 'bg-amber-500/10',
-            accentBorder: 'border-amber-500/20',
-            accentText: 'text-amber-400',
-            tag: 'Coming Soon',
-        }
-    ];
+  // Delete Course
+  const handleDeleteCourse = async (courseId, title, e) => {
+    e.stopPropagation();
+    const ok = await confirm({
+      title: 'Remove Course?',
+      message: `Are you sure you want to remove "${title}"? All checkpoints and progress will be deleted.`,
+      confirmLabel: 'Remove Course',
+      danger: true,
+    });
+    if (!ok) return;
 
-    const features = [
-        { icon: <Zap className="w-5 h-5 text-cyan-400" />, title: 'Active Interception', desc: 'Video pauses at key moments for real-time coding challenges' },
-        { icon: <Shield className="w-5 h-5 text-violet-400" />, title: 'Viva Verification', desc: 'AI-powered oral examination to validate understanding' },
-        { icon: <Star className="w-5 h-5 text-amber-400" />, title: 'Mentor AI', desc: 'Personalized guidance that adapts to your learning style' },
-        { icon: <Rocket className="w-5 h-5 text-emerald-400" />, title: 'Space Odyssey', desc: 'Navigate through planets as you master each topic' },
-    ];
+    try {
+      await deleteCourse(courseId);
+      setCourses((prev) => prev.filter((c) => c._id !== courseId));
+      toast('Course removed.', 'info');
+    } catch (err) {
+      toast(err.message || 'Could not delete course.', 'error');
+    }
+  };
 
-    return (
-        <div className="relative min-h-screen bg-transparent text-white font-sans overflow-hidden">
+  // Toggle Task Completion
+  const handleToggleTask = async (task) => {
+    const newStatus = task.status === 'completed' ? 'pending' : 'completed';
+    try {
+      const res = await updateTask(task._id, { status: newStatus });
+      setTodayTasks((prev) => prev.map((t) => (t._id === task._id ? res.task : t)));
+      const sum = await getTimetableSummary();
+      setSummary(sum);
+      if (newStatus === 'completed') {
+        toast('Target completed! Keep up the momentum.', 'success');
+      }
+    } catch (err) {
+      toast('Failed to update task', 'error');
+    }
+  };
 
-            {/* Top nav bar */}
-            <nav className="relative z-10 flex items-center justify-between px-8 py-5 border-b border-white/5">
-                <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-400 to-violet-500 flex items-center justify-center">
-                        <Rocket className="w-5 h-5 text-white" />
-                    </div>
-                    <span className="text-lg font-bold tracking-wide">Orbit</span>
-                </div>
-                <div className="flex items-center gap-4">
-                    <div className="stat-pill px-4 py-2 rounded-full flex items-center gap-2 text-sm">
-                        <Award className="w-4 h-4 text-amber-400" />
-                        <span className="text-white/70">Level 1</span>
-                    </div>
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-400/20 to-violet-400/20 border border-white/10 flex items-center justify-center text-sm font-bold">
-                        {displayUser.charAt(0).toUpperCase()}
-                    </div>
-                </div>
-            </nav>
+  // Open Reschedule Modal
+  const handleOpenReschedule = async (task) => {
+    setActiveRescheduleTask(task);
+    setLoadingSlots(true);
+    try {
+      const res = await getTaskAvailableSlots(task._id);
+      setAvailableSlots(res.availableSlots || []);
+      setRecommendedSlot(res.autoRecommended || null);
+    } catch (err) {
+      toast('Could not find available slots', 'error');
+    } finally {
+      setLoadingSlots(false);
+    }
+  };
 
-            {/* Main content */}
-            <div className="relative z-10 max-w-6xl mx-auto px-8 py-10">
+  // Confirm Reschedule
+  const handleConfirmReschedule = async (slot = null, auto = false) => {
+    if (!activeRescheduleTask) return;
+    setRescheduling(true);
 
-                {/* Hero section */}
-                <header className="mb-14 overflow-visible">
-                    <p className="text-sm font-medium text-white/40 tracking-widest uppercase mb-3">Mission Control</p>
-                    <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 via-white to-violet-400 pb-1 leading-normal mb-3">
-                        Welcome back, {displayUser}
-                    </h1>
-                    <p className="text-white/50 text-lg max-w-xl">
-                        Your learning journey continues. Select a mission track and resume your Active Interception adventure.
-                    </p>
-                </header>
+    try {
+      if (auto) {
+        await rescheduleTask(activeRescheduleTask._id, { auto: true });
+      } else if (slot) {
+        await rescheduleTask(activeRescheduleTask._id, {
+          newDate: slot.date,
+          newStartTime: slot.startTime,
+        });
+      }
 
-                {/* Stats row */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-                    {[
-                        { icon: <TrendingUp className="w-4 h-4 text-cyan-400" />, label: 'Current Streak', value: `${stats.streak} Day${stats.streak !== 1 ? 's' : ''}` },
-                        { icon: <Clock className="w-4 h-4 text-violet-400" />, label: 'Time Invested', value: formatTime(stats.totalMinutes) },
-                        { icon: <Zap className="w-4 h-4 text-amber-400" />, label: 'Challenges Solved', value: `${stats.solved}` },
-                        { icon: <Star className="w-4 h-4 text-emerald-400" />, label: 'XP Earned', value: `${stats.xp}` },
-                    ].map((stat, i) => (
-                        <div key={i} className="stat-pill rounded-2xl px-5 py-4 flex items-center gap-3">
-                            <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center">{stat.icon}</div>
-                            <div>
-                                <p className="text-white/40 text-xs font-medium">{stat.label}</p>
-                                <p className="text-white text-lg font-bold">{stat.value}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+      toast('Task rescheduled into new slot!', 'success');
+      setActiveRescheduleTask(null);
+      await loadDashboardData();
+    } catch (err) {
+      toast(err.message || 'Failed to reschedule task.', 'error');
+    } finally {
+      setRescheduling(false);
+    }
+  };
 
-                {/* Section title */}
-                <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-4">
-                        <h2 className="text-xl font-bold text-white">Mission Tracks</h2>
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                localStorage.removeItem('orbit_completed_cps');
-                                const stats = JSON.parse(localStorage.getItem('orbit_stats') || '{}');
-                                stats.solved = 0;
-                                stats.xp = 0;
-                                localStorage.setItem('orbit_stats', JSON.stringify(stats));
-                                alert('Progress reset! You can now start from the beginning.');
-                                window.location.reload();
-                            }}
-                            className="bg-red-500/20 text-red-400 border border-red-500/50 px-3 py-1 text-xs rounded-full hover:bg-red-500/40"
-                        >
-                            Reset Progress
-                        </button>
-                    </div>
-                    <span className="text-xs text-white/30 tracking-wide uppercase">{courses.filter(c => !c.isLocked).length} of {courses.length} available</span>
-                </div>
+  const overdueList = summary?.overdueTasks || [];
 
-                {/* Course cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-                    {courses.map((course) => (
-                        <div
-                            key={course.id}
-                            onClick={() => !course.isLocked && navigate(course.path)}
-                            className={`
-                                relative overflow-hidden rounded-3xl p-6 feature-card
-                                ${course.isLocked
-                                    ? 'cursor-not-allowed opacity-50'
-                                    : 'cursor-pointer'
-                                }
-                            `}
-                        >
-                            {/* Gradient accent top bar */}
-                            <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${course.accent} ${course.isLocked ? 'opacity-30' : 'opacity-100'}`} />
-
-                            <div className="flex justify-between items-start mb-5">
-                                <div className={`p-3 rounded-2xl ${course.accentBg} border ${course.accentBorder}`}>
-                                    <div className={course.accentText}>{course.icon}</div>
-                                </div>
-                                <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border ${course.isLocked
-                                    ? 'text-white/30 border-white/10 bg-white/5'
-                                    : `${course.accentText} ${course.accentBorder} ${course.accentBg}`
-                                    }`}>
-                                    {course.isLocked && <Lock className="w-3 h-3 inline mr-1 -mt-0.5" />}
-                                    {course.tag}
-                                </span>
-                            </div>
-
-                            <h3 className={`text-lg font-bold mb-2 ${course.isLocked ? 'text-white/40' : 'text-white'}`}>
-                                {course.title}
-                            </h3>
-                            <p className="text-sm text-white/40 leading-relaxed mb-5">
-                                {course.description}
-                            </p>
-
-                            {!course.isLocked && (
-                                <div>
-                                    <div className="flex items-center justify-between text-xs mb-2">
-                                        <span className="text-white/40">Progress</span>
-                                        <span className={`${course.accentText} font-semibold`}>{stats.progress}%</span>
-                                    </div>
-                                    <div className="w-full bg-white/5 rounded-full h-1.5">
-                                        <div className={`bg-gradient-to-r ${course.accent} h-1.5 rounded-full transition-all`} style={{ width: `${stats.progress}%` }} />
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                </div>
-
-                {/* How it works section */}
-                <div className="mb-16">
-                    <div className="flex items-center gap-3 mb-8">
-                        <div className="w-8 h-8 rounded-xl bg-white/5 flex items-center justify-center">
-                            <Zap className="w-4 h-4 text-cyan-400" />
-                        </div>
-                        <h2 className="text-xl font-bold text-white">How Orbit Works</h2>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {features.map((f, i) => (
-                            <div key={i} className="feature-card rounded-2xl p-5">
-                                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mb-4">
-                                    {f.icon}
-                                </div>
-                                <h3 className="text-sm font-bold text-white mb-1">{f.title}</h3>
-                                <p className="text-xs text-white/40 leading-relaxed">{f.desc}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Footer */}
-                <footer className="border-t border-white/5 pt-6 pb-4 flex items-center justify-between">
-                    <p className="text-xs text-white/20">Orbit © 2026 · Autonomous Learning Engine</p>
-                    <p className="text-xs text-white/20">Built for the future of education</p>
-                </footer>
-            </div>
+  return (
+    <div className="page space-y-8">
+      {/* ── TOP HEADER & SUMMARY METRICS ── */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-[rgba(0,48,73,0.12)]">
+        <div>
+          <span className="font-handwritten text-xl text-[#c1121f] font-bold block mb-1">
+            Focus & Execution Dashboard
+          </span>
+          <h1 className="page-title text-[#003049]">
+            My Arena Shelf
+          </h1>
         </div>
-    );
-};
 
-export default Dashboard;
+        <div className="flex flex-wrap items-center gap-2.5">
+          <div className="card px-3.5 py-2 flex items-center gap-2.5">
+            <BookOpen className="w-4 h-4 text-[#669bbc]" />
+            <div>
+              <div className="text-[11px] font-semibold text-[#003049]/60 leading-none">Active Courses</div>
+              <div className="text-sm font-bold text-[#003049] mt-0.5">{courses.length}</div>
+            </div>
+          </div>
+
+          <div className="card px-3.5 py-2 flex items-center gap-2.5">
+            <CheckCircle2 className="w-4 h-4 text-[#c1121f]" />
+            <div>
+              <div className="text-[11px] font-semibold text-[#003049]/60 leading-none">Today's Progress</div>
+              <div className="text-sm font-bold text-[#003049] mt-0.5">
+                {summary?.todayCompleted || 0} / {summary?.todayTotal || 0}
+              </div>
+            </div>
+          </div>
+
+          {overdueList.length > 0 && (
+            <div className="card px-3.5 py-2 flex items-center gap-2.5 bg-[#780000] text-[#fdf0d5] border-transparent">
+              <AlertCircle className="w-4 h-4 text-[#fdf0d5]" />
+              <div>
+                <div className="text-[11px] font-semibold text-[#fdf0d5]/70 leading-none">Unfinished</div>
+                <div className="text-sm font-bold text-[#fdf0d5] mt-0.5">{overdueList.length} Missed</div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ── GUILT-FREE OVERDUE PROMPT BANNER ── */}
+      {overdueList.length > 0 && (
+        <div className="card p-5 bg-white border-l-4 border-l-[#c1121f] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 text-sm font-bold text-[#780000]">
+              <AlertCircle className="w-4 h-4 shrink-0" />
+              <span>You have {overdueList.length} incomplete task{overdueList.length > 1 ? 's' : ''} from earlier days.</span>
+            </div>
+            <p className="text-xs text-[#003049]/70 leading-relaxed max-w-2xl">
+              Zero guilt: life happens. Orbit automatically discovered open slots in your weekly routine to fit these without overcrowding your days.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2.5 shrink-0">
+            <button
+              onClick={handleFitAllMissed}
+              disabled={autoReschedulingAll}
+              className="btn btn-primary btn-sm"
+            >
+              {autoReschedulingAll ? (
+                <>
+                  <Spinner /> Fitting...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-3.5 h-3.5 text-[#669bbc]" />
+                  Auto-Fit Missed Tasks
+                </>
+              )}
+            </button>
+            <Link to="/timetable" className="btn btn-ghost btn-sm text-xs">
+              View Timetable
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {/* ── MAIN DASHBOARD GRID ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* LEFT: COURSES (8 COLS) */}
+        <div className="lg:col-span-8 space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold flex items-center gap-2 text-[#003049]">
+              <BookMarked className="w-5 h-5 text-[#c1121f]" />
+              Enrolled Courses
+            </h2>
+            <button
+              onClick={() => window.dispatchEvent(new Event(OPEN_ADD_COURSE))}
+              className="btn btn-sm btn-primary"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              Add Course
+            </button>
+          </div>
+
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[1, 2].map((i) => (
+                <div key={i} className="card p-4 space-y-3">
+                  <div className="aspect-video skeleton w-full" />
+                  <div className="h-4 skeleton w-3/4" />
+                  <div className="h-3 skeleton w-1/2" />
+                </div>
+              ))}
+            </div>
+          ) : courses.length === 0 ? (
+            <div className="card p-10 text-center">
+              <EmptyState
+                icon={Youtube}
+                title="No courses added yet"
+                text="Paste any YouTube lecture or playlist to extract chapters into an active coding arena."
+                action={
+                  <button
+                    onClick={() => window.dispatchEvent(new Event(OPEN_ADD_COURSE))}
+                    className="btn btn-primary"
+                  >
+                    <Plus className="w-4 h-4" /> Add your first YouTube video
+                  </button>
+                }
+              />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {courses.map((course) => {
+                const totalCp = course.totalCheckpoints || 3;
+                const completedCp = course.completedCheckpoints || 0;
+                const progressPct = Math.round((completedCp / totalCp) * 100);
+
+                return (
+                  <div
+                    key={course._id}
+                    onClick={() => navigate(`/arena?courseId=${course._id}`)}
+                    className="card card-hover p-4 flex flex-col justify-between cursor-pointer group bg-white border border-[rgba(0,48,73,0.14)]"
+                  >
+                    <div>
+                      {/* Video Thumbnail */}
+                      <div className="aspect-video rounded-lg overflow-hidden bg-[#001824] relative mb-3">
+                        <img
+                          src={course.thumbnailUrl || `https://img.youtube.com/vi/${course.videoIds?.[0]}/hqdefault.jpg`}
+                          alt={course.title}
+                          className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
+                        />
+                        <div className="absolute top-2 left-2 flex gap-1.5">
+                          <span className="chip chip-navy text-[10px]">
+                            {course.sourceType === 'playlist' ? 'Playlist' : 'Lecture'}
+                          </span>
+                        </div>
+                        <button
+                          onClick={(e) => handleDeleteCourse(course._id, course.title, e)}
+                          title="Delete course"
+                          className="absolute top-2 right-2 p-1.5 rounded-md bg-white/90 text-[#003049] hover:text-[#c1121f] hover:bg-white shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+
+                      {/* Course Meta */}
+                      <div className="flex items-center gap-2 mb-1.5 text-xs text-[#003049]/60 font-medium">
+                        <span>{totalCp} Checkpoints</span>
+                        <span>•</span>
+                        <span>Active Interception</span>
+                      </div>
+
+                      <h3 className="text-base font-bold text-[#003049] line-clamp-2 leading-snug group-hover:text-[#c1121f] transition-colors mb-2">
+                        {course.title}
+                      </h3>
+
+                      {/* Progress bar */}
+                      <div className="space-y-1 mb-4">
+                        <div className="flex justify-between text-[11px] font-semibold text-[#003049]/70">
+                          <span>Mastery</span>
+                          <span>{progressPct}%</span>
+                        </div>
+                        <div className="progress">
+                          <span style={{ width: `${progressPct}%` }} />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Launch CTA */}
+                    <div className="pt-2 border-t border-[rgba(0,48,73,0.08)] flex items-center justify-between">
+                      <span className="text-xs font-semibold text-[#c1121f] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                        Launch Arena <ArrowRight className="w-3.5 h-3.5" />
+                      </span>
+                      <span className="text-[11px] font-mono text-[#003049]/50">
+                        {course.videoIds?.length || 1} video{(course.videoIds?.length || 1) > 1 ? 's' : ''}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* RIGHT: TODAY'S AGENDA (4 COLS) */}
+        <div className="lg:col-span-4 space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold flex items-center gap-2 text-[#003049]">
+              <Calendar className="w-5 h-5 text-[#780000]" />
+              Today's Targets
+            </h2>
+            <Link to="/timetable" className="text-xs font-semibold text-[#c1121f] hover:underline">
+              Full Week →
+            </Link>
+          </div>
+
+          <div className="card p-4 space-y-3 bg-white">
+            {todayTasks.length === 0 ? (
+              <div className="py-8 text-center">
+                <Clock className="w-8 h-8 text-[#003049]/30 mx-auto mb-2" />
+                <p className="text-sm font-semibold text-[#003049]">No tasks for today</p>
+                <p className="text-xs muted mt-1 max-w-[200px] mx-auto">
+                  Add study sessions in your planner to maintain your learning streak.
+                </p>
+                <Link to="/timetable" className="btn btn-sm btn-ghost mt-3 text-[#c1121f]">
+                  + Open Weekly Planner
+                </Link>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {todayTasks.map((task) => {
+                  const isDone = task.status === 'completed';
+                  return (
+                    <div
+                      key={task._id}
+                      className={`p-3 rounded-xl border transition-all flex items-start justify-between gap-2.5 ${
+                        isDone
+                          ? 'bg-[#fdf0d5]/40 border-[rgba(0,48,73,0.1)] opacity-60'
+                          : 'bg-[#fffaf0] border-[rgba(0,48,73,0.16)]'
+                      }`}
+                    >
+                      <div className="flex items-start gap-2.5 min-w-0 flex-1">
+                        <button
+                          onClick={() => handleToggleTask(task)}
+                          className={`w-5 h-5 mt-0.5 rounded-md border flex items-center justify-center shrink-0 transition-colors ${
+                            isDone
+                              ? 'bg-[#003049] border-[#003049] text-[#fdf0d5]'
+                              : 'bg-white border-[rgba(0,48,73,0.3)] hover:border-[#003049]'
+                          }`}
+                        >
+                          {isDone && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                        </button>
+                        <div className="min-w-0 flex-1">
+                          <span className={`text-xs font-semibold block truncate ${isDone ? 'line-through text-neutral-400' : 'text-[#003049]'}`}>
+                            {task.title}
+                          </span>
+                          <span className="text-[11px] text-[#003049]/60 font-mono">
+                            {fmtTime(task.scheduledStartTime)} • {task.durationMinutes}m
+                          </span>
+                        </div>
+                      </div>
+
+                      {!isDone && (
+                        <button
+                          onClick={() => handleOpenReschedule(task)}
+                          title="Reschedule to an empty slot"
+                          className="btn btn-ghost btn-sm text-[11px] h-7 px-2 text-[#c1121f] shrink-0"
+                        >
+                          Reschedule
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* ── MODAL: DYNAMIC RESCHEDULER FOR SPECIFIC TASK ── */}
+      <Modal
+        open={Boolean(activeRescheduleTask)}
+        onClose={() => setActiveRescheduleTask(null)}
+        title="Find an Open Focus Slot"
+        subtitle={activeRescheduleTask ? `Move "${activeRescheduleTask.title}" without breaking your rhythm.` : ''}
+        footer={
+          <>
+            <button className="btn" onClick={() => setActiveRescheduleTask(null)}>
+              Cancel
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={() => handleConfirmReschedule(null, true)}
+              disabled={rescheduling || !recommendedSlot}
+            >
+              {rescheduling ? <Spinner /> : 'Auto-Move to Top Slot'}
+            </button>
+          </>
+        }
+      >
+        <div className="space-y-4">
+          <p className="text-xs text-[#003049]/70">
+            Orbit calculated these open gaps in your weekly routine that align with your peak focus hours:
+          </p>
+
+          {loadingSlots ? (
+            <div className="py-8 text-center text-xs font-mono text-[#003049]/60 flex items-center justify-center gap-2">
+              <Spinner /> Scanning your weekly schedule...
+            </div>
+          ) : availableSlots.length === 0 ? (
+            <div className="card p-4 text-center text-xs text-[#003049]/70 bg-[#fff8ea]">
+              No free slots found in the upcoming 7 days. Open the Planner to adjust commitment hours.
+            </div>
+          ) : (
+            <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+              {availableSlots.slice(0, 5).map((slot, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleConfirmReschedule(slot, false)}
+                  disabled={rescheduling}
+                  className="w-full text-left p-3 rounded-xl border border-[rgba(0,48,73,0.14)] bg-[#fffaf0] hover:bg-white transition-all flex items-center justify-between"
+                >
+                  <div>
+                    <div className="text-sm font-bold text-[#003049]">
+                      {slot.dayLabel} at {slot.startTimeFormatted}
+                    </div>
+                    <div className="text-[11px] text-[#003049]/60">
+                      {slot.label} • {slot.period?.toUpperCase()} focus
+                    </div>
+                  </div>
+                  <span className={`chip text-[10px] ${idx === 0 ? 'chip-navy' : ''}`}>
+                    {idx === 0 ? 'Best match ★' : `Slot #${idx + 1}`}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </Modal>
+    </div>
+  );
+}

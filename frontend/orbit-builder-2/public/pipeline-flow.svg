@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 440" width="100%" height="100%" style="background:#fdf0d5; font-family:'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;">
+  <defs>
+    <!-- Soft Depth Filter -->
+    <filter id="softCard" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="3" dy="4" stdDeviation="0" flood-color="#003049" flood-opacity="0.9" />
+    </filter>
+    <!-- Glowing Marker Arrow -->
+    <marker id="arrowHead" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M1,1 L8,4.5 L1,8 Z" fill="#003049" />
+    </marker>
+    <marker id="arrowHeadAccent" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M1,1 L8,4.5 L1,8 Z" fill="#c1121f" />
+    </marker>
+  </defs>
+
+  <!-- ── BANNER HEADER ── -->
+  <g transform="translate(50, 36)">
+    <rect x="0" y="0" width="32" height="32" rx="8" fill="#780000" stroke="#003049" stroke-width="2"/>
+    <text x="16" y="22" text-anchor="middle" font-size="18" font-weight="900" fill="#fdf0d5" font-family="'Fraunces', Georgia, serif">O</text>
+    <text x="44" y="22" font-size="20" font-weight="900" fill="#003049" font-family="'Fraunces', Georgia, serif">PROJECT ORBIT — CORE DATA PIPELINE</text>
+    <text x="44" y="38" font-size="12" font-weight="600" fill="#c1121f">End-to-End Processing: React ➔ Express ➔ FastAPI ➔ LangChain / LangGraph ➔ MongoDB</text>
+  </g>
+
+  <!-- ── 5 SEQUENTIAL PIPELINE NODES ── -->
+
+  <!-- NODE 1: REACT FRONTEND -->
+  <g transform="translate(50, 110)">
+    <rect x="0" y="0" width="180" height="230" rx="16" fill="#ffffff" stroke="#003049" stroke-width="2" filter="url(#softCard)"/>
+    <rect x="0" y="0" width="180" height="36" rx="16" fill="#003049"/>
+    <text x="90" y="23" text-anchor="middle" font-size="11" font-weight="800" fill="#fdf0d5" letter-spacing="0.5">STEP 1</text>
+    
+    <!-- Icon / Badge -->
+    <circle cx="90" cy="72" r="22" fill="#669bbc" fill-opacity="0.2" stroke="#669bbc" stroke-width="2"/>
+    <text x="90" y="78" text-anchor="middle" font-size="18" fill="#003049">⚛</text>
+
+    <text x="90" y="112" text-anchor="middle" font-size="14" font-weight="900" fill="#003049">React Frontend</text>
+    <text x="90" y="128" text-anchor="middle" font-size="10" font-mono font-weight="700" fill="#669bbc">Port :5173</text>
+
+    <!-- Details -->
+    <line x1="16" y1="140" x2="164" y2="140" stroke="#003049" stroke-width="1" stroke-opacity="0.15"/>
+    <text x="16" y="160" font-size="10.5" fill="#003049" opacity="0.85">• User UI &amp; Auth</text>
+    <text x="16" y="178" font-size="10.5" fill="#003049" opacity="0.85">• YouTube Player</text>
+    <text x="16" y="196" font-size="10.5" fill="#003049" opacity="0.85">• Monaco Editor</text>
+    <text x="16" y="214" font-size="10.5" fill="#003049" opacity="0.85">• Voice Mic Input</text>
+  </g>
+
+  <!-- ARROW 1 -> 2 -->
+  <g transform="translate(230, 215)">
+    <line x1="8" y1="0" x2="48" y2="0" stroke="#003049" stroke-width="3" marker-end="url(#arrowHead)"/>
+    <rect x="10" y="-22" width="36" height="15" rx="4" fill="#003049"/>
+    <text x="28" y="-11" text-anchor="middle" font-size="8" font-weight="800" fill="#fdf0d5">HTTP</text>
+  </g>
+
+  <!-- NODE 2: EXPRESS BACKEND -->
+  <g transform="translate(290, 110)">
+    <rect x="0" y="0" width="180" height="230" rx="16" fill="#ffffff" stroke="#003049" stroke-width="2" filter="url(#softCard)"/>
+    <rect x="0" y="0" width="180" height="36" rx="16" fill="#003049"/>
+    <text x="90" y="23" text-anchor="middle" font-size="11" font-weight="800" fill="#fdf0d5" letter-spacing="0.5">STEP 2</text>
+
+    <!-- Icon / Badge -->
+    <circle cx="90" cy="72" r="22" fill="#780000" fill-opacity="0.15" stroke="#780000" stroke-width="2"/>
+    <text x="90" y="78" text-anchor="middle" font-size="16" font-weight="900" fill="#780000">ex</text>
+
+    <text x="90" y="112" text-anchor="middle" font-size="14" font-weight="900" fill="#003049">Express.js</text>
+    <text x="90" y="128" text-anchor="middle" font-size="10" font-mono font-weight="700" fill="#780000">Port :5000</text>
+
+    <!-- Details -->
+    <line x1="16" y1="140" x2="164" y2="140" stroke="#003049" stroke-width="1" stroke-opacity="0.15"/>
+    <text x="16" y="160" font-size="10.5" fill="#003049" opacity="0.85">• API Gateway</text>
+    <text x="16" y="178" font-size="10.5" fill="#003049" opacity="0.85">• JWT Session Guard</text>
+    <text x="16" y="196" font-size="10.5" fill="#003049" opacity="0.85">• Attempt Tracking</text>
+    <text x="16" y="214" font-size="10.5" fill="#003049" opacity="0.85">• Circadian Slots</text>
+  </g>
+
+  <!-- ARROW 2 -> 3 -->
+  <g transform="translate(470, 215)">
+    <line x1="8" y1="0" x2="48" y2="0" stroke="#003049" stroke-width="3" marker-end="url(#arrowHead)"/>
+    <rect x="10" y="-22" width="36" height="15" rx="4" fill="#003049"/>
+    <text x="28" y="-11" text-anchor="middle" font-size="8" font-weight="800" fill="#fdf0d5">REST</text>
+  </g>
+
+  <!-- NODE 3: FASTAPI SERVICE -->
+  <g transform="translate(530, 110)">
+    <rect x="0" y="0" width="180" height="230" rx="16" fill="#ffffff" stroke="#003049" stroke-width="2" filter="url(#softCard)"/>
+    <rect x="0" y="0" width="180" height="36" rx="16" fill="#003049"/>
+    <text x="90" y="23" text-anchor="middle" font-size="11" font-weight="800" fill="#fdf0d5" letter-spacing="0.5">STEP 3</text>
+
+    <!-- Icon / Badge -->
+    <circle cx="90" cy="72" r="22" fill="#669bbc" fill-opacity="0.2" stroke="#669bbc" stroke-width="2"/>
+    <text x="90" y="78" text-anchor="middle" font-size="18" fill="#003049">⚡</text>
+
+    <text x="90" y="112" text-anchor="middle" font-size="14" font-weight="900" fill="#003049">FastAPI Micro</text>
+    <text x="90" y="128" text-anchor="middle" font-size="10" font-mono font-weight="700" fill="#669bbc">Port :8000</text>
+
+    <!-- Details -->
+    <line x1="16" y1="140" x2="164" y2="140" stroke="#003049" stroke-width="1" stroke-opacity="0.15"/>
+    <text x="16" y="160" font-size="10.5" fill="#003049" opacity="0.85">• Python Microservice</text>
+    <text x="16" y="178" font-size="10.5" fill="#003049" opacity="0.85">• Pydantic Schemas</text>
+    <text x="16" y="196" font-size="10.5" fill="#003049" opacity="0.85">• Transcript Ingestion</text>
+    <text x="16" y="214" font-size="10.5" fill="#003049" opacity="0.85">• AI Router Endpoints</text>
+  </g>
+
+  <!-- ARROW 3 -> 4 -->
+  <g transform="translate(710, 215)">
+    <line x1="8" y1="0" x2="48" y2="0" stroke="#c1121f" stroke-width="3" marker-end="url(#arrowHeadAccent)"/>
+    <rect x="8" y="-22" width="40" height="15" rx="4" fill="#c1121f"/>
+    <text x="28" y="-11" text-anchor="middle" font-size="8" font-weight="800" fill="#ffffff">INVOKE</text>
+  </g>
+
+  <!-- NODE 4: LANGCHAIN / LANGGRAPH -->
+  <g transform="translate(770, 110)">
+    <rect x="0" y="0" width="180" height="230" rx="16" fill="#ffffff" stroke="#780000" stroke-width="2.5" filter="url(#softCard)"/>
+    <rect x="0" y="0" width="180" height="36" rx="16" fill="#780000"/>
+    <text x="90" y="23" text-anchor="middle" font-size="11" font-weight="800" fill="#fdf0d5" letter-spacing="0.5">STEP 4</text>
+
+    <!-- Icon / Badge -->
+    <circle cx="90" cy="72" r="22" fill="#c1121f" fill-opacity="0.15" stroke="#c1121f" stroke-width="2"/>
+    <text x="90" y="78" text-anchor="middle" font-size="16" font-weight="900" fill="#c1121f">🦜</text>
+
+    <text x="90" y="112" text-anchor="middle" font-size="13.5" font-weight="900" fill="#780000">LangChain / Graph</text>
+    <text x="90" y="128" text-anchor="middle" font-size="10" font-mono font-weight="700" fill="#c1121f">Gemini 2.0 Flash</text>
+
+    <!-- Details -->
+    <line x1="16" y1="140" x2="164" y2="140" stroke="#780000" stroke-width="1" stroke-opacity="0.2"/>
+    <text x="16" y="160" font-size="10.5" fill="#003049" opacity="0.85">• RAG Transcript Vector</text>
+    <text x="16" y="178" font-size="10.5" fill="#003049" opacity="0.85">• Checkpoint Generator</text>
+    <text x="16" y="196" font-size="10.5" fill="#003049" opacity="0.85">• Dual Persona Engine</text>
+    <text x="16" y="214" font-size="10.5" fill="#003049" opacity="0.85">• Oral Viva Grader</text>
+  </g>
+
+  <!-- ARROW 4 -> 5 -->
+  <g transform="translate(950, 215)">
+    <line x1="8" y1="0" x2="48" y2="0" stroke="#003049" stroke-width="3" marker-end="url(#arrowHead)"/>
+    <rect x="8" y="-22" width="40" height="15" rx="4" fill="#003049"/>
+    <text x="28" y="-11" text-anchor="middle" font-size="8" font-weight="800" fill="#fdf0d5">STORE</text>
+  </g>
+
+  <!-- NODE 5: MONGODB DATABASE -->
+  <g transform="translate(1010, 110)">
+    <rect x="0" y="0" width="150" height="230" rx="16" fill="#ffffff" stroke="#003049" stroke-width="2" filter="url(#softCard)"/>
+    <rect x="0" y="0" width="150" height="36" rx="16" fill="#669bbc"/>
+    <text x="75" y="23" text-anchor="middle" font-size="11" font-weight="800" fill="#003049" letter-spacing="0.5">STEP 5</text>
+
+    <!-- Cylinder DB Icon -->
+    <g transform="translate(53, 52)">
+      <ellipse cx="22" cy="8" rx="20" ry="6" fill="#669bbc" fill-opacity="0.4" stroke="#003049" stroke-width="1.5"/>
+      <path d="M 2,8 L 2,24 A 20,6 0 0,0 42,24 L 42,8 Z" fill="#669bbc" fill-opacity="0.4" stroke="#003049" stroke-width="1.5"/>
+      <path d="M 2,20 A 20,6 0 0,0 42,20" fill="none" stroke="#003049" stroke-width="1.5"/>
+    </g>
+
+    <text x="75" y="112" text-anchor="middle" font-size="14" font-weight="900" fill="#003049">MongoDB</text>
+    <text x="75" y="128" text-anchor="middle" font-size="10" font-mono font-weight="700" fill="#003049">Port :27017</text>
+
+    <!-- Details -->
+    <line x1="14" y1="140" x2="136" y2="140" stroke="#003049" stroke-width="1" stroke-opacity="0.15"/>
+    <text x="14" y="160" font-size="10" fill="#003049" opacity="0.85">• courses</text>
+    <text x="14" y="178" font-size="10" fill="#003049" opacity="0.85">• checkpoints</text>
+    <text x="14" y="196" font-size="10" fill="#003049" opacity="0.85">• sessions</text>
+    <text x="14" y="214" font-size="10" fill="#003049" opacity="0.85">• tasks &amp; slots</text>
+  </g>
+
+  <!-- ── BOTTOM FLOW SUMMARY PILL ── -->
+  <g transform="translate(50, 365)">
+    <rect x="0" y="0" width="1110" height="42" rx="10" fill="#ffffff" stroke="#003049" stroke-width="1.5"/>
+    <text x="24" y="26" font-size="12" font-weight="800" fill="#003049">DATA PIPELINE:</text>
+    <text x="140" y="26" font-size="12" font-weight="700" fill="#003049">1. React UI</text>
+    <text x="215" y="26" font-size="12" font-weight="900" fill="#c1121f">➔</text>
+    <text x="235" y="26" font-size="12" font-weight="700" fill="#003049">2. Express Gateway</text>
+    <text x="365" y="26" font-size="12" font-weight="900" fill="#c1121f">➔</text>
+    <text x="385" y="26" font-size="12" font-weight="700" fill="#003049">3. FastAPI Microservice</text>
+    <text x="545" y="26" font-size="12" font-weight="900" fill="#c1121f">➔</text>
+    <text x="565" y="26" font-size="12" font-weight="800" fill="#780000">4. LangChain / LangGraph</text>
+    <text x="740" y="26" font-size="12" font-weight="900" fill="#c1121f">➔</text>
+    <text x="760" y="26" font-size="12" font-weight="700" fill="#003049">5. MongoDB Persistent Storage</text>
+  </g>
+</svg>

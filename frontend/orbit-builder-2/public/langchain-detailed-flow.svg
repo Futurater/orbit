@@ -1,0 +1,344 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1360 880" width="100%" height="100%" style="background:#fdf0d5; font-family:'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;">
+  <defs>
+    <!-- Drop Shadow Filter -->
+    <filter id="boxShadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="3" dy="4" stdDeviation="0" flood-color="#003049" flood-opacity="0.9" />
+    </filter>
+    <filter id="subtleShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#003049" flood-opacity="0.15" />
+    </filter>
+    <!-- Markers -->
+    <marker id="arrowDark" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7 Z" fill="#003049" />
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7 Z" fill="#c1121f" />
+    </marker>
+    <marker id="arrowSteel" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7 Z" fill="#669bbc" />
+    </marker>
+    <marker id="arrowCrimson" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7 Z" fill="#780000" />
+    </marker>
+  </defs>
+
+  <!-- ── HEADER ── -->
+  <g transform="translate(40, 25)">
+    <rect x="0" y="0" width="36" height="36" rx="8" fill="#780000" stroke="#003049" stroke-width="2"/>
+    <text x="18" y="24" text-anchor="middle" font-size="20" font-weight="900" fill="#fdf0d5" font-family="'Fraunces', Georgia, serif">🦜</text>
+    <text x="48" y="22" font-size="21" font-weight="900" fill="#003049" font-family="'Fraunces', Georgia, serif">PROJECT ORBIT — DEEP-DIVE LANGCHAIN &amp; AI PIPELINE</text>
+    <text x="48" y="38" font-size="12" font-weight="600" fill="#c1121f">APIs: youtube-transcript-api • LangChain ChatGoogleGenerativeAI • Gemini 2.0 Flash • Vector RAG Store • MongoDB</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- COLUMN 1: REACT + EXPRESS GATEWAY (LEFT) -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <g transform="translate(40, 85)">
+    <rect x="0" y="0" width="240" height="755" rx="14" fill="#ffffff" stroke="#003049" stroke-width="2" filter="url(#boxShadow)"/>
+    <rect x="0" y="0" width="240" height="38" rx="14" fill="#003049"/>
+    <text x="120" y="24" text-anchor="middle" font-size="12" font-weight="800" fill="#fdf0d5" letter-spacing="0.5">1. CLIENT &amp; EXPRESS API</text>
+
+    <!-- Client Box -->
+    <g transform="translate(14, 50)">
+      <rect x="0" y="0" width="212" height="150" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">React 19 Frontend (:5173)</text>
+      <line x1="12" y1="30" x2="200" y2="30" stroke="#003049" stroke-width="1" stroke-opacity="0.2"/>
+      <text x="12" y="48" font-size="10.5" fill="#003049">• Pastes YouTube Video URL</text>
+      <text x="12" y="68" font-size="10.5" fill="#003049">• YouTube Player Interception</text>
+      <text x="12" y="88" font-size="10.5" fill="#003049">• Monaco Editor (Java Solution)</text>
+      <text x="12" y="108" font-size="10.5" fill="#003049">• Web Speech API (Mic Viva)</text>
+      <text x="12" y="128" font-size="10.5" fill="#003049">• Doubt Box (Ask Mentor)</text>
+    </g>
+
+    <path d="M 120, 202 L 120, 222" stroke="#003049" stroke-width="2" marker-end="url(#arrowDark)"/>
+
+    <!-- Express Box -->
+    <g transform="translate(14, 225)">
+      <rect x="0" y="0" width="212" height="280" rx="10" fill="#fff8ea" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">Node.js Express Server (:5000)</text>
+      <text x="12" y="38" font-size="10" font-mono font-weight="700" fill="#780000">Gateway, JWT &amp; Dispatcher</text>
+      <line x1="12" y1="46" x2="200" y2="46" stroke="#003049" stroke-width="1" stroke-opacity="0.2"/>
+
+      <text x="12" y="66" font-size="10.5" font-weight="700" fill="#003049">Routes &amp; Endpoints:</text>
+      <text x="12" y="84" font-size="10" font-family="monospace" fill="#003049">POST /api/courses</text>
+      <text x="12" y="98" font-size="9.5" fill="#003049" opacity="0.8"> ↳ youtubeParser.js</text>
+
+      <text x="12" y="120" font-size="10" font-family="monospace" fill="#003049">POST /api/ai/submit-code</text>
+      <text x="12" y="134" font-size="9.5" fill="#003049" opacity="0.8"> ↳ Tracks attemptCount in DB</text>
+
+      <text x="12" y="156" font-size="10" font-family="monospace" fill="#003049">POST /api/ai/verify-viva</text>
+      <text x="12" y="170" font-size="9.5" fill="#003049" opacity="0.8"> ↳ Transcribed speech eval</text>
+
+      <text x="12" y="192" font-size="10" font-family="monospace" fill="#003049">POST /api/ai/ask-mentor</text>
+      <text x="12" y="206" font-size="9.5" fill="#003049" opacity="0.8"> ↳ Lecture RAG retrieval</text>
+
+      <rect x="12" y="224" width="188" height="42" rx="6" fill="#669bbc" fill-opacity="0.2" stroke="#669bbc" stroke-width="1"/>
+      <text x="18" y="240" font-size="9.5" font-weight="800" fill="#003049">AXIOS HTTP CLIENT:</text>
+      <text x="18" y="254" font-size="9" fill="#003049">Calls FastAPI at port :8000</text>
+    </g>
+
+    <!-- Fallback Controller -->
+    <g transform="translate(14, 520)">
+      <rect x="0" y="0" width="212" height="215" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="11.5" font-weight="800" fill="#003049">Circuit Breaker &amp; Heuristics</text>
+      <line x1="12" y1="30" x2="200" y2="30" stroke="#003049" stroke-width="1" stroke-opacity="0.2"/>
+      <text x="12" y="48" font-size="10" fill="#003049" opacity="0.9">• If FastAPI service times out</text>
+      <text x="12" y="64" font-size="10" fill="#003049" opacity="0.9">• In-process rule engine handles</text>
+      <text x="12" y="80" font-size="10" fill="#003049" opacity="0.9">  syntax check &amp; persona switch</text>
+      <text x="12" y="96" font-size="10" fill="#003049" opacity="0.9">• Zero student disruption</text>
+
+      <rect x="12" y="112" width="188" height="88" rx="6" fill="#003049"/>
+      <text x="18" y="130" font-size="10" font-weight="800" fill="#fdf0d5">ZERO AWS EXPENSE</text>
+      <text x="18" y="146" font-size="9.5" fill="#fdf0d5" opacity="0.8">Replaced Bedrock, Lambda &amp;</text>
+      <text x="18" y="160" font-size="9.5" fill="#fdf0d5" opacity="0.8">DynamoDB with local MERN +</text>
+      <text x="18" y="174" font-size="9.5" fill="#fdf0d5" opacity="0.8">Free Gemini API.</text>
+      <text x="18" y="190" font-size="9" font-weight="700" fill="#669bbc">Cost: ₹0 / $0 per month</text>
+    </g>
+  </g>
+
+  <!-- ARROW 1 -> 2 (EXPRESS TO FASTAPI) -->
+  <path d="M 282, 280 L 328, 280" stroke="#003049" stroke-width="3" fill="none" marker-end="url(#arrowDark)"/>
+  <rect x="286" y="260" width="38" height="16" rx="4" fill="#003049"/>
+  <text x="305" y="272" text-anchor="middle" font-size="8.5" font-weight="800" fill="#fdf0d5">HTTP</text>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- COLUMN 2: FASTAPI PRE-PROCESSING & RAG STORE (CENTER-LEFT) -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <g transform="translate(330, 85)">
+    <rect x="0" y="0" width="280" height="755" rx="14" fill="#ffffff" stroke="#003049" stroke-width="2" filter="url(#boxShadow)"/>
+    <rect x="0" y="0" width="280" height="38" rx="14" fill="#003049"/>
+    <text x="140" y="24" text-anchor="middle" font-size="12" font-weight="800" fill="#fdf0d5" letter-spacing="0.5">2. FASTAPI INGESTION &amp; RAG</text>
+
+    <!-- FastAPI Endpoints & Pydantic -->
+    <g transform="translate(14, 50)">
+      <rect x="0" y="0" width="252" height="150" rx="10" fill="#fff8ea" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">FastAPI Controller (:8000)</text>
+      <text x="12" y="38" font-size="10" font-mono font-weight="700" fill="#669bbc">main.py • Pydantic v2 Models</text>
+      <line x1="12" y1="46" x2="240" y2="46" stroke="#003049" stroke-width="1" stroke-opacity="0.2"/>
+
+      <text x="12" y="66" font-size="10.5" fill="#003049">• <tspan font-family="monospace">GenerateCheckpointsRequest</tspan></text>
+      <text x="12" y="86" font-size="10.5" fill="#003049">• <tspan font-family="monospace">EvaluateCodeRequest</tspan></text>
+      <text x="12" y="106" font-size="10.5" fill="#003049">• <tspan font-family="monospace">EvaluateVivaRequest</tspan></text>
+      <text x="12" y="126" font-size="10.5" fill="#003049">• <tspan font-family="monospace">AskMentorRequest</tspan></text>
+      <text x="12" y="142" font-size="9" fill="#780000" font-weight="700">Strict Type Validation &amp; CORS</text>
+    </g>
+
+    <path d="M 140, 202 L 140, 222" stroke="#003049" stroke-width="2" marker-end="url(#arrowDark)"/>
+
+    <!-- YouTube Transcript API -->
+    <g transform="translate(14, 225)">
+      <rect x="0" y="0" width="252" height="135" rx="10" fill="#fdf0d5" stroke="#c1121f" stroke-width="2"/>
+      <rect x="12" y="12" width="228" height="24" rx="6" fill="#c1121f"/>
+      <text x="126" y="28" text-anchor="middle" font-size="10.5" font-weight="800" fill="#ffffff">EXTERNAL API CALL</text>
+      <text x="12" y="56" font-size="12" font-weight="900" fill="#003049">youtube-transcript-api</text>
+      <text x="12" y="74" font-size="10" fill="#003049">• Downloads raw JSON subtitle stream</text>
+      <text x="12" y="90" font-size="10" fill="#003049">• Languages: ['en', 'hi', 'en-IN']</text>
+      <text x="12" y="106" font-size="10" fill="#003049">• Preserves exact start seconds &amp; duration</text>
+      <text x="12" y="122" font-size="9.5" font-weight="700" fill="#780000">➜ Returns: [{ text, start, duration }]</text>
+    </g>
+
+    <path d="M 140, 362 L 140, 382" stroke="#003049" stroke-width="2" marker-end="url(#arrowDark)"/>
+
+    <!-- Chunking & In-Memory RAG Store -->
+    <g transform="translate(14, 385)">
+      <rect x="0" y="0" width="252" height="185" rx="10" fill="#fff8ea" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">Transcript Semantic Chunker</text>
+      <line x1="12" y1="30" x2="240" y2="30" stroke="#003049" stroke-width="1" stroke-opacity="0.2"/>
+      <text x="12" y="48" font-size="10" fill="#003049">• Function: <tspan font-family="monospace">chunk_transcript()</tspan></text>
+      <text x="12" y="64" font-size="10" fill="#003049">• Splits text into 80-word sliding windows</text>
+      <text x="12" y="80" font-size="10" fill="#003049">• Calculates start_seconds &amp; end_seconds</text>
+
+      <rect x="12" y="92" width="228" height="78" rx="8" fill="#669bbc" fill-opacity="0.2" stroke="#669bbc" stroke-width="1.5"/>
+      <text x="20" y="110" font-size="10.5" font-weight="900" fill="#003049">TRANSCRIPT_RAG_STORE</text>
+      <text x="20" y="126" font-size="9" fill="#003049">In-Memory Dict: <tspan font-family="monospace">Dict[video_id, chunks]</tspan></text>
+      <text x="20" y="142" font-size="9" fill="#003049">• Keyword token overlap retrieval</text>
+      <text x="20" y="156" font-size="9" fill="#003049">• Top-3 semantic matches retrieved</text>
+    </g>
+
+    <!-- Context Payload Box -->
+    <g transform="translate(14, 580)">
+      <rect x="0" y="0" width="252" height="155" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">Prompt Context Assembler</text>
+      <line x1="12" y1="30" x2="240" y2="30" stroke="#003049" stroke-width="1" stroke-opacity="0.2"/>
+      <text x="12" y="48" font-size="10" fill="#003049">• Video transcript excerpts</text>
+      <text x="12" y="64" font-size="10" fill="#003049">• Student attempt count (1, 2, 3+)</text>
+      <text x="12" y="80" font-size="10" fill="#003049">• Language Preference (Hinglish/English)</text>
+      <text x="12" y="96" font-size="10" fill="#003049">• Expected concept rubrics</text>
+      <rect x="12" y="108" width="228" height="34" rx="6" fill="#780000"/>
+      <text x="126" y="129" text-anchor="middle" font-size="10" font-weight="800" fill="#fdf0d5">DISPATCH TO LANGCHAIN ➔</text>
+    </g>
+  </g>
+
+  <!-- ARROW 2 -> 3 (FASTAPI TO LANGCHAIN) -->
+  <path d="M 612, 450 L 658, 450" stroke="#780000" stroke-width="3" fill="none" marker-end="url(#arrowCrimson)"/>
+  <rect x="616" y="430" width="40" height="16" rx="4" fill="#780000"/>
+  <text x="636" y="442" text-anchor="middle" font-size="8.5" font-weight="800" fill="#fdf0d5">INVOKE</text>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- COLUMN 3: THE LANGCHAIN & GEMINI CORE (CENTER-RIGHT) -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <g transform="translate(660, 85)">
+    <rect x="0" y="0" width="370" height="755" rx="14" fill="#ffffff" stroke="#780000" stroke-width="2.5" filter="url(#boxShadow)"/>
+    <rect x="0" y="0" width="370" height="38" rx="14" fill="#780000"/>
+    <text x="185" y="24" text-anchor="middle" font-size="12" font-weight="800" fill="#fdf0d5" letter-spacing="0.5">3. LANGCHAIN &amp; GEMINI CORE</text>
+
+    <!-- LLM Provider Box -->
+    <g transform="translate(14, 50)">
+      <rect x="0" y="0" width="342" height="100" rx="10" fill="#fff8ea" stroke="#003049" stroke-width="2"/>
+      <circle cx="34" cy="40" r="18" fill="#669bbc" fill-opacity="0.2"/>
+      <text x="34" y="46" text-anchor="middle" font-size="18">✨</text>
+      <text x="62" y="32" font-size="13" font-weight="900" fill="#003049">ChatGoogleGenerativeAI</text>
+      <text x="62" y="48" font-size="10.5" font-mono font-weight="700" fill="#780000">langchain_google_genai (Python SDK)</text>
+      <line x1="12" y1="62" x2="330" y2="62" stroke="#003049" stroke-width="1" stroke-opacity="0.15"/>
+      <text x="12" y="78" font-size="10" fill="#003049">• Model: <tspan font-weight="700">gemini-2.0-flash</tspan> (Ultra low-latency)</text>
+      <text x="12" y="92" font-size="10" fill="#003049">• Parameters: <tspan font-weight="700">temperature = 0.3</tspan> (Deterministic evaluation)</text>
+    </g>
+
+    <!-- 4 Specialized AI Agents / Prompt Pipelines -->
+
+    <!-- PIPELINE A: CHECKPOINT GENERATOR -->
+    <g transform="translate(14, 160)">
+      <rect x="0" y="0" width="342" height="120" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="20" font-size="11.5" font-weight="900" fill="#003049">Pipeline A: Checkpoint Synthesizer</text>
+      <text x="12" y="36" font-size="10" fill="#003049">• Scans transcript progression for natural shifts</text>
+      <text x="12" y="52" font-size="10" fill="#003049">• Generates exactly 3 time-coded barrier points:</text>
+      <text x="24" y="68" font-size="9.5" fill="#003049">1. Basics &amp; Setup (3-6 mins)</text>
+      <text x="24" y="82" font-size="9.5" fill="#003049">2. Data Manipulation &amp; Loop (8-14 mins)</text>
+      <text x="24" y="96" font-size="9.5" fill="#003049">3. Boss Edge-Case Challenge (18-25 mins)</text>
+      <text x="12" y="112" font-size="9.5" font-weight="700" fill="#780000">➜ Writes starterCode boilerplate &amp; expectedConcept</text>
+    </g>
+
+    <!-- PIPELINE B: DUAL-PERSONA EVALUATOR (THE CORE RULE) -->
+    <g transform="translate(14, 290)">
+      <rect x="0" y="0" width="342" height="215" rx="10" fill="#fff8ea" stroke="#c1121f" stroke-width="2"/>
+      <text x="12" y="20" font-size="11.5" font-weight="900" fill="#c1121f">Pipeline B: Multi-Agent Dual Persona</text>
+      <text x="12" y="34" font-size="10" fill="#003049">Dynamic branching conditioned on <tspan font-weight="700" font-family="monospace">attempt_count</tspan>:</text>
+
+      <!-- Sub-branch 1: Strict Didi -->
+      <g transform="translate(10, 42)">
+        <rect x="0" y="0" width="322" height="70" rx="8" fill="#c1121f"/>
+        <text x="12" y="18" font-size="10.5" font-weight="900" fill="#ffffff">ATTEMPTS 1 &amp; 2: STRICT DIDI (INTERROGATOR)</text>
+        <text x="12" y="34" font-size="9.5" fill="#ffffff" opacity="0.95">• Harsh compiler critique: points out exact flaw in 1 sentence.</text>
+        <text x="12" y="48" font-size="9.5" fill="#ffffff" opacity="0.95">• ZERO solution giveaways. Demands conceptual rigor.</text>
+        <text x="12" y="62" font-size="9.5" fill="#ffffff" opacity="0.95">• Hinglish support in Latin English alphabet only.</text>
+      </g>
+
+      <!-- Sub-branch 2: Mentor AI -->
+      <g transform="translate(10, 120)">
+        <rect x="0" y="0" width="322" height="85" rx="8" fill="#003049"/>
+        <text x="12" y="18" font-size="10.5" font-weight="900" fill="#fdf0d5">ATTEMPT 3+: MENTOR AI (EMPATHETIC RESCUE)</text>
+        <text x="12" y="34" font-size="9.5" fill="#fdf0d5" opacity="0.9">• Empathetic guidance unblocking student logic step-by-step.</text>
+        <text x="12" y="50" font-size="9.5" font-weight="700" fill="#669bbc">★ Generates Mermaid Flowchart String in Output!</text>
+        <text x="12" y="64" font-size="9" font-family="monospace" fill="#fdf0d5" opacity="0.8">  graph TD: A[Input Array] --> B[Initialize Pointers]</text>
+        <text x="12" y="78" font-size="9" fill="#fdf0d5" opacity="0.9">• React renders interactive flowchart directly in terminal.</text>
+      </g>
+    </g>
+
+    <!-- PIPELINE C: ORAL VIVA EXAMINER -->
+    <g transform="translate(14, 515)">
+      <rect x="0" y="0" width="342" height="110" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="20" font-size="11.5" font-weight="900" fill="#003049">Pipeline C: Oral Viva Examiner</text>
+      <text x="12" y="36" font-size="10" fill="#003049">• Evaluates transcribed microphone explanation</text>
+      <text x="12" y="52" font-size="10" fill="#003049">• Tests true conceptual intuition without textbook memorization</text>
+      <text x="12" y="68" font-size="10" fill="#003049">• Grades time complexity and memory mental model</text>
+      <rect x="12" y="78" width="318" height="24" rx="5" fill="#669bbc" fill-opacity="0.3"/>
+      <text x="171" y="94" text-anchor="middle" font-size="9.5" font-weight="800" fill="#003049">Returns: viva_passed: true/false + encouragement</text>
+    </g>
+
+    <!-- PIPELINE D: RAG DOUBT CLEARING -->
+    <g transform="translate(14, 635)">
+      <rect x="0" y="0" width="342" height="105" rx="10" fill="#fff8ea" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="20" font-size="11.5" font-weight="900" fill="#003049">Pipeline D: Transcript RAG Q&amp;A</text>
+      <text x="12" y="36" font-size="10" fill="#003049">• Injects retrieved lecture timestamp intervals into prompt</text>
+      <text x="12" y="52" font-size="10" fill="#003049">• Context: <tspan font-family="monospace">search_transcript_rag(video_id, question)</tspan></text>
+      <text x="12" y="68" font-size="10" fill="#003049">• Grounded answers tailored to exact lecturer explanations</text>
+      <text x="12" y="90" font-size="9.5" font-weight="700" fill="#780000">➜ Output: Context-aware mentor response</text>
+    </g>
+  </g>
+
+  <!-- ARROW 3 -> 4 (LANGCHAIN TO MONGO PERSISTENCE) -->
+  <path d="M 1032, 450 L 1078, 450" stroke="#003049" stroke-width="3" fill="none" marker-end="url(#arrowDark)"/>
+  <rect x="1036" y="430" width="38" height="16" rx="4" fill="#003049"/>
+  <text x="1055" y="442" text-anchor="middle" font-size="8.5" font-weight="800" fill="#fdf0d5">JSON</text>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- COLUMN 4: MONGODB DATABASE PERSISTENCE (RIGHT) -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <g transform="translate(1080, 85)">
+    <rect x="0" y="0" width="240" height="755" rx="14" fill="#ffffff" stroke="#003049" stroke-width="2" filter="url(#boxShadow)"/>
+    <rect x="0" y="0" width="240" height="38" rx="14" fill="#669bbc"/>
+    <text x="120" y="24" text-anchor="middle" font-size="12" font-weight="800" fill="#003049" letter-spacing="0.5">4. MONGODB PERSISTENCE</text>
+
+    <!-- Cylinder DB Icon -->
+    <g transform="translate(95, 48)">
+      <ellipse cx="25" cy="8" rx="24" ry="7" fill="#669bbc" fill-opacity="0.4" stroke="#003049" stroke-width="2"/>
+      <path d="M 1,8 L 1,28 A 24,7 0 0,0 49,28 L 49,8 Z" fill="#669bbc" fill-opacity="0.4" stroke="#003049" stroke-width="2"/>
+      <path d="M 1,22 A 24,7 0 0,0 49,22" fill="none" stroke="#003049" stroke-width="2"/>
+    </g>
+
+    <text x="120" y="105" text-anchor="middle" font-size="13" font-weight="900" fill="#003049">MongoDB (:27017)</text>
+    <text x="120" y="120" text-anchor="middle" font-size="10" font-mono font-weight="700" fill="#003049">db: orbit</text>
+
+    <!-- Collection 1: Courses & Checkpoints -->
+    <g transform="translate(14, 135)">
+      <rect x="0" y="0" width="212" height="175" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="11" font-weight="900" fill="#003049">courses &amp; checkpoints</text>
+      <line x1="12" y1="28" x2="200" y2="28" stroke="#003049" stroke-width="1" stroke-opacity="0.2"/>
+      <text x="12" y="46" font-size="9.5" fill="#003049">• courseId, title, videoIds</text>
+      <text x="12" y="62" font-size="9.5" fill="#003049">• totalCheckpoints: 3</text>
+      <text x="12" y="78" font-size="9.5" fill="#003049">• completedCheckpoints</text>
+      <text x="12" y="94" font-size="9.5" font-weight="700" fill="#c1121f">Checkpoints schema:</text>
+      <text x="12" y="110" font-size="9" fill="#003049">• timestampSeconds: int</text>
+      <text x="12" y="124" font-size="9" fill="#003049">• topic &amp; contextSummary</text>
+      <text x="12" y="138" font-size="9" fill="#003049">• starterCode (Java)</text>
+      <text x="12" y="152" font-size="9" fill="#003049">• expectedConcept (string)</text>
+      <text x="12" y="166" font-size="9" fill="#003049">• requiresViva: true</text>
+    </g>
+
+    <!-- Collection 2: Sessions -->
+    <g transform="translate(14, 320)">
+      <rect x="0" y="0" width="212" height="150" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="11" font-weight="900" fill="#003049">sessions collection</text>
+      <line x1="12" y1="28" x2="200" y2="28" stroke="#003049" stroke-width="1" stroke-opacity="0.2"/>
+      <text x="12" y="46" font-size="9.5" fill="#003049">• user: ObjectId(ref: User)</text>
+      <text x="12" y="62" font-size="9.5" fill="#003049">• checkpointId: string</text>
+      <text x="12" y="78" font-size="9.5" font-weight="700" fill="#780000">• attemptCount: 1, 2, 3...</text>
+      <text x="12" y="94" font-size="9.5" fill="#003049">• userCode: string</text>
+      <text x="12" y="110" font-size="9.5" font-weight="700" fill="#003049">• vivaStatus:</text>
+      <text x="24" y="126" font-size="9" fill="#c1121f">"LOCKED"</text>
+      <text x="24" y="140" font-size="9" fill="#003049">➜ "COMPLETED"</text>
+    </g>
+
+    <!-- Collection 3: Tasks & Smart Rescheduling -->
+    <g transform="translate(14, 480)">
+      <rect x="0" y="0" width="212" height="160" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="11" font-weight="900" fill="#003049">tasks &amp; timetableslots</text>
+      <line x1="12" y1="28" x2="200" y2="28" stroke="#003049" stroke-width="1" stroke-opacity="0.2"/>
+      <text x="12" y="46" font-size="9.5" fill="#003049">• title: string</text>
+      <text x="12" y="62" font-size="9.5" fill="#003049">• scheduledDate: YYYY-MM-DD</text>
+      <text x="12" y="78" font-size="9.5" fill="#003049">• status: pending | rescheduled</text>
+      <text x="12" y="94" font-size="9.5" fill="#003049">• rescheduleCount: int</text>
+      <text x="12" y="110" font-size="9.5" font-weight="700" fill="#c1121f">• rescheduleHistory:</text>
+      <text x="20" y="124" font-size="9" fill="#003049">  [ fromDate, toDate,</text>
+      <text x="20" y="138" font-size="9" fill="#003049">    fromTime, toTime,</text>
+      <text x="20" y="152" font-size="9" fill="#003049">    rescheduledAt ]</text>
+    </g>
+
+    <!-- Storage Guarantee Box -->
+    <g transform="translate(14, 650)">
+      <rect x="0" y="0" width="212" height="90" rx="8" fill="#669bbc" fill-opacity="0.2" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="10.5" font-weight="900" fill="#003049">Full Audit Consistency</text>
+      <text x="12" y="40" font-size="9" fill="#003049">• Checkpoints locked until viva</text>
+      <text x="12" y="54" font-size="9" fill="#003049">• Zero manual deletion required</text>
+      <text x="12" y="68" font-size="9" fill="#003049">• Dynamic slot audit logged</text>
+      <text x="12" y="82" font-size="9" font-weight="800" fill="#780000">100% MERN stack persistence</text>
+    </g>
+  </g>
+
+  <!-- ── BOTTOM HIGHLIGHT BAR ── -->
+  <g transform="translate(40, 848)">
+    <rect x="0" y="0" width="1280" height="26" rx="6" fill="#ffffff" stroke="#003049" stroke-width="1.5"/>
+    <text x="16" y="17" font-size="10.5" font-weight="800" fill="#003049">PIPELINE SUMMARY:</text>
+    <text x="145" y="17" font-size="10.5" fill="#003049">React UI ➔ Express Gateway ➔ FastAPI Controller ➔ <tspan font-weight="800" fill="#c1121f">youtube-transcript-api</tspan> ➔ <tspan font-weight="800" fill="#780000">LangChain ChatGoogleGenerativeAI (Gemini 2.0)</tspan> ➔ Pydantic JSON ➔ <tspan font-weight="800" fill="#003049">MongoDB ODM</tspan></text>
+  </g>
+</svg>

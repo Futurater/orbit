@@ -1,0 +1,340 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 880" width="100%" height="100%" style="background:#fdf0d5; font-family:'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;">
+  <defs>
+    <!-- Drop Shadow Filter -->
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="3" dy="4" stdDeviation="0" flood-color="#003049" flood-opacity="0.9" />
+    </filter>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#003049" flood-opacity="0.15" />
+    </filter>
+    <!-- Arrow Markers -->
+    <marker id="arrowNavy" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7 Z" fill="#003049" />
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7 Z" fill="#c1121f" />
+    </marker>
+    <marker id="arrowSteel" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7 Z" fill="#669bbc" />
+    </marker>
+    <marker id="arrowCrimson" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7 Z" fill="#780000" />
+    </marker>
+  </defs>
+
+  <!-- ── HEADER ── -->
+  <g transform="translate(40, 30)">
+    <rect x="0" y="0" width="36" height="36" rx="8" fill="#780000" stroke="#003049" stroke-width="2"/>
+    <text x="18" y="24" text-anchor="middle" font-size="20" font-weight="900" fill="#fdf0d5" font-family="'Fraunces', Georgia, serif">O</text>
+    <text x="48" y="22" font-size="22" font-weight="900" fill="#003049" font-family="'Fraunces', Georgia, serif">PROJECT ORBIT — END-TO-END DATA FLOW</text>
+    <text x="48" y="38" font-size="12" font-weight="600" fill="#c1121f">Interactive YouTube Video Interception • Dual Persona AI • Dynamic Empty-Slot Timetable</text>
+  </g>
+
+  <!-- ── SWIMLANES / LAYER BOXES ── -->
+
+  <!-- LAYER 1: CLIENT LAYER (LEFT) -->
+  <g transform="translate(40, 90)">
+    <rect x="0" y="0" width="260" height="740" rx="16" fill="#ffffff" stroke="#003049" stroke-width="2" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="260" height="42" rx="16" fill="#003049"/>
+    <text x="130" y="26" text-anchor="middle" font-size="13" font-weight="800" fill="#fdf0d5" letter-spacing="1">1. REACT 19 FRONTEND</text>
+
+    <!-- Client Card 1: Student / Navigator -->
+    <g transform="translate(16, 56)">
+      <rect x="0" y="0" width="228" height="96" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="24" font-size="12" font-weight="800" fill="#003049">Student Actions</text>
+      <text x="12" y="44" font-size="11" fill="#003049" opacity="0.85">• Paste YouTube URL</text>
+      <text x="12" y="62" font-size="11" fill="#003049" opacity="0.85">• Set Wake/Sleep & Focus Rhythm</text>
+      <text x="12" y="80" font-size="11" fill="#003049" opacity="0.85">• 1-Click Auto-Fit Missed Tasks</text>
+    </g>
+
+    <!-- Client Card 2: YouTube Arena Player -->
+    <g transform="translate(16, 172)">
+      <rect x="0" y="0" width="228" height="110" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="24" font-size="12" font-weight="800" fill="#003049">YouTube Arena Player</text>
+      <text x="12" y="44" font-size="11" fill="#003049" opacity="0.85">• Embeds Video Player (react-youtube)</text>
+      <text x="12" y="62" font-size="11" fill="#003049" opacity="0.85">• 1000ms Polling Tracker</text>
+      <rect x="12" y="72" width="204" height="26" rx="6" fill="#c1121f"/>
+      <text x="114" y="89" text-anchor="middle" font-size="10" font-weight="800" fill="#ffffff">PAUSES AT CHECKPOINT (LOCKED)</text>
+    </g>
+
+    <!-- Client Card 3: Monaco Code Editor -->
+    <g transform="translate(16, 302)">
+      <rect x="0" y="0" width="228" height="110" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="24" font-size="12" font-weight="800" fill="#003049">Monaco Code Editor & Term</text>
+      <text x="12" y="44" font-size="11" fill="#003049" opacity="0.85">• Loads Checkpoint Starter Code</text>
+      <text x="12" y="62" font-size="11" fill="#003049" opacity="0.85">• Tracks Local & Server Attempts</text>
+      <text x="12" y="80" font-size="11" fill="#003049" opacity="0.85">• Renders Mermaid Logic Flowcharts</text>
+      <text x="12" y="98" font-size="11" fill="#003049" opacity="0.85">• Real-Time Evaluator Feedback</text>
+    </g>
+
+    <!-- Client Card 4: Web Speech Voice Viva -->
+    <g transform="translate(16, 432)">
+      <rect x="0" y="0" width="228" height="88" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="24" font-size="12" font-weight="800" fill="#003049">Oral Viva (Voice & Mic)</text>
+      <text x="12" y="44" font-size="11" fill="#003049" opacity="0.85">• Web Speech API Recording</text>
+      <text x="12" y="62" font-size="11" fill="#003049" opacity="0.85">• Speech-to-Text Transcription</text>
+      <text x="12" y="80" font-size="11" fill="#003049" opacity="0.85">• Unlocks Video on Viva Pass</text>
+    </g>
+
+    <!-- Client Card 5: Weekly Timetable Grid -->
+    <g transform="translate(16, 540)">
+      <rect x="0" y="0" width="228" height="96" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="24" font-size="12" font-weight="800" fill="#003049">Weekly Timetable Planner</text>
+      <text x="12" y="44" font-size="11" fill="#003049" opacity="0.85">• 7-Day Visual Calendar</text>
+      <text x="12" y="62" font-size="11" fill="#003049" opacity="0.85">• Displays Overdue Missed Alerts</text>
+      <text x="12" y="80" font-size="11" fill="#003049" opacity="0.85">• Instant 1-Click Reschedule UI</text>
+    </g>
+
+    <!-- Client Card 6: JWT Token & Storage -->
+    <g transform="translate(16, 656)">
+      <rect x="0" y="0" width="228" height="66" rx="8" fill="#669bbc" fill-opacity="0.25" stroke="#003049" stroke-width="1"/>
+      <text x="12" y="24" font-size="11" font-weight="800" fill="#003049">Client State & Auth</text>
+      <text x="12" y="42" font-size="10" font-family="monospace" fill="#003049">localStorage['orbit_token']</text>
+      <text x="12" y="56" font-size="10" font-family="monospace" fill="#003049">localStorage['orbit_user']</text>
+    </g>
+  </g>
+
+  <!-- LAYER 2: NODE.JS MERN BACKEND (CENTER-LEFT) -->
+  <g transform="translate(340, 90)">
+    <rect x="0" y="0" width="300" height="740" rx="16" fill="#ffffff" stroke="#003049" stroke-width="2" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="300" height="42" rx="16" fill="#003049"/>
+    <text x="150" y="26" text-anchor="middle" font-size="13" font-weight="800" fill="#fdf0d5" letter-spacing="1">2. NODE.JS SERVER (:5000)</text>
+
+    <!-- Node Box 1: Auth & Preferences -->
+    <g transform="translate(16, 56)">
+      <rect x="0" y="0" width="268" height="96" rx="10" fill="#fff8ea" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">auth.routes.js</text>
+      <text x="12" y="42" font-size="11" fill="#003049">• POST /api/auth/register & /login</text>
+      <text x="12" y="60" font-size="11" fill="#003049">• POST /api/auth/onboarding-quiz</text>
+      <text x="12" y="78" font-size="10" fill="#669bbc" font-weight="700">➜ Inits 7-Day Focus Slots & Rhythm</text>
+    </g>
+
+    <!-- Node Box 2: Course & YouTube Parser -->
+    <g transform="translate(16, 172)">
+      <rect x="0" y="0" width="268" height="110" rx="10" fill="#fff8ea" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">course.routes.js & youtubeParser</text>
+      <text x="12" y="42" font-size="11" fill="#003049">• POST /api/courses (URL Ingestion)</text>
+      <text x="12" y="60" font-size="11" fill="#003049">• GET /api/courses & /:id (Shelf)</text>
+      <text x="12" y="78" font-size="11" fill="#003049">• Calls FastAPI to extract 3 checkpoints</text>
+      <text x="12" y="96" font-size="10" fill="#c1121f" font-weight="700">➜ Creates Course & Checkpoint docs</text>
+    </g>
+
+    <!-- Node Box 3: AI Evaluator Proxy & Session Tracker -->
+    <g transform="translate(16, 302)">
+      <rect x="0" y="0" width="268" height="142" rx="10" fill="#fff8ea" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">ai.routes.js (Proxy & Guard)</text>
+      <text x="12" y="42" font-size="11" fill="#003049">• POST /api/ai/submit-code</text>
+      <text x="12" y="60" font-size="11" fill="#003049" opacity="0.8">  - Tracks student attempt count (1, 2, 3+)</text>
+      <text x="12" y="78" font-size="11" fill="#003049">• GET /api/ai/get-viva/:checkpointId</text>
+      <text x="12" y="96" font-size="11" fill="#003049">• POST /api/ai/verify-viva</text>
+      <text x="12" y="114" font-size="11" fill="#003049">• POST /api/ai/ask-mentor (RAG doubt)</text>
+      <text x="12" y="132" font-size="10" fill="#780000" font-weight="700">➜ Fallback heuristic if FastAPI offline</text>
+    </g>
+
+    <!-- Node Box 4: Slot Finder Algorithm -->
+    <g transform="translate(16, 464)">
+      <rect x="0" y="0" width="268" height="136" rx="10" fill="#fff8ea" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">slotFinder.js (Smart Scheduler Engine)</text>
+      <text x="12" y="42" font-size="11" fill="#003049">• Scans upcoming 7 days</text>
+      <text x="12" y="60" font-size="11" fill="#003049">• Blocks awake boundary (e.g. 07:00-23:00)</text>
+      <text x="12" y="78" font-size="11" fill="#003049">• Excludes fixed college/work hours</text>
+      <text x="12" y="96" font-size="11" fill="#003049">• Avoids conflicting existing tasks</text>
+      <text x="12" y="114" font-size="11" fill="#003049">• Scores empty intervals by chronotype</text>
+      <text x="12" y="128" font-size="10" fill="#003049" font-weight="700">➜ Returns sorted top empty slots</text>
+    </g>
+
+    <!-- Node Box 5: Timetable & Bulk Rescheduler -->
+    <g transform="translate(16, 616)">
+      <rect x="0" y="0" width="268" height="106" rx="10" fill="#fff8ea" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">timetable.routes.js</text>
+      <text x="12" y="42" font-size="11" fill="#003049">• GET /api/timetable/summary (Overdue calc)</text>
+      <text x="12" y="60" font-size="11" fill="#003049">• POST /tasks/:id/reschedule</text>
+      <text x="12" y="78" font-size="11" fill="#003049">• POST /api/timetable/reschedule-overdue</text>
+      <text x="12" y="96" font-size="10" fill="#c1121f" font-weight="700">➜ Auto-fits ALL missed tasks into gaps</text>
+    </g>
+  </g>
+
+  <!-- LAYER 3: DATABASE (MONGODB) (CENTER-RIGHT) -->
+  <g transform="translate(680, 90)">
+    <rect x="0" y="0" width="260" height="740" rx="16" fill="#ffffff" stroke="#003049" stroke-width="2" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="260" height="42" rx="16" fill="#669bbc"/>
+    <text x="130" y="26" text-anchor="middle" font-size="13" font-weight="800" fill="#003049" letter-spacing="1">3. MONGODB (:27017)</text>
+
+    <!-- Collection 1: Users -->
+    <g transform="translate(16, 56)">
+      <rect x="0" y="0" width="228" height="96" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">users collection</text>
+      <text x="12" y="42" font-size="11" fill="#003049">• name, email, passwordHash</text>
+      <text x="12" y="60" font-size="11" fill="#003049">• wakeTime, sleepTime</text>
+      <text x="12" y="78" font-size="11" fill="#003049">• preferredStudyPeriod (night/morning)</text>
+      <text x="12" y="94" font-size="11" fill="#003049">• dailyStudyHours, streak</text>
+    </g>
+
+    <!-- Collection 2: Courses & Checkpoints -->
+    <g transform="translate(16, 172)">
+      <rect x="0" y="0" width="228" height="110" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">courses &amp; checkpoints</text>
+      <text x="12" y="42" font-size="11" fill="#003049">• course: title, videoIds, user</text>
+      <text x="12" y="60" font-size="11" fill="#003049">• timestampSeconds (e.g. 180s, 420s)</text>
+      <text x="12" y="78" font-size="11" fill="#003049">• topic &amp; contextSummary</text>
+      <text x="12" y="96" font-size="11" fill="#003049">• starterCode &amp; expectedConcept</text>
+    </g>
+
+    <!-- Collection 3: Sessions -->
+    <g transform="translate(16, 302)">
+      <rect x="0" y="0" width="228" height="110" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">sessions collection</text>
+      <text x="12" y="42" font-size="11" fill="#003049">• user_id + checkpoint_id</text>
+      <text x="12" y="60" font-size="11" fill="#003049">• attemptCount (1, 2, 3...)</text>
+      <text x="12" y="78" font-size="11" fill="#003049">• vivaStatus: LOCKED | COMPLETED</text>
+      <text x="12" y="96" font-size="11" fill="#003049">• userCode &amp; completedAt</text>
+    </g>
+
+    <!-- Collection 4: Timetable Slots & Tasks -->
+    <g transform="translate(16, 432)">
+      <rect x="0" y="0" width="228" height="168" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">timetableslots &amp; tasks</text>
+      <text x="12" y="42" font-size="11" font-weight="700" fill="#003049">Slots:</text>
+      <text x="12" y="58" font-size="10" fill="#003049">• dayOfWeek, startTime, endTime</text>
+      <text x="12" y="72" font-size="10" fill="#003049">• slotType (study, blocked, free)</text>
+      <text x="12" y="90" font-size="11" font-weight="700" fill="#003049">Tasks:</text>
+      <text x="12" y="106" font-size="10" fill="#003049">• title, scheduledDate, scheduledTime</text>
+      <text x="12" y="120" font-size="10" fill="#003049">• status: pending, rescheduled, completed</text>
+      <text x="12" y="136" font-size="10" fill="#003049">• rescheduleCount</text>
+      <text x="12" y="152" font-size="10" fill="#c1121f" font-weight="700">• rescheduleHistory [audit log]</text>
+    </g>
+
+    <!-- Status pill -->
+    <g transform="translate(16, 616)">
+      <rect x="0" y="0" width="228" height="106" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="24" font-size="11" font-weight="800" fill="#003049">Persistent ODM Sync</text>
+      <text x="12" y="44" font-size="10" fill="#003049">• Mongoose v9 Schemas</text>
+      <text x="12" y="60" font-size="10" fill="#003049">• Clean Unique Indexing</text>
+      <text x="12" y="76" font-size="10" fill="#003049">• Zero Data Loss on Relocate</text>
+      <text x="12" y="92" font-size="10" fill="#669bbc" font-weight="800">100% Free / Self-Hosted</text>
+    </g>
+  </g>
+
+  <!-- LAYER 4: FASTAPI AI SERVICE (RIGHT) -->
+  <g transform="translate(980, 90)">
+    <rect x="0" y="0" width="260" height="740" rx="16" fill="#ffffff" stroke="#003049" stroke-width="2" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="260" height="42" rx="16" fill="#780000"/>
+    <text x="130" y="26" text-anchor="middle" font-size="13" font-weight="800" fill="#fdf0d5" letter-spacing="1">4. FASTAPI + LANGCHAIN (:8000)</text>
+
+    <!-- AI Box 1: Transcript Extractor -->
+    <g transform="translate(16, 56)">
+      <rect x="0" y="0" width="228" height="110" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">Transcript Fetcher &amp; RAG</text>
+      <text x="12" y="42" font-size="11" fill="#003049">• youtube-transcript-api</text>
+      <text x="12" y="60" font-size="11" fill="#003049">• Extracts timestamped lines</text>
+      <text x="12" y="78" font-size="11" fill="#003049">• 80-word chunking algorithm</text>
+      <text x="12" y="96" font-size="10" fill="#780000" font-weight="700">➜ TRANSCRIPT_RAG_STORE (RAM)</text>
+    </g>
+
+    <!-- AI Box 2: Curriculum Generator -->
+    <g transform="translate(16, 186)">
+      <rect x="0" y="0" width="228" height="116" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">POST /generate-checkpoints</text>
+      <text x="12" y="42" font-size="11" fill="#003049">• LangChain + Gemini 2.0 Flash</text>
+      <text x="12" y="60" font-size="11" fill="#003049">• Identifies 3 natural transition peaks</text>
+      <text x="12" y="78" font-size="11" fill="#003049">• Generates starter Java/Python code</text>
+      <text x="12" y="96" font-size="11" fill="#003049">• Formulates expected concepts</text>
+      <text x="12" y="110" font-size="10" fill="#669bbc" font-weight="800">➜ Strict Pydantic JSON Response</text>
+    </g>
+
+    <!-- AI Box 3: Dual Persona Evaluator -->
+    <g transform="translate(16, 322)">
+      <rect x="0" y="0" width="228" height="160" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">POST /evaluate-code</text>
+      <rect x="12" y="32" width="204" height="42" rx="6" fill="#c1121f"/>
+      <text x="18" y="48" font-size="10" font-weight="800" fill="#ffffff">ATTEMPTS 1 &amp; 2: STRICT DIDI</text>
+      <text x="18" y="64" font-size="9" fill="#ffffff">No code giveaways. Demands logic rigor.</text>
+
+      <rect x="12" y="80" width="204" height="44" rx="6" fill="#003049"/>
+      <text x="18" y="96" font-size="10" font-weight="800" fill="#fdf0d5">ATTEMPT 3+: MENTOR AI</text>
+      <text x="18" y="112" font-size="9" fill="#669bbc">Generates step guidance + Mermaid Diagram!</text>
+
+      <text x="12" y="142" font-size="10" fill="#003049" font-weight="700">➜ Returns: is_correct, mermaid, vivaQ</text>
+    </g>
+
+    <!-- AI Box 4: Viva & RAG Doubt -->
+    <g transform="translate(16, 502)">
+      <rect x="0" y="0" width="228" height="110" rx="10" fill="#fdf0d5" stroke="#003049" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="12" font-weight="800" fill="#003049">POST /evaluate-viva</text>
+      <text x="12" y="42" font-size="11" fill="#003049">• Evaluates transcribed speech</text>
+      <text x="12" y="60" font-size="11" fill="#003049">• Verifies conceptual comprehension</text>
+      <text x="12" y="78" font-size="12" font-weight="800" fill="#003049">POST /ask-mentor</text>
+      <text x="12" y="98" font-size="11" fill="#003049">• Semantic search in vector chunks</text>
+    </g>
+
+    <!-- AI Box 5: Fast In-Memory Fallbacks -->
+    <g transform="translate(16, 632)">
+      <rect x="0" y="0" width="228" height="90" rx="8" fill="#780000" fill-opacity="0.15" stroke="#780000" stroke-width="1.5"/>
+      <text x="12" y="22" font-size="11" font-weight="800" fill="#780000">Zero AWS Dependency</text>
+      <text x="12" y="40" font-size="10" fill="#003049">• Free Tier Gemini API</text>
+      <text x="12" y="56" font-size="10" fill="#003049">• Local Rule Heuristics fallback</text>
+      <text x="12" y="72" font-size="10" fill="#003049">• Operates fully offline if needed</text>
+    </g>
+  </g>
+
+  <!-- ── CONNECTING DATA FLOW ARROWS & BADGES ── -->
+
+  <!-- Flow 1: Add YouTube Course -->
+  <path d="M 274, 180 L 340, 180" stroke="#003049" stroke-width="2.5" fill="none" marker-end="url(#arrowNavy)"/>
+  <rect x="282" y="166" width="46" height="18" rx="4" fill="#003049"/>
+  <text x="305" y="179" text-anchor="middle" font-size="9" font-weight="800" fill="#fdf0d5">1. URL</text>
+
+  <path d="M 640, 210 L 980, 210" stroke="#003049" stroke-width="2.5" fill="none" marker-end="url(#arrowNavy)"/>
+  <rect x="780" y="198" width="80" height="18" rx="4" fill="#003049"/>
+  <text x="820" y="211" text-anchor="middle" font-size="9" font-weight="800" fill="#fdf0d5">Generate CPs</text>
+
+  <!-- Flow 2: Store Course in Mongo -->
+  <path d="M 608, 260 L 680, 260" stroke="#669bbc" stroke-width="2.5" fill="none" marker-end="url(#arrowSteel)"/>
+  <rect x="620" y="248" width="48" height="18" rx="4" fill="#669bbc"/>
+  <text x="644" y="261" text-anchor="middle" font-size="9" font-weight="800" fill="#003049">Save CPs</text>
+
+  <!-- Flow 3: Submit Code -->
+  <path d="M 274, 380 L 340, 380" stroke="#c1121f" stroke-width="2.5" fill="none" marker-end="url(#arrowRed)"/>
+  <rect x="280" y="366" width="54" height="18" rx="4" fill="#c1121f"/>
+  <text x="307" y="379" text-anchor="middle" font-size="9" font-weight="800" fill="#ffffff">Run Code</text>
+
+  <path d="M 640, 380 L 980, 380" stroke="#c1121f" stroke-width="2.5" fill="none" marker-end="url(#arrowRed)"/>
+  <rect x="770" y="368" width="100" height="18" rx="4" fill="#c1121f"/>
+  <text x="820" y="381" text-anchor="middle" font-size="9" font-weight="800" fill="#ffffff">Evaluate Persona</text>
+
+  <!-- Flow 4: Submit Viva -->
+  <path d="M 274, 490 L 340, 490" stroke="#780000" stroke-width="2.5" fill="none" marker-end="url(#arrowCrimson)"/>
+  <rect x="280" y="476" width="54" height="18" rx="4" fill="#780000"/>
+  <text x="307" y="489" text-anchor="middle" font-size="9" font-weight="800" fill="#fdf0d5">Oral Viva</text>
+
+  <path d="M 640, 530 L 980, 530" stroke="#780000" stroke-width="2.5" fill="none" marker-end="url(#arrowCrimson)"/>
+  <rect x="780" y="518" width="80" height="18" rx="4" fill="#780000"/>
+  <text x="820" y="531" text-anchor="middle" font-size="9" font-weight="800" fill="#fdf0d5">Verify Oral</text>
+
+  <!-- Flow 5: Reschedule Missed Tasks -->
+  <path d="M 274, 600 L 340, 600" stroke="#003049" stroke-width="2.5" fill="none" marker-end="url(#arrowNavy)"/>
+  <rect x="280" y="586" width="54" height="18" rx="4" fill="#003049"/>
+  <text x="307" y="599" text-anchor="middle" font-size="9" font-weight="800" fill="#fdf0d5">Auto-Fit</text>
+
+  <path d="M 608, 650 L 680, 650" stroke="#003049" stroke-width="2.5" fill="none" marker-end="url(#arrowNavy)"/>
+  <rect x="620" y="638" width="48" height="18" rx="4" fill="#003049"/>
+  <text x="644" y="651" text-anchor="middle" font-size="9" font-weight="800" fill="#fdf0d5">Update</text>
+
+  <!-- ── FOOTER LEGEND ── -->
+  <g transform="translate(40, 842)">
+    <rect x="0" y="0" width="1200" height="28" rx="6" fill="#ffffff" stroke="#003049" stroke-width="1.5"/>
+    <text x="20" y="18" font-size="11" font-weight="800" fill="#003049">LEGEND &amp; PATHS:</text>
+
+    <circle cx="160" cy="14" r="5" fill="#003049"/>
+    <text x="172" y="18" font-size="11" fill="#003049">1. YouTube Course Creation</text>
+
+    <circle cx="370" cy="14" r="5" fill="#c1121f"/>
+    <text x="382" y="18" font-size="11" fill="#003049">2. Checkpoint Pause &amp; Dual-Persona Code Eval</text>
+
+    <circle cx="680" cy="14" r="5" fill="#780000"/>
+    <text x="692" y="18" font-size="11" fill="#003049">3. Oral Viva Voice Verification</text>
+
+    <circle cx="910" cy="14" r="5" fill="#669bbc"/>
+    <text x="922" y="18" font-size="11" fill="#003049">4. Dynamic Empty-Slot Auto-Reschedule</text>
+  </g>
+</svg>

@@ -2,13 +2,22 @@
 __pycache__/
 *.py[cod]
 *.egg-info/
-
-# Virtual Environment
+venv/
 backend/venv/
 
-# Environment Variables (AWS secrets)
+# Environment Variables
 .env
-backend/.env
+**/.env
+*.env
+!*.env.example
+
+# Node
+node_modules/
+**/node_modules/
+.vite/
+dist/
+**/dist/
+build/
 
 # IDE
 .vscode/
@@ -17,9 +26,3 @@ backend/.env
 # OS
 .DS_Store
 Thumbs.db
-
-# Node
-node_modules/
-.vite/
-dist/
-build/

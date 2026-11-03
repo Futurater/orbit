@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 820" width="100%" height="100%" style="background:#070b14; font-family:'Inter', system-ui, -apple-system, sans-serif;">
+  <defs>
+    <!-- Dark Card Shadow -->
+    <filter id="darkGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.8" />
+    </filter>
+    <!-- Arrow Markers -->
+    <marker id="arrowCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7 Z" fill="#06b6d4" />
+    </marker>
+    <marker id="arrowEmerald" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7 Z" fill="#10b981" />
+    </marker>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7 Z" fill="#3b82f6" />
+    </marker>
+  </defs>
+
+  <!-- ── HEADER ── -->
+  <g transform="translate(40, 32)">
+    <text x="600" y="22" text-anchor="middle" font-size="20" font-weight="900" fill="#ffffff" letter-spacing="2">ORBIT // DATA FLOW ARCHITECTURE</text>
+    <text x="600" y="44" text-anchor="middle" font-size="12" font-weight="500" fill="#94a3b8">Simple &amp; Direct: Frontend ➔ Express Gateway ➔ FastAPI ➔ LangGraph Pipeline ➔ MongoDB</text>
+  </g>
+
+  <!-- ════════════════════════════════════════════════════════════ -->
+  <!-- TOP ROW: 3 HORIZONTAL SERVICE CARDS -->
+  <!-- ════════════════════════════════════════════════════════════ -->
+
+  <!-- STEP 1: FRONTEND -->
+  <g transform="translate(40, 100)">
+    <rect x="0" y="0" width="340" height="240" rx="12" fill="#0f172a" stroke="#1e293b" stroke-width="1.5" filter="url(#darkGlow)"/>
+    <rect x="0" y="0" width="340" height="3" rx="3" fill="#3b82f6"/>
+    
+    <text x="18" y="26" font-size="10" font-weight="800" fill="#38bdf8" letter-spacing="1">STEP 1: FRONTEND</text>
+    <text x="18" y="48" font-size="15" font-weight="700" fill="#ffffff">React UI Canvas</text>
+    <text x="18" y="64" font-size="11" font-mono fill="#64748b">React 19 + Vite • Port 5173</text>
+    <line x1="18" y1="76" x2="322" y2="76" stroke="#1e293b" stroke-width="1"/>
+
+    <text x="18" y="98" font-size="11" fill="#cbd5e1">• YouTube Video Player with pause interception</text>
+    <text x="18" y="120" font-size="11" fill="#cbd5e1">• Attaches JWT Bearer authentication header</text>
+    <text x="18" y="142" font-size="11" fill="#cbd5e1">• Monaco Code Editor (Java/Python challenges)</text>
+    <text x="18" y="164" font-size="11" fill="#cbd5e1">• Native Web Speech API microphone voice viva</text>
+    <text x="18" y="186" font-size="11" fill="#cbd5e1">• 7-Day Timetable &amp; 1-click dynamic rescheduler</text>
+
+    <rect x="18" y="200" width="130" height="22" rx="4" fill="#1e293b"/>
+    <text x="83" y="215" text-anchor="middle" font-size="10" font-weight="600" fill="#38bdf8">Interactive Workspace</text>
+  </g>
+
+  <!-- ARROW 1 -> 2: HTTP REST -->
+  <g transform="translate(380, 215)">
+    <line x1="8" y1="0" x2="80" y2="0" stroke="#06b6d4" stroke-width="2" marker-end="url(#arrowCyan)"/>
+    <rect x="16" y="-20" width="58" height="16" rx="4" fill="#082f49" stroke="#0284c7" stroke-width="1"/>
+    <text x="45" y="-9" text-anchor="middle" font-size="9" font-weight="700" fill="#38bdf8">HTTP REST</text>
+  </g>
+
+  <!-- STEP 2: API GATEWAY (EXPRESS) -->
+  <g transform="translate(470, 100)">
+    <rect x="0" y="0" width="340" height="240" rx="12" fill="#0f172a" stroke="#1e293b" stroke-width="1.5" filter="url(#darkGlow)"/>
+    <rect x="0" y="0" width="340" height="3" rx="3" fill="#10b981"/>
+
+    <text x="18" y="26" font-size="10" font-weight="800" fill="#34d399" letter-spacing="1">STEP 2: API GATEWAY</text>
+    <text x="18" y="48" font-size="15" font-weight="700" fill="#ffffff">Express Backend</text>
+    <text x="18" y="64" font-size="11" font-mono fill="#64748b">Node.js 20+ • Port 5000</text>
+    <line x1="18" y1="76" x2="322" y2="76" stroke="#1e293b" stroke-width="1"/>
+
+    <text x="18" y="98" font-size="11" fill="#cbd5e1">• Validates JWT token (protect middleware)</text>
+    <text x="18" y="120" font-size="11" fill="#cbd5e1">• Tracks student attempt count (1, 2, 3+)</text>
+    <text x="18" y="142" font-size="11" fill="#cbd5e1">• Circadian empty-slot finder (slotFinder.js)</text>
+    <text x="18" y="164" font-size="11" fill="#cbd5e1">• Reschedules overdue tasks without deletion</text>
+    <text x="18" y="186" font-size="11" fill="#cbd5e1">• Acts as secure proxy to Python AI service</text>
+
+    <rect x="18" y="200" width="120" height="22" rx="4" fill="#1e293b"/>
+    <text x="78" y="215" text-anchor="middle" font-size="10" font-weight="600" fill="#34d399">Gateway Controller</text>
+  </g>
+
+  <!-- ARROW 2 -> 3: PRIVATE PIPE -->
+  <g transform="translate(810, 215)">
+    <line x1="8" y1="0" x2="80" y2="0" stroke="#10b981" stroke-width="2" marker-end="url(#arrowEmerald)"/>
+    <rect x="14" y="-20" width="62" height="16" rx="4" fill="#064e3b" stroke="#059669" stroke-width="1"/>
+    <text x="45" y="-9" text-anchor="middle" font-size="9" font-weight="700" fill="#6ee7b7">Private Pipe</text>
+  </g>
+
+  <!-- STEP 3: AI SERVICE (FASTAPI) -->
+  <g transform="translate(900, 100)">
+    <rect x="0" y="0" width="340" height="240" rx="12" fill="#0f172a" stroke="#1e293b" stroke-width="1.5" filter="url(#darkGlow)"/>
+    <rect x="0" y="0" width="340" height="3" rx="3" fill="#f59e0b"/>
+
+    <text x="18" y="26" font-size="10" font-weight="800" fill="#fbbf24" letter-spacing="1">STEP 3: AI SERVICE</text>
+    <text x="18" y="48" font-size="15" font-weight="700" fill="#ffffff">FastAPI Service</text>
+    <text x="18" y="64" font-size="11" font-mono fill="#64748b">Python 3.12+ • Port 8000</text>
+    <line x1="18" y1="76" x2="322" y2="76" stroke="#1e293b" stroke-width="1"/>
+
+    <text x="18" y="98" font-size="11" fill="#cbd5e1">• Internal private HTTP endpoints</text>
+    <text x="18" y="120" font-size="11" fill="#cbd5e1">• Async worker pool for AI inference</text>
+    <text x="18" y="142" font-size="11" fill="#cbd5e1">• Ingests timestamped YouTube transcripts</text>
+    <text x="18" y="164" font-size="11" fill="#cbd5e1">• 80-word sliding window chunking store</text>
+    <text x="18" y="186" font-size="11" fill="#cbd5e1">• Initializes LangGraph / LangChain pipeline</text>
+
+    <rect x="18" y="200" width="130" height="22" rx="4" fill="#1e293b"/>
+    <text x="83" y="215" text-anchor="middle" font-size="10" font-weight="600" fill="#fbbf24">Inference Microservice</text>
+  </g>
+
+  <!-- ════════════════════════════════════════════════════════════ -->
+  <!-- DOWNWARD CONNECTOR: FASTAPI TO LANGGRAPH PIPELINE -->
+  <!-- ════════════════════════════════════════════════════════════ -->
+  <path d="M 1070, 340 L 1070, 395" stroke="#f59e0b" stroke-width="2" fill="none" marker-end="url(#arrowCyan)"/>
+  <rect x="990" y="358" width="160" height="18" rx="4" fill="#451a03" stroke="#b45309" stroke-width="1"/>
+  <text x="1070" y="371" text-anchor="middle" font-size="9" font-weight="700" fill="#fde68a">Invokes LangGraph State Machine</text>
+
+  <!-- ════════════════════════════════════════════════════════════ -->
+  <!-- BOTTOM ROW: LANGGRAPH PIPELINE (LEFT) & MONGODB (RIGHT) -->
+  <!-- ════════════════════════════════════════════════════════════ -->
+
+  <!-- STEP 4: LANGGRAPH INVESTIGATION & EVALUATION PIPELINE -->
+  <g transform="translate(40, 410)">
+    <rect x="0" y="0" width="820" height="360" rx="12" fill="#0f172a" stroke="#1e293b" stroke-width="1.5" filter="url(#darkGlow)"/>
+    <rect x="0" y="0" width="820" height="3" rx="3" fill="#8b5cf6"/>
+
+    <text x="18" y="26" font-size="10" font-weight="800" fill="#c084fc" letter-spacing="1">STEP 4: AI &amp; PEDAGOGICAL ENGINE</text>
+    <text x="18" y="48" font-size="15" font-weight="700" fill="#ffffff">LangGraph / LangChain Multi-Node Pipeline</text>
+    <text x="18" y="64" font-size="11" font-mono fill="#64748b">Stateful Orchestration • External APIs • Gemini 2.0 Flash</text>
+    <line x1="18" y1="76" x2="802" y2="76" stroke="#1e293b" stroke-width="1"/>
+
+    <!-- Sub-node 1: Transcript Ingestion -->
+    <g transform="translate(18, 90)">
+      <rect x="0" y="0" width="380" height="115" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+      <text x="14" y="22" font-size="12" font-weight="700" fill="#38bdf8">📺 youtube-transcript-api</text>
+      <text x="14" y="42" font-size="10.5" fill="#94a3b8">• Extracts timed captions ['en', 'hi', 'en-IN']</text>
+      <text x="14" y="60" font-size="10.5" fill="#94a3b8">• Identifies natural cognitive difficulty shifts</text>
+      <text x="14" y="78" font-size="10.5" fill="#94a3b8">• 80-word chunking in TRANSCRIPT_RAG_STORE</text>
+      <text x="14" y="98" font-size="10" font-mono font-weight="600" fill="#38bdf8">➜ Outputs: [{ text, start, duration }]</text>
+    </g>
+
+    <!-- Sub-node 2: Gemini 2.0 Flash Engine -->
+    <g transform="translate(420, 90)">
+      <rect x="0" y="0" width="380" height="115" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+      <text x="14" y="22" font-size="12" font-weight="700" fill="#c084fc">✨ Gemini 2.0 Flash (Curriculum Agent)</text>
+      <text x="14" y="42" font-size="10.5" fill="#94a3b8">• LangChain ChatGoogleGenerativeAI (Temp: 0.3)</text>
+      <text x="14" y="60" font-size="10.5" fill="#94a3b8">• Generates 3 Checkpoints: Basics, Logic, Boss</text>
+      <text x="14" y="78" font-size="10.5" fill="#94a3b8">• Formulates Java/Python starter boilerplate</text>
+      <text x="14" y="98" font-size="10" font-mono font-weight="600" fill="#c084fc">➜ Pydantic Schema: CheckpointItem</text>
+    </g>
+
+    <!-- Sub-node 3: Dual Persona Evaluator -->
+    <g transform="translate(18, 225)">
+      <rect x="0" y="0" width="380" height="115" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+      <text x="14" y="22" font-size="12" font-weight="700" fill="#ef4444">⚖️ Dual Persona Code Evaluator</text>
+      <text x="14" y="42" font-size="10.5" fill="#94a3b8">• <tspan fill="#f87171" font-weight="600">Attempts 1 &amp; 2: Strict Didi</tspan> (compiler critique)</text>
+      <text x="14" y="60" font-size="10.5" fill="#94a3b8">• ZERO code giveaways • Demands logic rigor</text>
+      <text x="14" y="78" font-size="10.5" fill="#94a3b8">• <tspan fill="#34d399" font-weight="600">Attempt 3+: Mentor AI</tspan> (Empathetic rescue)</text>
+      <text x="14" y="98" font-size="10" font-mono font-weight="600" fill="#ef4444">★ Generates Mermaid Flowchart String</text>
+    </g>
+
+    <!-- Sub-node 4: Oral Viva & Transcript RAG -->
+    <g transform="translate(420, 225)">
+      <rect x="0" y="0" width="380" height="115" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+      <text x="14" y="22" font-size="12" font-weight="700" fill="#34d399">🎙️ Oral Viva &amp; Transcript RAG Q&amp;A</text>
+      <text x="14" y="42" font-size="10.5" fill="#94a3b8">• Evaluates transcribed speech from browser Mic</text>
+      <text x="14" y="60" font-size="10.5" fill="#94a3b8">• Tests conceptual intuition, not memorization</text>
+      <text x="14" y="78" font-size="10.5" fill="#94a3b8">• Injects top-3 lecture timestamp chunks for doubts</text>
+      <text x="14" y="98" font-size="10" font-mono font-weight="600" fill="#34d399">➜ Unlocks video barrier on viva passed</text>
+    </g>
+  </g>
+
+  <!-- ARROW 4 -> 5: COMPILED RESULTS TO MONGODB -->
+  <g transform="translate(860, 580)">
+    <line x1="8" y1="0" x2="32" y2="0" stroke="#10b981" stroke-width="2" marker-end="url(#arrowEmerald)"/>
+    <rect x="2" y="-18" width="36" height="15" rx="3" fill="#064e3b"/>
+    <text x="20" y="-8" text-anchor="middle" font-size="8" font-weight="700" fill="#6ee7b7">Save</text>
+  </g>
+
+  <!-- STEP 5: MONGODB ATLAS -->
+  <g transform="translate(900, 410)">
+    <rect x="0" y="0" width="340" height="360" rx="12" fill="#0f172a" stroke="#1e293b" stroke-width="1.5" filter="url(#darkGlow)"/>
+    <rect x="0" y="0" width="340" height="3" rx="3" fill="#10b981"/>
+
+    <text x="18" y="26" font-size="10" font-weight="800" fill="#34d399" letter-spacing="1">STEP 5: DATABASE</text>
+    <text x="18" y="48" font-size="15" font-weight="700" fill="#ffffff">MongoDB Atlas</text>
+    <text x="18" y="64" font-size="11" font-mono fill="#64748b">Cloud Mongoose Store • Port 27017</text>
+    <line x1="18" y1="76" x2="322" y2="76" stroke="#1e293b" stroke-width="1"/>
+
+    <text x="18" y="102" font-size="11.5" font-weight="700" fill="#34d399">Persists Full Case &amp; Learning State:</text>
+    
+    <text x="18" y="128" font-size="11" fill="#cbd5e1">• <tspan font-weight="600" fill="#ffffff">users:</tspan> Rhythm preferences, chronotype, streaks</text>
+    <text x="18" y="152" font-size="11" fill="#cbd5e1">• <tspan font-weight="600" fill="#ffffff">courses:</tspan> Ingested YouTube playlists &amp; metadata</text>
+    <text x="18" y="176" font-size="11" fill="#cbd5e1">• <tspan font-weight="600" fill="#ffffff">checkpoints:</tspan> Timestamp barriers &amp; starter code</text>
+    <text x="18" y="200" font-size="11" fill="#cbd5e1">• <tspan font-weight="600" fill="#ffffff">sessions:</tspan> attemptCount, vivaStatus (LOCKED / OK)</text>
+    <text x="18" y="224" font-size="11" fill="#cbd5e1">• <tspan font-weight="600" fill="#ffffff">timetableslots:</tspan> Recurring focus windows</text>
+    <text x="18" y="248" font-size="11" fill="#cbd5e1">• <tspan font-weight="600" fill="#ffffff">tasks:</tspan> Missed work + rescheduleHistory audit</text>
+
+    <rect x="18" y="272" width="304" height="68" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="28" y="292" font-size="10.5" font-weight="700" fill="#ffffff">Audit Trail &amp; Resilience:</text>
+    <text x="28" y="310" font-size="10" fill="#94a3b8">Overdue tasks moved automatically to upcoming</text>
+    <text x="28" y="326" font-size="10" fill="#34d399" font-weight="600">Zero manual task deletion • Full session history</text>
+  </g>
+
+  <!-- ════════════════════════════════════════════════════════════ -->
+  <!-- RETURN ARROW: PERSISTENCE TO EXPRESS & REACT -->
+  <!-- ════════════════════════════════════════════════════════════ -->
+  <path d="M 900, 500 L 860, 500 L 860, 370 L 640, 370 L 640, 340" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,4" fill="none"/>
+  <path d="M 470, 290 L 380, 290" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,4" fill="none" marker-end="url(#arrowCyan)"/>
+  <rect x="390" y="280" width="70" height="16" rx="3" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="425" y="291" text-anchor="middle" font-size="8.5" fill="#94a3b8">JSON Stream</text>
+</svg>

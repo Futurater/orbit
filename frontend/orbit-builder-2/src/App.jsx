@@ -1,52 +1,52 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-// 🧠 Import BOTH Brains
+// Providers
 import { AppProvider } from './context/AppContext';
-import { OrbitProvider } from './context/OrbitContext';
+import { UIProvider } from './components/ui';
 
-// 📄 Import Pages
+// Layout
+import AppShell from './components/AppShell';
+
+// Pages
+import Landing from './pages/Landing';
+import Auth from './pages/Auth';
 import Onboarding from './pages/Onboarding';
 import Dashboard from './pages/Dashboard';
-import MainWorkspace from './components/MainWorkspace';
-
-// ✨ Import Global Background Components
-import DeepSpace from './components/DeepSpace';
-import ShootingStar from './components/ShootingStar';
+import Timetable from './pages/Timetable';
+import Arena from './components/Arena';
 
 export default function App() {
   return (
-    // Wrap the app in Builder 1's Context
     <AppProvider>
-      {/* Wrap the app in Builder 2's Context */}
-      <OrbitProvider>
-
+      <UIProvider>
         <Router>
-          {/* 🔥 THE MASTER BACKGROUND: Acts as the background for EVERY page */}
-          <div className="fixed inset-0 z-0 bg-black overflow-hidden">
-            <DeepSpace />
-            <ShootingStar />
-          </div>
-
-          {/* All routes are relative z-index so they sit above the background */}
-          <div className="relative z-10 w-full h-full">
+          <div className="min-h-screen bg-[#fdf0d5] text-[#003049]">
             <Routes>
-              {/* 1. Default route pushes them to the login screen */}
-              <Route path="/" element={<Navigate to="/onboarding" replace />} />
+              {/* 1. Public Landing Page */}
+              <Route path="/" element={<Landing />} />
 
-              {/* 2. The Login Screen */}
-              <Route path="/onboarding" element={<Onboarding />} />
+              {/* 2. Authentication Pages */}
+              <Route path="/login" element={<Auth mode="login" />} />
+              <Route path="/signup" element={<Auth mode="signup" />} />
 
-              {/* 3. The Dashboard Screen */}
-              <Route path="/dashboard" element={<Dashboard />} />
+              {/* 3. Authenticated App Pages (inside AppShell with Sidebar/Mobile Tabs) */}
+              <Route element={<AppShell />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/timetable" element={<Timetable />} />
+                <Route path="/onboarding" element={<Onboarding />} />
+                <Route path="/schedule" element={<Navigate to="/onboarding" replace />} />
+              </Route>
 
-              {/* 4. THE MERGE POINT: Jumps to your Spaceship */}
-              <Route path="/arena" element={<MainWorkspace />} />
+              {/* 4. Active Arena (Full-screen interactive coding chamber) */}
+              <Route path="/arena" element={<Arena />} />
+
+              {/* Fallback */}
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>
         </Router>
-
-      </OrbitProvider>
+      </UIProvider>
     </AppProvider>
   );
 }

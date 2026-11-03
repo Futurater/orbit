@@ -1,151 +1,192 @@
-// src/pages/Onboarding.jsx
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../context/AppContext';
-import { Rocket } from 'lucide-react';
-import { motion } from 'framer-motion';
-import DeepSpace from '../components/DeepSpace';
-import ShootingStar from '../components/ShootingStar';
-import Planet3D from '../components/Planet3D';
-import Saturn3D from '../components/Saturn3D';
+import { Sun, Moon, Sunrise, Sunset } from 'lucide-react';
+import { submitOnboardingQuiz } from '../api';
+import { Spinner, useUI } from '../components/ui';
 
-const Onboarding = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [isExiting, setIsExiting] = useState(false);
-    const { setUser } = useContext(AppContext);
-    const navigate = useNavigate();
+const PERIODS = [
+  { id: 'morning', label: 'Morning', time: '6 am – 12 pm', icon: Sunrise },
+  { id: 'afternoon', label: 'Afternoon', time: '12 – 5 pm', icon: Sun },
+  { id: 'evening', label: 'Evening', time: '5 – 9 pm', icon: Sunset },
+  { id: 'night', label: 'Night', time: '9 pm – 1 am', icon: Moon },
+];
+const DAYS = [
+  { id: 1, label: 'Mon' }, { id: 2, label: 'Tue' }, { id: 3, label: 'Wed' },
+  { id: 4, label: 'Thu' }, { id: 5, label: 'Fri' }, { id: 6, label: 'Sat' }, { id: 0, label: 'Sun' },
+];
 
-    const handleEnterOrbit = (e) => {
-        e.preventDefault();
+function Section({ title, hint, children }) {
+  return (
+    <section className="card p-5 md:p-6">
+      <h2 className="text-lg">{title}</h2>
+      {hint && <p className="muted text-sm mt-0.5 mb-4">{hint}</p>}
+      {!hint && <div className="mb-4" />}
+      {children}
+    </section>
+  );
+}
 
-        if (name.trim() && email.trim()) {
-            const userData = { name: name.trim(), email: email.trim() };
-            setUser(userData);
-            localStorage.setItem('orbit_user', JSON.stringify(userData));
+export default function Onboarding() {
+  const navigate = useNavigate();
+  const { toast } = useUI();
 
-            setIsExiting(true);
-            setTimeout(() => {
-                navigate('/dashboard');
-            }, 800); // Wait for transition animation
-        }
-    };
+  const [wakeTime, setWakeTime] = useState('07:00');
+  const [sleepTime, setSleepTime] = useState('23:00');
+  const [dailyHours, setDailyHours] = useState(2);
+  const [period, setPeriod] = useState('evening');
+  const [busyDays, setBusyDays] = useState([1, 2, 3, 4, 5]);
+  const [hasCommitment, setHasCommitment] = useState(true);
+  const [start, setStart] = useState('10:00');
+  const [end, setEnd] = useState('16:00');
+  const [label, setLabel] = useState('College / work');
+  const [saving, setSaving] = useState(false);
 
-    return (
-        <div className="relative min-h-screen bg-black overflow-hidden">
-            <motion.div
-                className="relative min-h-screen flex flex-col items-center justify-center p-6 text-white font-sans w-full h-full"
-                animate={isExiting ? { opacity: 0, scale: 1.5, filter: "blur(10px)" } : { opacity: 1, scale: 1, filter: "blur(0px)" }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
-            >
-                {/* Realistic 3D Deep Space Background */}
-                <DeepSpace />
-                <ShootingStar />
+  const toggleDay = (id) => setBusyDays((d) => (d.includes(id) ? d.filter((x) => x !== id) : [...d, id]));
 
-                {/* Glowing Ambient Gradient behind everything (Subtle Teal/Purple Glow) */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-600/5 rounded-full blur-[120px] z-0 pointer-events-none"></div>
+  const save = async (e) => {
+    e.preventDefault();
+    if (hasCommitment && start >= end) {
+      toast('Commitment end time must be after the start time.', 'error');
+      return;
+    }
+    setSaving(true);
+    try {
+      const commitments = hasCommitment
+        ? busyDays.map((d) => ({ dayOfWeek: d, startTime: start, endTime: end, label }))
+        : [];
+      await submitOnboardingQuiz({
+        wakeTime,
+        sleepTime,
+        dailyStudyHours: dailyHours,
+        preferredStudyPeriod: period,
+        commitments,
+      });
+      toast('Schedule saved. Your planner is ready.', 'success');
+      navigate('/dashboard');
+    } catch (err) {
+      toast(err.message || 'Could not save your schedule.', 'error');
+    } finally {
+      setSaving(false);
+    }
+  };
 
-                {/* The restored 3D Planet Orbiting in the Top Left */}
-                <Planet3D />
+  return (
+    <div className="page max-w-2xl">
+      <header className="mb-6">
+        <h1 className="page-title">Set up your study schedule</h1>
+        <p className="muted mt-1.5">
+          Tell us when you're free. Orbit uses this to place study sessions — and to find a new slot when you miss one.
+        </p>
+      </header>
 
-                {/* The restored 3D Saturn Orbiting in the Bottom Right */}
-                <Saturn3D />
+      <form onSubmit={save} className="space-y-5">
+        <Section title="Your day">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="label" htmlFor="wake">I wake up at</label>
+              <input id="wake" type="time" className="input" value={wakeTime} onChange={(e) => setWakeTime(e.target.value)} />
+            </div>
+            <div>
+              <label className="label" htmlFor="sleep">I go to bed at</label>
+              <input id="sleep" type="time" className="input" value={sleepTime} onChange={(e) => setSleepTime(e.target.value)} />
+            </div>
+          </div>
+        </Section>
 
-                {/* The Form Content itself - No Card Container */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                    transition={{ duration: 0.8, ease: "easeInOut" }}
-                    className="relative z-10 w-full max-w-sm"
+        <Section title="Study goal" hint="How much time do you want to study each day?">
+          <div className="grid grid-cols-4 gap-2" role="radiogroup">
+            {[1, 2, 3, 4].map((h) => (
+              <button
+                key={h}
+                type="button"
+                role="radio"
+                aria-checked={dailyHours === h}
+                onClick={() => setDailyHours(h)}
+                className={`btn ${dailyHours === h ? 'btn-primary' : ''}`}
+              >
+                {h} hr{h > 1 ? 's' : ''}
+              </button>
+            ))}
+          </div>
+        </Section>
+
+        <Section title="Best time to focus" hint="Rescheduled tasks are placed in this window first.">
+          <div className="grid grid-cols-2 gap-2.5" role="radiogroup">
+            {PERIODS.map(({ id, label: l, time, icon: Icon }) => {
+              const on = period === id;
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  role="radio"
+                  aria-checked={on}
+                  onClick={() => setPeriod(id)}
+                  className={`text-left p-3.5 rounded-xl border transition-colors ${
+                    on ? 'bg-[#003049] text-[#fdf0d5] border-[#003049]' : 'bg-white border-[rgba(0,48,73,.2)] hover:border-[#003049]'
+                  }`}
                 >
-                    {/* Logo / Icon Area */}
-                    <motion.div
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 0.2, type: "spring", stiffness: 150 }}
-                        className="flex justify-center mb-8"
+                  <Icon className="w-5 h-5 mb-2" />
+                  <div className="font-semibold text-sm">{l}</div>
+                  <div className={`text-xs ${on ? 'text-[#fdf0d5]/70' : 'muted'}`}>{time}</div>
+                </button>
+              );
+            })}
+          </div>
+        </Section>
+
+        <Section title="Fixed commitments" hint="Classes, work, gym — Orbit will never schedule over these.">
+          <label className="flex items-center gap-2.5 text-sm font-medium mb-4 cursor-pointer">
+            <input
+              type="checkbox"
+              className="w-4 h-4 accent-[#003049]"
+              checked={hasCommitment}
+              onChange={(e) => setHasCommitment(e.target.checked)}
+            />
+            I have a regular commitment
+          </label>
+
+          {hasCommitment && (
+            <div className="space-y-4">
+              <div>
+                <label className="label" htmlFor="lbl">What is it?</label>
+                <input id="lbl" className="input" value={label} onChange={(e) => setLabel(e.target.value)} />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="label" htmlFor="st">From</label>
+                  <input id="st" type="time" className="input" value={start} onChange={(e) => setStart(e.target.value)} />
+                </div>
+                <div>
+                  <label className="label" htmlFor="en">Until</label>
+                  <input id="en" type="time" className="input" value={end} onChange={(e) => setEnd(e.target.value)} />
+                </div>
+              </div>
+              <div>
+                <span className="label">On these days</span>
+                <div className="flex flex-wrap gap-2">
+                  {DAYS.map(({ id, label: d }) => (
+                    <button
+                      key={id}
+                      type="button"
+                      aria-pressed={busyDays.includes(id)}
+                      onClick={() => toggleDay(id)}
+                      className={`btn btn-sm min-w-[3.1rem] ${busyDays.includes(id) ? 'btn-primary' : ''}`}
                     >
-                        <div className="bg-gradient-to-br from-cyan-900/30 to-violet-900/30 p-5 rounded-full shadow-[0_0_50px_rgba(6,182,212,0.25)] backdrop-blur-sm border border-cyan-500/20">
-                            <Rocket size={44} className="text-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,0.8)]" />
-                        </div>
-                    </motion.div>
+                      {d}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </Section>
 
-                    {/* Title Area */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4 }}
-                        className="mb-12 text-center"
-                    >
-                        <h1 className="text-4xl md:text-5xl font-extrabold pb-2 mb-1 tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 via-white to-violet-400 drop-shadow-sm">
-                            Project Orbit
-                        </h1>
-                        <p className="text-amber-400/80 text-sm font-medium tracking-[0.15em] uppercase mt-2">
-                            Active Interception Platform
-                        </p>
-                    </motion.div>
-
-                    {/* Form Area */}
-                    <form onSubmit={handleEnterOrbit} className="space-y-6">
-                        <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.6 }}
-                            className="relative group"
-                        >
-                            <label htmlFor="name" className="absolute -top-2.5 left-4 px-1 text-[11px] font-bold text-cyan-400/70 bg-black group-focus-within:text-cyan-300 transition-colors uppercase tracking-wider z-10">
-                                Developer ID
-                            </label>
-                            <input
-                                id="name"
-                                type="text"
-                                required
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                placeholder="John Doe"
-                                className="w-full bg-black/60 backdrop-blur-md border border-gray-700/80 group-focus-within:border-cyan-500/50 rounded-xl pt-4 pb-5 pl-6 pr-5 text-white placeholder-gray-600 focus:outline-none focus:ring-4 focus:ring-cyan-500/10 transition-all shadow-2xl font-medium leading-normal"
-                            />
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.7 }}
-                            className="relative group"
-                        >
-                            <label htmlFor="email" className="absolute -top-2.5 left-4 px-1 text-[11px] font-bold text-cyan-400/70 bg-black group-focus-within:text-cyan-300 transition-colors uppercase tracking-wider z-10">
-                                Access Email
-                            </label>
-                            <input
-                                id="email"
-                                type="email"
-                                required
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="dev@company.com"
-                                className="w-full bg-black/60 backdrop-blur-md border border-gray-700/80 group-focus-within:border-cyan-500/50 rounded-xl pt-4 pb-5 pl-6 pr-5 text-white placeholder-gray-600 focus:outline-none focus:ring-4 focus:ring-cyan-500/10 transition-all shadow-2xl font-medium leading-normal"
-                            />
-                        </motion.div>
-
-                        <motion.button
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.9 }}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            type="submit"
-                            className="w-full mt-6 bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 flex items-center justify-between group shadow-[0_0_25px_rgba(6,182,212,0.3)] hover:shadow-[0_0_35px_rgba(6,182,212,0.5)]"
-                        >
-                            <span className="tracking-widest uppercase text-sm">Enter Orbit</span>
-                            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </motion.button>
-                    </form>
-                </motion.div>
-            </motion.div>
+        <div className="flex justify-end">
+          <button className="btn btn-primary btn-lg" disabled={saving}>
+            {saving ? <Spinner /> : 'Save and continue'}
+          </button>
         </div>
-    );
-};
-
-export default Onboarding;
+      </form>
+    </div>
+  );
+}
